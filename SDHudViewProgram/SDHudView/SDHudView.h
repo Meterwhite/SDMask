@@ -95,7 +95,7 @@ typedef enum EnumSDHudViewContentPositionStyle{
 
 /** 蒙版尺寸参考父视图 */
 - (void)uiFrameCopySuper;
-/** 自定义的布局 */
+/** 用户自定义的布局 */
 - (void)contentLayoutInSuperUsingBlock:(void(^)(UIView* contentView))block;
 /** 显示动画完成后的回调 */
 - (void)eventDidContentViewShow:(void(^)())block;
