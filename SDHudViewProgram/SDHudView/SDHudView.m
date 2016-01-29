@@ -86,7 +86,6 @@ typeof(self) __weak weakSelf = self
             center.x += self.contentXOffset;
             center.y += self.contentYOffset;
             self.contentView.center = center;
-            
             originX = self.contentView.frame.origin.x;
             originY = self.contentView.frame.origin.y;
         }
@@ -239,6 +238,7 @@ typeof(self) __weak weakSelf = self
                 if(self.blockHidden){
                     self.blockHidden();
                 }
+                self.contentView.transform=CGAffineTransformScale(CGAffineTransformIdentity, 1.0, 1.0);
                 self.contentView = nil;
             }];
         }

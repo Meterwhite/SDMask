@@ -36,7 +36,7 @@ typedef enum EnumSDHudViewContentAnimateStyle{
  */
 typedef enum EnumSDHudViewContentPositionStyle{
     /**
-     *  HUD中间
+     *  HUD中间，默认
      */
     EnumSDHudViewPositionStyleCenter,
     /**
