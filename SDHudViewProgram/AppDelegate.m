@@ -2,7 +2,7 @@
 //  AppDelegate.m
 //  SDHudViewProgram
 //
-//  Created by madrock-iOS-苏北 on 16/1/29.
+//  Created by Novo on 16/1/29.
 //  Copyright © 2016年 Novo. All rights reserved.
 //
 

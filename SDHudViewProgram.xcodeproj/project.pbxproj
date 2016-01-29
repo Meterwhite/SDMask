@@ -13,6 +13,7 @@
 		EEEF93241C5B0CBF00A9ADBF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EEEF93221C5B0CBF00A9ADBF /* Main.storyboard */; };
 		EEEF93261C5B0CC000A9ADBF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EEEF93251C5B0CC000A9ADBF /* Assets.xcassets */; };
 		EEEF93291C5B0CC000A9ADBF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EEEF93271C5B0CC000A9ADBF /* LaunchScreen.storyboard */; };
+		EEEF93331C5B0D0A00A9ADBF /* SDHudView.m in Sources */ = {isa = PBXBuildFile; fileRef = EEEF93321C5B0D0A00A9ADBF /* SDHudView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,8 @@
 		EEEF93251C5B0CC000A9ADBF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EEEF93281C5B0CC000A9ADBF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EEEF932A1C5B0CC000A9ADBF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EEEF93311C5B0D0A00A9ADBF /* SDHudView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDHudView.h; sourceTree = "<group>"; };
+		EEEF93321C5B0D0A00A9ADBF /* SDHudView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDHudView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +61,7 @@
 		EEEF93181C5B0CBF00A9ADBF /* SDHudViewProgram */ = {
 			isa = PBXGroup;
 			children = (
+				EEEF93301C5B0D0500A9ADBF /* SDHudView */,
 				EEEF931C1C5B0CBF00A9ADBF /* AppDelegate.h */,
 				EEEF931D1C5B0CBF00A9ADBF /* AppDelegate.m */,
 				EEEF931F1C5B0CBF00A9ADBF /* ViewController.h */,
@@ -77,6 +81,15 @@
 				EEEF931A1C5B0CBF00A9ADBF /* main.m */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		EEEF93301C5B0D0500A9ADBF /* SDHudView */ = {
+			isa = PBXGroup;
+			children = (
+				EEEF93311C5B0D0A00A9ADBF /* SDHudView.h */,
+				EEEF93321C5B0D0A00A9ADBF /* SDHudView.m */,
+			);
+			path = SDHudView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -151,6 +164,7 @@
 			files = (
 				EEEF93211C5B0CBF00A9ADBF /* ViewController.m in Sources */,
 				EEEF931E1C5B0CBF00A9ADBF /* AppDelegate.m in Sources */,
+				EEEF93331C5B0D0A00A9ADBF /* SDHudView.m in Sources */,
 				EEEF931B1C5B0CBF00A9ADBF /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -264,6 +278,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = SDHudViewProgram/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Novo.SDHudViewProgram;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -275,6 +290,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = SDHudViewProgram/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Novo.SDHudViewProgram;
 				PRODUCT_NAME = "$(TARGET_NAME)";
