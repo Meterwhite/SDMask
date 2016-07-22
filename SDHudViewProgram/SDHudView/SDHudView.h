@@ -82,7 +82,7 @@ typedef enum EnumSDHudViewContentPositionStyle{
 @property (nonatomic,assign) double timeShowDuring;
 /** 收起动画耗时 */
 @property (nonatomic,assign) double timeHiddenDuring;
-/** 蒙版最终透明度 */
+/** 蒙版最终透明度，默认值0.6 */
 @property (nonatomic,assign) double alphaContentEnd;
 /** 内容视图在y轴的偏移 */
 @property (nonatomic,assign) CGFloat contentYOffset;
