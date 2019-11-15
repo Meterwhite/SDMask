@@ -1,5 +1,5 @@
 # SDMask
-
+![SDMask icon](https://raw.githubusercontent.com/Meterwhite/SDMask/master/SDMask.gif)
 ## 介绍 Introduce
 * A perfect mask view that help you to present custom view.User dont need to care about animations and  events.
 * Skir的（SD）iOS蒙版.帮助弹出自定义视图，用户不再关心动画和点击事件。
@@ -57,8 +57,8 @@ id<SDMask> mask = currentController.sdm_actionSheetMaskWith(userView);
 }]... show];
 ```
 ## Use autolayout
-### Tow ways to use autolayout.
-- a. Use the methods provided by the SDMask to use autolayout. 
+### 自动布局的两种方式 Tow ways to use autolayout.
+- a. 框架提供 Use the methods provided by the SDMask to use autolayout. 
 ```objc
 [mask userViewDidLoad:^(SDMaskModel * model) {
     model.
@@ -68,7 +68,7 @@ id<SDMask> mask = currentController.sdm_actionSheetMaskWith(userView);
     setAutolayoutValueForKey(@(350), @"height");
 }];
 ```
--b. Autolayout by youself. Like 'masonry'
+-b. 三方或手动布局 Autolayout by youself. Like 'masonry'
 ```objc
 [mask userViewDidLoad:^(SDMaskModel * model) {
     [model.userView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -78,7 +78,7 @@ id<SDMask> mask = currentController.sdm_actionSheetMaskWith(userView);
     }];
 }];
 ```
-## Use custom animations
+## 自定义动画 Use custom animations
 - Framelayout
 ```objc
 [[[[[mask userViewPresentationWillAnimate:^(SDMaskModel * model) {
