@@ -244,12 +244,21 @@
     for (NSLayoutConstraint* cst in cstForContainer) {
         NSLayoutAttribute attr  = NSLayoutAttributeNotAnAttribute;
         id key                  = nil;
-        if(cst.firstItem == self.userView  && (cst.secondItem == self.containerView || [cst.secondItem isKindOfClass:[NSLayoutAnchor class]])){
-            attr = cst.firstAttribute;
-        }
-        else if((cst.firstItem == self.containerView || [cst.firstItem isKindOfClass:[NSLayoutAnchor class]])
-                   && cst.secondItem == self.userView){
-            attr = cst.secondAttribute;
+        if (__builtin_available(iOS 9.0, *)) {
+            if(cst.firstItem == self.userView  && (cst.secondItem == self.containerView || [cst.secondItem isKindOfClass:[NSLayoutAnchor class]])){
+                attr = cst.firstAttribute;
+            }
+            else if((cst.firstItem == self.containerView || [cst.firstItem isKindOfClass:[NSLayoutAnchor class]])
+                    && cst.secondItem == self.userView){
+                attr = cst.secondAttribute;
+            }
+        } else {
+            if(cst.firstItem == self.userView && cst.secondItem == self.containerView){
+                attr = cst.firstAttribute;
+            }
+            else if(cst.firstItem == self.containerView && cst.secondItem == self.userView){
+                attr = cst.secondAttribute;
+            }
         }
         switch (attr) {
             case NSLayoutAttributeTop:
@@ -331,8 +340,7 @@
 
 - (UIViewController *)currentController
 {
-    if(_currentController) {
-        /// Not implemente.
+    if(_currentController){
         return _currentController;
     }
     if([object_getClass(self.thisMask) isSubclassOfClass:UIView.class]){
@@ -421,18 +429,7 @@
     return NO;
 }
 
-//+ (double)iosVersion
-//{
-//    static double _iosVersion;
-//    static dispatch_once_t onceToken;
-//    dispatch_once(&onceToken, ^{
-//        _iosVersion = UIDevice.currentDevice.systemVersion.doubleValue;
-//    });
-//
-//    return _iosVersion;
-//}
-
-+(UIWindow*)keyWindow
++ (UIWindow*)keyWindow
 {
     UIWindow        *foundWindow = nil;
     NSArray         *windows = [[UIApplication sharedApplication] windows];

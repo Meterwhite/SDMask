@@ -9,7 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "SDMaskProtocol.h"
 
-
 #pragma mark - Class : SDMaskView
 /// Documentation is in the protocol SDMask.
 @interface SDMaskView : UIButton

@@ -1,7 +1,7 @@
 # SDMask
 ![SDMask icon](https://raw.githubusercontent.com/Meterwhite/SDMask/master/SDMask.gif)
 ## 介绍 Introduce
-* A perfect mask view that help you to present custom view.User dont need to care about animations and  events.
+* A perfect iOS mask view that help you to present custom view.User dont need to care about animations and events.
 * Skir的（SD）iOS蒙版.帮助弹出自定义视图，用户不再关心动画和点击事件。
 * 随手一赞.好运百万.
 * Start me good luck 1 dong.
@@ -13,7 +13,7 @@
 ```
 ## CocoaPods
 ```
-pod 'Wiil do it'
+pod 'SDMask'
 ```
 ## 处理简单业务 Handling simple business in a block.
 ```objc
@@ -68,7 +68,7 @@ id<SDMask> mask = currentController.sdm_actionSheetMaskWith(userView);
     setAutolayoutValueForKey(@(350), @"height");
 }];
 ```
--b. 三方或手动布局 Autolayout by youself. Like 'masonry'
+- b. 三方或手动布局 Autolayout by youself. Like 'masonry'
 ```objc
 [mask userViewDidLoad:^(SDMaskModel * model) {
     [model.userView mas_makeConstraints:^(MASConstraintMaker *make) {

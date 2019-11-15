@@ -18,12 +18,12 @@
 @implementation SDMaskController
 {
     SDMaskUserBlock _userViewDidLoadBlock;
-    SDMaskUserBlock _userViewWillAnimateBlock;
-    SDMaskUserBlock _userViewWillDoneAnimateBlock;
-    SDMaskUserBlock _userViewCompletedAnimateBlock;
-    SDMaskUserBlock _userViewDismissWillAnimateBlock;
-    SDMaskUserBlock _userViewDismissWillDoneAnimateBlock;
-    SDMaskUserBlock _userViewDismissCompletedAnimateBlock;
+    SDMaskUserBlock _userViewPresentationWillAnimateBlock;
+    SDMaskUserBlock _userViewPresentationDoAnimationsBlock;
+    SDMaskUserBlock _userViewPresentationCompletedBlock;
+    SDMaskUserBlock _userViewDismissionWillAnimateBlock;
+    SDMaskUserBlock _userViewDismissionDoAnimationsBlock;
+    SDMaskUserBlock _userViewDismissionCompletedBlock;
 }
 @synthesize userView    = _userView;
 @synthesize model       = _model;
@@ -85,13 +85,13 @@
     SDMaskUserBlock willDoneAnimate  = nil;
     SDMaskUserBlock completeAnimate  = nil;
     if(self.isBeingPresented) {
-        willAnimate     = _userViewWillAnimateBlock;
-        willDoneAnimate = _userViewWillDoneAnimateBlock;
-        completeAnimate = _userViewCompletedAnimateBlock;
+        willAnimate     = _userViewPresentationWillAnimateBlock;
+        willDoneAnimate = _userViewPresentationDoAnimationsBlock;
+        completeAnimate = _userViewPresentationCompletedBlock;
     } else if (self.isBeingDismissed) {
-        willAnimate     = _userViewDismissWillAnimateBlock;
-        willDoneAnimate = _userViewDismissWillDoneAnimateBlock;
-        completeAnimate = _userViewDismissCompletedAnimateBlock;
+        willAnimate     = _userViewDismissionWillAnimateBlock;
+        willDoneAnimate = _userViewDismissionDoAnimationsBlock;
+        completeAnimate = _userViewDismissionCompletedBlock;
     }
     if(!self.model.usingSystemAnimation && willDoneAnimate == nil) return;
     [self systemAnimate:self.model.animte presentElseDismiss:self.isBeingPresented willElseDo:true];
@@ -248,37 +248,37 @@
 
 - (id<SDMask>)userViewPresentationWillAnimate:(SDMaskUserBlock)block
 {
-    _userViewWillAnimateBlock = [block copy];
+    _userViewPresentationWillAnimateBlock = [block copy];
     return self;
 }
 
 - (id<SDMask>)userViewPresentationDoAnimations:(SDMaskUserBlock)block
 {
-    _userViewWillDoneAnimateBlock = [block copy];
+    _userViewPresentationDoAnimationsBlock = [block copy];
     return self;
 }
 
 - (id<SDMask>)userViewPresentationCompleted:(SDMaskUserBlock)block
 {
-    _userViewCompletedAnimateBlock = [block copy];
+    _userViewPresentationCompletedBlock = [block copy];
     return self;
 }
 
 - (id<SDMask>)userViewDismissionWillAnimate:(SDMaskUserBlock)block
 {
-    _userViewDismissWillAnimateBlock = [block copy];
+    _userViewDismissionWillAnimateBlock = [block copy];
     return self;
 }
 
 - (id<SDMask>)userViewDismissionDoAnimations:(SDMaskUserBlock)block
 {
-    _userViewDismissWillDoneAnimateBlock = [block copy];
+    _userViewDismissionDoAnimationsBlock = [block copy];
     return self;
 }
 
 - (id<SDMask>)userViewDismissionCompleted:(SDMaskUserBlock)block
 {
-    _userViewDismissCompletedAnimateBlock = [block copy];
+    _userViewDismissionCompletedBlock = [block copy];
     return self;
 }
 

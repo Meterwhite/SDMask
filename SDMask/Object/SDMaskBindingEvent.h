@@ -23,6 +23,7 @@
 @property (nullable,nonatomic,copy,readonly) id key;
 
 - (nonnull instancetype)initWithSender:(nonnull UIView*)sender model:(nonnull SDMaskModel*)model atIndex:(NSInteger)index;
+/// The default behavior that the bind event will trigger dismiss.This method counld keeps the mask on the screen.
 - (void)setNeedKeepMask;
 @end
 

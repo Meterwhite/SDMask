@@ -11,6 +11,8 @@
 
 typedef void(^SDMaskSettingBlock)(id<SDMask> _Nonnull mask);
 
+
+/// Extension for mask owner.
 @interface UIResponder(SDMaskExtension)
 /**
  *  Get default SDMask object from its presenter.
@@ -29,6 +31,8 @@ typedef void(^SDMaskSettingBlock)(id<SDMask> _Nonnull mask);
 (^sdm_actionSheetMaskWith)(UIView* _Nonnull userView);
 @end
 
+
+/// Extension for mask content view.
 @interface UIView (SDMaskExtension)
 #pragma mark - Quick methods
 /**
