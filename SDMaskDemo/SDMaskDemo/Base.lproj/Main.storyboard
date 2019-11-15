@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_0" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FPx-5a-cfU">
+                                <rect key="frame" x="0.0" y="504" width="160" height="64"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="64" id="vP4-8m-Qf3"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <state key="normal" title="Framelayout Alert"/>
+                                <connections>
+                                    <action selector="actionAlert:" destination="BYZ-38-t0r" eventType="touchUpInside" id="uKl-Jm-r5i"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pvl-3R-m9D">
+                                <rect key="frame" x="160" y="504" width="160" height="64"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="64" id="f3c-1j-lcx"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <state key="normal" title="Framelayout Sheet"/>
+                                <connections>
+                                    <action selector="actionActionSheet:" destination="BYZ-38-t0r" eventType="touchUpInside" id="TkG-Qb-4cL"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cUP-hb-cbZ">
+                                <rect key="frame" x="0.0" y="440" width="160" height="64"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="64" id="gzJ-n9-OkZ"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <state key="normal" title="SDAutolayout Alert"/>
+                                <connections>
+                                    <action selector="sdAutolayoutAlert:" destination="BYZ-38-t0r" eventType="touchUpInside" id="m4G-nv-dey"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wga-xh-2CM">
+                                <rect key="frame" x="160" y="440" width="160" height="64"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="64" id="NjE-iH-nwJ"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <state key="normal" title="SDAutolayout Sheet"/>
+                                <connections>
+                                    <action selector="sdAutolayoutSheet:" destination="BYZ-38-t0r" eventType="touchUpInside" id="X0W-v6-urd"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AEs-iK-AiM">
+                                <rect key="frame" x="0.0" y="376" width="160" height="64"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="64" id="1Jx-tZ-WdD"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <state key="normal" title="UserAutolayout Alert"/>
+                                <connections>
+                                    <action selector="userAutolayoutAlert:" destination="BYZ-38-t0r" eventType="touchUpInside" id="cva-4g-Ucz"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tqk-kl-BQ6">
+                                <rect key="frame" x="160" y="376" width="160" height="64"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="64" id="wtF-G7-di6"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <state key="normal" title="UserAutolayout Sheet"/>
+                                <connections>
+                                    <action selector="userAutolayoutSheet:" destination="BYZ-38-t0r" eventType="touchUpInside" id="XMz-oF-WN3"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="tqk-kl-BQ6" firstAttribute="width" secondItem="AEs-iK-AiM" secondAttribute="width" id="0aA-06-96d"/>
+                            <constraint firstItem="FPx-5a-cfU" firstAttribute="top" secondItem="Wga-xh-2CM" secondAttribute="bottom" id="22m-KG-KBh"/>
+                            <constraint firstItem="cUP-hb-cbZ" firstAttribute="top" secondItem="AEs-iK-AiM" secondAttribute="bottom" id="7pg-mC-o73"/>
+                            <constraint firstItem="Pvl-3R-m9D" firstAttribute="width" secondItem="FPx-5a-cfU" secondAttribute="width" id="CXV-YN-kBz"/>
+                            <constraint firstItem="AEs-iK-AiM" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="IDh-LC-b37"/>
+                            <constraint firstAttribute="right" secondItem="tqk-kl-BQ6" secondAttribute="right" id="JKe-UJ-YTu"/>
+                            <constraint firstItem="cUP-hb-cbZ" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="V92-2X-WS7"/>
+                            <constraint firstAttribute="trailing" secondItem="Wga-xh-2CM" secondAttribute="trailing" id="aGY-ZF-PTs"/>
+                            <constraint firstItem="FPx-5a-cfU" firstAttribute="top" secondItem="cUP-hb-cbZ" secondAttribute="bottom" id="iwm-xI-csL"/>
+                            <constraint firstItem="Wga-xh-2CM" firstAttribute="left" secondItem="cUP-hb-cbZ" secondAttribute="right" id="k7W-7i-skb"/>
+                            <constraint firstAttribute="trailing" secondItem="Pvl-3R-m9D" secondAttribute="trailing" id="lDD-Nf-lAT"/>
+                            <constraint firstAttribute="bottom" secondItem="FPx-5a-cfU" secondAttribute="bottom" id="leS-1L-xmW"/>
+                            <constraint firstAttribute="bottom" secondItem="Pvl-3R-m9D" secondAttribute="bottom" id="lmh-uc-q7U"/>
+                            <constraint firstItem="Pvl-3R-m9D" firstAttribute="leading" secondItem="FPx-5a-cfU" secondAttribute="trailing" id="o6E-Ct-bmX"/>
+                            <constraint firstItem="Wga-xh-2CM" firstAttribute="width" secondItem="cUP-hb-cbZ" secondAttribute="width" id="uBl-ZV-TkK"/>
+                            <constraint firstItem="FPx-5a-cfU" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="uHY-Mw-H69"/>
+                            <constraint firstItem="tqk-kl-BQ6" firstAttribute="leading" secondItem="AEs-iK-AiM" secondAttribute="trailing" id="vqi-dQ-SWK"/>
+                            <constraint firstItem="cUP-hb-cbZ" firstAttribute="top" secondItem="tqk-kl-BQ6" secondAttribute="bottom" id="wqO-dL-o2d"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-504.375" y="-8.4507042253521121"/>
+        </scene>
+    </scenes>
+</document>

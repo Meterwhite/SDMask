@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_0" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment version="2304" identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="TUserActionSheet">
+            <rect key="frame" x="0.0" y="0.0" width="300" height="238"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Cancel(UILabel)" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MWD-qs-S2f">
+                    <rect key="frame" x="0.0" y="174" width="300" height="44"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="44" id="mBF-Xd-naH"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="5Op-56-gD7">
+                    <rect key="frame" x="0.0" y="66" width="300" height="88"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Action0(UILabel)" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HpO-wD-f0j">
+                            <rect key="frame" x="0.0" y="0.0" width="300" height="44"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="44" id="0FP-OY-7oi"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yqX-O5-NTL">
+                            <rect key="frame" x="0.0" y="44" width="300" height="44"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <state key="normal" title="Action1(UIButton)"/>
+                        </button>
+                    </subviews>
+                </stackView>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="MWD-qs-S2f" secondAttribute="trailing" id="6hv-cs-oM2"/>
+                <constraint firstAttribute="trailing" secondItem="5Op-56-gD7" secondAttribute="trailing" id="9dj-XY-vub"/>
+                <constraint firstItem="MWD-qs-S2f" firstAttribute="top" secondItem="5Op-56-gD7" secondAttribute="bottom" constant="20" id="EGo-is-IGd"/>
+                <constraint firstItem="5Op-56-gD7" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" priority="999" id="f5i-5F-vbA"/>
+                <constraint firstItem="TYV-UH-01m" firstAttribute="bottom" secondItem="MWD-qs-S2f" secondAttribute="bottom" constant="20" id="g3Q-Xz-uyq"/>
+                <constraint firstItem="MWD-qs-S2f" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="hVn-l6-O85"/>
+                <constraint firstItem="5Op-56-gD7" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="nTE-77-thX"/>
+            </constraints>
+            <nil key="simulatedTopBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="TYV-UH-01m"/>
+            <connections>
+                <outlet property="action0" destination="HpO-wD-f0j" id="UZf-Px-2Ad"/>
+                <outlet property="action1" destination="yqX-O5-NTL" id="xle-AE-1Ww"/>
+                <outlet property="actionCancel_1" destination="MWD-qs-S2f" id="GMQ-ma-eu7"/>
+            </connections>
+            <point key="canvasLocation" x="-84.375" y="51.760563380281688"/>
+        </view>
+    </objects>
+</document>
