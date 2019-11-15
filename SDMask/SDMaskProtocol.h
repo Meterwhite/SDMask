@@ -35,8 +35,6 @@ typedef void(^SDMaskUserBindingEventBlock)(SDMaskBindingEvent* _Nonnull event);
 - (nonnull id<SDMask>)userViewDismissionDoAnimations:(nonnull SDMaskUserBlock)block;
 - (nonnull id<SDMask>)userViewDismissionCompleted:(nonnull SDMaskUserBlock)block;
 #pragma mark - Events
-/// Note : Default for alert is NO. Default for action sheet is YES..
-- (nonnull id<SDMask>)usingAutoDismiss;
 /**
  * [mask bindEventForControls:@[control0, [control1 sdm_withBindingKey:@"OK"], ...]];
  */
@@ -50,4 +48,7 @@ typedef void(^SDMaskUserBindingEventBlock)(SDMaskBindingEvent* _Nonnull event);
 #pragma mark - Display
 - (void)show;
 - (void)dismiss;
+/// Note : Default for alert is NO. Default for action sheet is YES..
+- (nonnull id<SDMask>)usingAutoDismiss;
+- (nonnull id<SDMask>)disableSystemAnimation;
 @end

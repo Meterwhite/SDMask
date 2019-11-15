@@ -15,27 +15,43 @@
 @interface ViewController ()
 @end
 
+/**
+ * Edit scheme switch debuge and release to observe differences.
+ */
 @implementation ViewController
 
 #pragma mark - Frame layout
 - (IBAction)actionAlert:(id)sender {
-    UIView* userView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 280, 280)];
-    [userView setBackgroundColor:UIColor.redColor];
+    UIView* userView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 280, 200)];
+    [userView setBackgroundColor:UIColor.whiteColor];
 #ifdef DEBUG
     [userView sdm_showAlertUsingBlock:^(id<SDMask>  _Nonnull mask) {
         [mask.model setAutoDismiss:YES];
         /// Configuration...
     }];
 #else
-    [userView sdm_showAlertIn:self.view usingBlock:^(id<SDMask>  _Nonnull mask) {
-        [mask.model setAutoDismiss:YES];
+    /// Custom animation
+    [userView sdm_showAlertIn:self.view usingBlock:^(id<SDMask> mask) {
+        [[[[[mask userViewPresentationWillAnimate:^(SDMaskModel * model) {
+            CGRect frame = userView.frame;
+            frame.origin = CGPointMake(0, 0);
+            userView.frame = frame;
+        }] userViewPresentationDoAnimations:^(SDMaskModel * model) {
+            CGRect frame = userView.frame;
+            frame.origin = CGPointMake(SDMaskModel.screenWidth - 280, SDMaskModel.screenHeight - 150);
+            userView.frame = frame;
+        }] userViewDismissionDoAnimations:^(SDMaskModel * model) {
+            CGRect frame = userView.frame;
+            frame.origin = CGPointMake(0, 0);
+            userView.frame = frame;
+        }] usingAutoDismiss] disableSystemAnimation];
     }];
 #endif
 }
 
 - (IBAction)actionActionSheet:(UIButton *)sender {
-    UIView* userView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 280, 150)];
-    [userView setBackgroundColor:UIColor.redColor];
+    UIView* userView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 280, 180)];
+    [userView setBackgroundColor:UIColor.whiteColor];
 #ifdef DEBUG
     [userView sdm_showActionSheetUsingBlock:nil];
 #else
@@ -51,7 +67,7 @@
 #else
     id<SDMask> mask = self.sdm_maskWith(userView);
 #endif
-    [mask userViewDidLoad:^(SDMaskModel * _Nonnull model) {
+    [mask userViewDidLoad:^(SDMaskModel *model) {
         model.animte = SDMaskAnimationAlert;
         model.
         setAutolayoutValueForKey(@(0), @"centerX").
@@ -59,7 +75,7 @@
         setAutolayoutValueForKey(@(50), @"left").
         setAutolayoutValueForKey(@(50), @"right");
     }];
-    [[mask bindEventForControls:@[userView.action0, userView.cancelButton_1]] bindingEventsUsingBlock:^(SDMaskBindingEvent * _Nonnull event) {
+    [[mask bindEventForControls:@[userView.action0, userView.cancelButton_1]] bindingEventsUsingBlock:^(SDMaskBindingEvent * event) {
         switch (event.index) {
             case 0:
             {
@@ -93,7 +109,7 @@
         setAutolayoutValueForKey(@(15), @"right").
         setAutolayoutValueForKey(@(350), @"height");
     }];
-    [[[mask bindEventForControls:@[userView.action0, userView.action1]] bindEventForCancelControl:userView.actionCancel_1] bindingEventsUsingBlock:^(SDMaskBindingEvent * _Nonnull event) {
+    [[[mask bindEventForControls:@[userView.action0, userView.action1]] bindEventForCancelControl:userView.actionCancel_1] bindingEventsUsingBlock:^(SDMaskBindingEvent *event) {
         switch (event.index) {
             case -1:
             {
@@ -123,7 +139,7 @@
 #else
     id<SDMask> mask = self.sdm_alertMaskWith(userView);
 #endif
-    [mask userViewDidLoad:^(SDMaskModel * _Nonnull model) {
+    [mask userViewDidLoad:^(SDMaskModel *model) {
         model.animte = SDMaskAnimationAlert;
         [model.userView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.center.equalTo(model.containerView);
@@ -131,23 +147,7 @@
             make.right.equalTo(model.containerView.mas_right).offset(-20);
         }];
     }];
-    [[mask bindEventForControls:@[userView.action0, userView.cancelButton_1]] bindingEventsUsingBlock:^(SDMaskBindingEvent * _Nonnull event) {
-        switch (event.index) {
-            case 0:
-            {
-                NSLog(@"Click action0");
-            }
-                break;
-            case 1:
-            {
-                NSLog(@"Click cancel,but mask be kept.");
-                [event setNeedKeepMask];
-            }
-                break;
-        }
-    }];
-    [mask usingAutoDismiss];
-    [mask show];
+    [[[mask bindEventForCancelControl:userView.cancelButton_1] usingAutoDismiss] show];
 }
 
 - (IBAction)userAutolayoutSheet:(id)sender {
@@ -155,13 +155,13 @@
 #ifdef DEBUG
     SDMaskView* mask = self.view.sdm_maskWith(userView);
     mask.model.container = self.view;
-    [mask userViewDidLoad:^(SDMaskModel * _Nonnull model) {
+    [mask userViewDidLoad:^(SDMaskModel *model) {
         model.animte = SDMaskAnimationActionSheet;
     }];
 #else
     SDMaskController* mask = self.sdm_maskWith(userView);
 #endif
-    [mask userViewDidLoad:^(SDMaskModel * _Nonnull model) {
+    [mask userViewDidLoad:^(SDMaskModel * model) {
         model.animte = SDMaskAnimationActionSheet;
         [model.userView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.bottom.equalTo(model.containerView.mas_bottom).priorityHigh();
@@ -169,27 +169,7 @@
             make.right.equalTo(model.containerView.mas_right).offset(-15).priorityHigh();
         }];
     }];
-    [[[mask bindEventForControls:@[userView.action0, userView.action1]] bindEventForCancelControl:userView.actionCancel_1] bindingEventsUsingBlock:^(SDMaskBindingEvent * _Nonnull event) {
-        switch (event.index) {
-            case -1:
-            {
-                NSLog(@"Click cancel");
-            }
-                break;
-            case 0:
-            {
-                NSLog(@"Click action0");
-            }
-                break;
-            case 1:
-            {
-                NSLog(@"Click action1");
-            }
-                break;
-        }
-    }];
-    [mask usingAutoDismiss];
-    [mask show];
+    [[[mask bindEventForCancelControl:userView.actionCancel_1] usingAutoDismiss] show];
 }
 
 @end

@@ -272,7 +272,7 @@
 
 - (id<SDMask>)userViewDismissionDoAnimations:(SDMaskUserBlock)block
 {
-    _userViewWillDoneAnimateBlock = [block copy];
+    _userViewDismissWillDoneAnimateBlock = [block copy];
     return self;
 }
 
@@ -285,6 +285,12 @@
 - (id<SDMask>)usingAutoDismiss
 {
     _model.autoDismiss = YES;
+    return self;
+}
+
+- (id<SDMask>)disableSystemAnimation
+{
+    _model.usingSystemAnimation = NO;
     return self;
 }
 

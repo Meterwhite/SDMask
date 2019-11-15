@@ -34,8 +34,6 @@
     [self addSubview:self.model.userView];
     if(_userViewDidLoadBlock) _userViewDidLoadBlock(self.model);
     if(self.model.isUsingAutolayout) [self.model performSelector:@selector(updateConstraints)];
-
-    /// TODO: Autolayout
     SDMaskUserBlock willAnimate      = _userViewWillAnimateBlock;
     SDMaskUserBlock willDoneAnimate  = _userViewWillDoneAnimateBlock;
     SDMaskUserBlock completeAnimate  = _userViewCompletedAnimateBlock;
@@ -228,7 +226,7 @@
 
 - (id<SDMask>)userViewDismissionDoAnimations:(SDMaskUserBlock)block
 {
-    _userViewWillDoneAnimateBlock = [block copy];
+    _userViewDismissWillDoneAnimateBlock = [block copy];
     return self;
 }
 
@@ -243,4 +241,11 @@
     _model.autoDismiss = YES;
     return self;
 }
+
+- (id<SDMask>)disableSystemAnimation
+{
+    _model.usingSystemAnimation = NO;
+    return self;
+}
+
 @end
