@@ -8,17 +8,17 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import "SDMaskModel.h"
 
-@class SDMaskModel;
 /**
  *  This object is from user interaction.
  */
-@interface SDMaskBindingEvent : NSObject
-
-@property (nullable,nonatomic,weak,readonly) UIView *sender;
+@interface SDMaskBindingEvent<__covariant TUserView> : NSObject
+/// Kind of UIView.
+@property (nullable,nonatomic,weak,readonly) id sender;
 /// -1 for cancel control.
 @property (nonatomic,readonly) NSInteger index;
-@property (nullable,nonatomic,weak,readonly) SDMaskModel *model;
+@property (nullable,nonatomic,weak,readonly) SDMaskModel<TUserView> *model;
 /// This key is from 'sdm_withBindingKey:'
 @property (nullable,nonatomic,copy,readonly) id key;
 

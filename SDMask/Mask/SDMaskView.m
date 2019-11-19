@@ -12,6 +12,10 @@
 #import "SDMaskModel.h"
 #import "SDMaskView.h"
 
+@interface SDMaskView ()
+@property UIView* userView;
+@end
+
 @implementation SDMaskView
 {
     SDMaskUserBlock _userViewDidLoadBlock;
@@ -89,7 +93,7 @@
 {
     if(self = [super init]) {
         _userView = view;
-        _model = [[SDMaskModel alloc] initWithUserView:view forMask:self];
+        _model = [[SDMaskModel alloc] initWithUserView:view forMask:(id)self];
         [self setBackgroundColor:SDMaskModel.defaultBackgroundColor];
         [self addTarget:self action:@selector(dismiss:) forControlEvents:UIControlEventTouchUpInside];
         [view setAutoresizingMask:UIViewAutoresizingNone];
@@ -159,25 +163,25 @@
 }
 
 #pragma mark - Bind events
-- (id<SDMask>)bindEventForControls:(NSArray<UIView *> *)bindingInfo
+- (id<SDMaskProtocol>)bindEventForControls:(NSArray<UIView *> *)bindingInfo
 {
     IMP imp = class_getMethodImplementation(SDMaskController.class, @selector(bindEventForControls:));
     return ((id(*)(id,SEL,id))imp)(self, @selector(bindEventForControls:), bindingInfo);
 }
 
-- (id<SDMask>)bindEventForCancelControl:(id)control
+- (id<SDMaskProtocol>)bindEventForCancelControl:(id)control
 {
     IMP imp = class_getMethodImplementation(SDMaskController.class, @selector(bindEventForCancelControl:));
     return ((id(*)(id,SEL,id))imp)(self, @selector(bindEventForCancelControl:), control);
 }
 
-- (id<SDMask>)bindingEventFor:(id)indexer usingBlock:(SDMaskUserBindingEventBlock)block
+- (id<SDMaskProtocol>)bindingEventFor:(id)indexer usingBlock:(SDMaskUserBindingEventBlock)block
 {
     IMP imp = class_getMethodImplementation(SDMaskController.class, @selector(bindingEventFor:usingBlock:));
     return ((id(*)(id,SEL,id,id))imp)(self, @selector(bindingEventFor:usingBlock:), indexer, block);
 }
 
-- (id<SDMask>)bindingEventsUsingBlock:(SDMaskUserBindingEventBlock)block
+- (id<SDMaskProtocol>)bindingEventsUsingBlock:(SDMaskUserBindingEventBlock)block
 {
     IMP imp = class_getMethodImplementation(SDMaskController.class, @selector(bindingEventsUsingBlock:));
     return ((id(*)(id,SEL,id))imp)(self, @selector(bindingEventsUsingBlock:), block);
@@ -194,55 +198,55 @@
     return _model;
 }
 
-- (id<SDMask>)userViewDidLoad:(SDMaskUserBlock)block
+- (id<SDMaskProtocol>)userViewDidLoad:(SDMaskUserBlock)block
 {
     _userViewDidLoadBlock = [block copy];
     return self;
 }
 
-- (id<SDMask>)userViewPresentationWillAnimate:(SDMaskUserBlock)block
+- (id<SDMaskProtocol>)userViewPresentationWillAnimate:(SDMaskUserBlock)block
 {
     _userViewPresentationWillAnimateBlock = [block copy];
     return self;
 }
 
-- (id<SDMask>)userViewPresentationDoAnimations:(SDMaskUserBlock)block
+- (id<SDMaskProtocol>)userViewPresentationDoAnimations:(SDMaskUserBlock)block
 {
     _userViewPresentationDoAnimationsBlock = [block copy];
     return self;
 }
 
-- (id<SDMask>)userViewPresentationCompleted:(SDMaskUserBlock)block
+- (id<SDMaskProtocol>)userViewPresentationCompleted:(SDMaskUserBlock)block
 {
     _userViewPresentationCompletedBlock = [block copy];
     return self;
 }
 
-- (id<SDMask>)userViewDismissionWillAnimate:(SDMaskUserBlock)block
+- (id<SDMaskProtocol>)userViewDismissionWillAnimate:(SDMaskUserBlock)block
 {
     _userViewDismissionWillAnimateBlock = [block copy];
     return self;
 }
 
-- (id<SDMask>)userViewDismissionDoAnimations:(SDMaskUserBlock)block
+- (id<SDMaskProtocol>)userViewDismissionDoAnimations:(SDMaskUserBlock)block
 {
     _userViewDismissionDoAnimationsBlock = [block copy];
     return self;
 }
 
-- (id<SDMask>)userViewDismissionCompleted:(SDMaskUserBlock)block
+- (id<SDMaskProtocol>)userViewDismissionCompleted:(SDMaskUserBlock)block
 {
     _userViewDismissionCompletedBlock = [block copy];
     return self;
 }
 
-- (id<SDMask>)usingAutoDismiss
+- (id<SDMaskProtocol>)usingAutoDismiss
 {
     _model.autoDismiss = YES;
     return self;
 }
 
-- (id<SDMask>)disableSystemAnimation
+- (id<SDMaskProtocol>)disableSystemAnimation
 {
     _model.usingSystemAnimation = NO;
     return self;

@@ -7,10 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "SDMaskProtocol.h"
 #import <UIKit/UIKit.h>
 
 @class SDMaskBindingEvent;
-@protocol SDMask;
+@protocol SDMaskProtocol;
 typedef enum : NSUInteger {
     SDMaskAnimationAlert,
     SDMaskAnimationActionSheet
@@ -19,16 +20,17 @@ typedef enum : NSUInteger {
 /**
  *  This object contains animations, layouts, and features for configuring the UI.
  */
-@interface SDMaskModel : NSObject
-- (nonnull instancetype)initWithUserView:(nonnull UIView*)view forMask:(nonnull id<SDMask>)mask;
+@interface SDMaskModel<__covariant TUserView> : NSObject
+- (nonnull instancetype)initWithUserView:(nonnull TUserView)view forMask:(nonnull SDMask*)mask;
 #pragma mark - View
 /// Need!
-@property (nullable,nonatomic,weak) UIView* userView;
-/// Need! Who present mask.It is view or controller.
+@property (nullable,nonatomic,weak) TUserView userView;
+/// Need! Who present mask.It is view or controller.For controller sometimes this peoperty may not instead of weak self,if controller not be specified.
 @property (nullable,nonatomic,weak) __kindof UIResponder* container;
 /// Super view for user view.
 @property (nullable,nonatomic,readonly) UIView* containerView;
-@property (nullable,nonatomic,weak) id<SDMask>  thisMask;
+/// This mask object.
+@property (nullable,nonatomic,weak) SDMask*  thisMask;
 
 #pragma mark - Animation
 /// Default 'YES'. 'NO' means user makes animation himself, otherwise there will be no animation.

@@ -13,7 +13,7 @@
 /// Documentation is in the protocol SDMask.
 @interface SDMaskView : UIButton
 <
-    SDMask
+    SDMaskProtocol
 >
 @end
 

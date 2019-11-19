@@ -8,8 +8,13 @@
 
 #import "SDMaskBindingEvent.h"
 #import "UIResponder+SDMask.h"
+#import "SDMaskInterface.h"
 #import "SDMaskProtocol.h"
 #import "SDMaskModel.h"
+
+@interface SDMaskBindingEvent ()
+@property UIView* sender;
+@end
 
 @implementation SDMaskBindingEvent
 {

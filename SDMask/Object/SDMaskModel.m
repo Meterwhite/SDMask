@@ -36,7 +36,7 @@
     return self;
 }
 
-- (instancetype)initWithUserView:(UIView *)view forMask:(nonnull id<SDMask>)mask
+- (instancetype)initWithUserView:(UIView *)view forMask:(nonnull SDMask*)mask
 {
     self = [self init];
     if (self) {
@@ -87,7 +87,7 @@
 
 - (id)containerView
 {
-    return self.userView.superview;
+    return [self.userView superview];
 }
 
 #pragma mark - Autolayout

@@ -12,6 +12,6 @@
 /// Documentation is in the protocol SDMask.
 @interface SDMaskController: UIViewController
 <
-    SDMask
+    SDMaskProtocol
 >
 @end

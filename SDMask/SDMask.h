@@ -1,4 +1,5 @@
 #import "SDMaskProtocol.h"
+#import "SDMaskInterface.h"
 #import "SDMaskController.h"
 #import "SDMaskView.h"
 #import "SDMaskBindingEvent.h"
