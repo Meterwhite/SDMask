@@ -149,13 +149,13 @@
 }
 
 - (IBAction)actionActionSheet:(UIButton *)sender {
-//    UIView* userView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 280, 180)];
-//    [userView setBackgroundColor:UIColor.whiteColor];
-//#ifdef DEBUG
-//    [userView sdm_showActionSheetUsingBlock:nil];
-//#else
-//    [[userView sdm_showActionSheetIn:self.view usingBlock:nil] usingAutoDismiss];
-//#endif
+    UIView* userView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 280, 180)];
+    [userView setBackgroundColor:UIColor.whiteColor];
+#ifdef DEBUG
+    [userView sdm_showActionSheetUsingBlock:nil];
+#else
+    [[userView sdm_showActionSheetIn:self.view usingBlock:nil] usingAutoDismiss];
+#endif
     
     {
 //        TUserAlertView* userView = [[NSBundle mainBundle] loadNibNamed:@"TUserAlertView" owner:nil options:nil].firstObject;
