@@ -1,5 +1,5 @@
 # SDMask
-![SDMask icon](https://raw.githubusercontent.com/Meterwhite/SDMask/master/SDMask.gif)
+![SDMask icon](https://raw.githubusercontent.com/Meterwhite/SDMask/master/Cover.png)
 ## 介绍 Introduce
 * A perfect iOS mask view that help you to present custom view.User dont need to care about animations and events.
 * Skir的（SD）iOS蒙版.帮助弹出自定义视图，用户不再关心动画和点击事件。
@@ -17,7 +17,7 @@ pod 'SDMask'
 ```
 ## 处理简单业务 Handling simple business in a block.
 ```objc
-[customAlertView sdm_showAlertUsingBlock:^(SDMask<UserView*>*  _Nonnull mask) {
+[SDMaskUserView(customAlertView) sdm_showAlertUsingBlock:^(SDMask<UserView*>*  _Nonnull mask) {
     /// You can bind control events to SDMask
     [mask bindEventForControls:@[okButton]] 
     [mask bindEventForCancelControl:cancelButton];
@@ -31,7 +31,7 @@ pod 'SDMask'
 ```
 ## 分步处理复杂的业务 Step-by-step processing of complex business.
 ```objc
-SDMask<UserView*>* mask = currentController.sdm_actionSheetMaskWith(userView);
+SDMask<UserView*>* mask = SDAlertMaskWith(currentController, userView);
 [mask userViewDidLoad:^(SDMaskModel<UserView*> * model) {
     model.
     setAutolayoutValueForKey(@(0), @"bottom").

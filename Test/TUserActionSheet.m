@@ -13,4 +13,6 @@
 {
     NSLog(@"dealloc for : %p",self);
 }
+
+- (void)didTapSomething:(void (^)(void))block{}
 @end

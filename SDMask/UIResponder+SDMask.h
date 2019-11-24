@@ -10,8 +10,24 @@
 #import "SDMaskProtocol.h"
 
 typedef void(^SDMaskSettingBlock)(SDMask* _Nonnull mask);
+/**
+ * Begin with view's owner and wrap it with generics.
+ * owner : Object whitch present mask view.
+ */
+#define SDMaskWith(owner, userView) \
+((SDMask<typeof(userView)>*)owner.sdm_maskWith(userView))
+/**
+ * Begin with view's owner and wrap it with generics.
+ */
+#define SDAlertMaskWith(owner, userView) \
+((SDMask<typeof(userView)>*)owner.sdm_alertMaskWith(userView))
+/**
+ * Begin with view's owner and wrap it with generics.
+ */
+#define SDActionsheetMaskWith(owner, userView) \
+((SDMask<typeof(userView)>*)owner.sdm_actionSheetMaskWith(userView))
 
-/// Extension for mask owner.
+/// Extension for mask view`s owner.
 @interface UIResponder(SDMaskExtension)
 /**
  *  Get default SDMask object from its presenter.
@@ -31,36 +47,44 @@ typedef void(^SDMaskSettingBlock)(SDMask* _Nonnull mask);
 @end
 
 
-/// Extension for mask content view.
+/**
+ * Extension for mask content view.
+ * [userView sdm_showAlertUsingBlock:^(Mask* mask){
+ *      [mask ...^(SDMaskModel* model){
+ * Wrong:    [mask ...];//caused circular references.
+ * Right:    [model.thisMask ...];
+ *      }];
+ * }];
+ */
 @interface UIView (SDMaskExtension)
 #pragma mark - Quick methods
 /**
  *  Show mask view with user view.You can do something in block.
  */
-- (void)sdm_showAlertUsingBlock:(nullable NS_NOESCAPE SDMaskSettingBlock)block;
+- (nonnull SDMask*)sdm_showAlertUsingBlock:(nullable NS_NOESCAPE SDMaskSettingBlock)block;
 /**
  *  Show mask view with user view.You can do something in block.
  */
-- (void)sdm_showActionSheetUsingBlock:(nullable NS_NOESCAPE SDMaskSettingBlock)block;
+- (nonnull SDMask*)sdm_showActionSheetUsingBlock:(nullable NS_NOESCAPE SDMaskSettingBlock)block;
 /**
  *  Show mask view from specified view with user view.You can do something in block.
  */
-- (void)sdm_showAlertIn:(nonnull UIView*)superview usingBlock:(nullable NS_NOESCAPE SDMaskSettingBlock)block;
+- (nonnull SDMask*)sdm_showAlertIn:(nonnull UIView*)superview usingBlock:(nullable NS_NOESCAPE SDMaskSettingBlock)block;
 /**
  *  Show mask view from specified view with user view.You can do something in block.
  */
-- (void)sdm_showActionSheetIn:(nonnull UIView*)superview usingBlock:(nullable NS_NOESCAPE SDMaskSettingBlock)block;
+- (nonnull SDMask*)sdm_showActionSheetIn:(nonnull UIView*)superview usingBlock:(nullable NS_NOESCAPE SDMaskSettingBlock)block;
 
 #pragma mark - Bind key
 /**
  *  Set key(SDMaskBindingEvent.key) to mark a control.
  */
-- (nullable instancetype)sdm_withBindingKey:(nonnull id)key;
+- (nullable instancetype)sdm_userViewWithBindingKey:(nonnull id)key;
 /**
  *  Get key(SDMaskBindingEvent.key) from a marked control.
  */
-- (nullable id)sdm_bindingKey;
+@property (nullable,nonatomic,readonly)id sdm_bindingKey;
 
 #pragma mark - Safe area
-- (nonnull id)sdm_safeGuide;
+@property (nonnull,nonatomic,readonly)id sdm_safeGuide;
 @end

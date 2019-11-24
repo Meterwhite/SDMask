@@ -48,16 +48,6 @@
 
 #pragma mark - Getter & setter
 
-- (void)setAnimte:(SDMaskAnimationStyle)animte
-{
-    _animte = animte;
-    if(animte == SDMaskAnimationAlert){
-        _autoDismiss = NO;
-    } else if (animte == SDMaskAnimationActionSheet){
-        _autoDismiss = YES;
-    }
-}
-
 - (SDMaskModel * _Nonnull (^)(NSValue * _Nonnull, NSString * _Nonnull))setAutolayoutValueForKey
 {
     if(!_autolayoutKeyValues){
@@ -76,7 +66,7 @@
         return [_isUsingAutolayout boolValue];
     }
     if([_autolayoutKeyValues count]) return YES;
-    if([[self.containerView constraints] count] > 0) return YES;
+    if([[self.superview constraints] count] > 0) return YES;
     return NO;
 }
 
@@ -85,12 +75,13 @@
     _isUsingAutolayout = [NSNumber numberWithBool:isUsingAutolayout];
 }
 
-- (id)containerView
+- (id)superview
 {
     return [self.userView superview];
 }
 
 #pragma mark - Autolayout
+#define SDMaskAnimationKey @"SDMaskAnimation"
 /// private method : Use performSelctor: better.
 - (void)updateConstraints
 {
@@ -98,7 +89,7 @@
         /// SDAutolayout
         if([_autolayoutKeyValues count] > 0) break;
         /// User autolayout
-        if([[self.containerView constraints] count] == 0) break;
+        if([[self.superview constraints] count] == 0) break;
         [self registerCustomConstraints];
         return;
     } while (0);
@@ -122,18 +113,31 @@
         else if ([key isEqualToString:@"left"]){
             [constraintsForSuper addObject:cst = [self makeConstraint:NSLayoutAttributeLeading value:[value floatValue]]];
             _autolayoutKeyConstraints[key] = cst;
+            /// System animation.
+            NSLayoutConstraint* leftAnimation = [NSLayoutConstraint constraintWithItem:self.userView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.superview attribute:NSLayoutAttributeLeading multiplier:1.0 constant:0];
+            leftAnimation.identifier = SDMaskAnimationKey;
+            [constraintsForSuper addObject:leftAnimation];
+            _autolayoutKeyConstraints[@"leftAnimation"] = leftAnimation;
         }
         else if ([key isEqualToString:@"bottom"]){
             [constraintsForSuper addObject:cst = [self makeConstraint:NSLayoutAttributeBottom value:[value floatValue]]];
             _autolayoutKeyConstraints[key] = cst;
-            NSLayoutConstraint* bottomAnimation = [NSLayoutConstraint constraintWithItem:self.containerView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.userView attribute:NSLayoutAttributeTop multiplier:1.0 constant:0];
-            bottomAnimation.identifier = @"animation";
+            /// System animation.
+            NSLayoutConstraint* bottomAnimation = [NSLayoutConstraint constraintWithItem:self.superview attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.userView attribute:NSLayoutAttributeTop multiplier:1.0 constant:0];
+            bottomAnimation.identifier = SDMaskAnimationKey;
             [constraintsForSuper addObject:bottomAnimation];
             _autolayoutKeyConstraints[@"bottomAnimation"] = bottomAnimation;
         }
         else if ([key isEqualToString:@"right"]){
             [constraintsForSuper addObject:cst = [self makeConstraint:NSLayoutAttributeTrailing value:[value floatValue]]];
             _autolayoutKeyConstraints[key] = cst;
+            /// System animation.
+//            NSLayoutConstraint* rightAnimation = [NSLayoutConstraint constraintWithItem:self.userView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.superview attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:0];
+            NSLayoutConstraint* rightAnimation = [NSLayoutConstraint constraintWithItem:self.superview attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.userView attribute:NSLayoutAttributeLeading multiplier:1.0 constant:0];
+            rightAnimation.identifier = SDMaskAnimationKey;
+            [constraintsForSuper addObject:rightAnimation];
+            _autolayoutKeyConstraints[@"rightAnimation"] = rightAnimation;
+
         }
         else if ([key isEqualToString:@"centerX"]){
             [constraintsForSuper addObject:cst = [self makeConstraint:NSLayoutAttributeCenterX value:[value floatValue]]];
@@ -173,15 +177,15 @@
     if(constraintsForUserView.count){
         [self.userView addConstraints:constraintsForUserView];
         for (NSLayoutConstraint* item in constraintsForUserView) {
-            if([item.identifier isEqualToString:@"animation"]){
+            if([item.identifier isEqualToString:SDMaskAnimationKey]){
                 [item setActive:NO];
             }
         }
     }
     if(constraintsForSuper.count){
-        [self.containerView addConstraints:constraintsForSuper];
+        [self.superview addConstraints:constraintsForSuper];
         for (NSLayoutConstraint* item in constraintsForSuper) {
-            if([item.identifier isEqualToString:@"animation"]){
+            if([item.identifier isEqualToString:SDMaskAnimationKey]){
                 [item setActive:NO];
             }
         }
@@ -196,7 +200,7 @@
     NSLayoutAttribute secondAttr    = attr;
     do {
         if(attr == NSLayoutAttributeTrailing || attr == NSLayoutAttributeRight || attr == NSLayoutAttributeBottom) {
-            firstItem   = self.containerView;
+            firstItem   = self.superview;
             secondItem  = self.userView;
             break;
         }
@@ -209,7 +213,7 @@
         /// Default
         {
             firstItem   = self.userView;
-            secondItem  = self.containerView;
+            secondItem  = self.superview;
         }
     } while (0);
     cst = [NSLayoutConstraint constraintWithItem:firstItem
@@ -229,7 +233,7 @@
 {
     [self.userView setTranslatesAutoresizingMaskIntoConstraints:NO];
     NSArray<NSLayoutConstraint*>* cstForUserView = [self.userView constraints];
-    NSArray<NSLayoutConstraint*>* cstForContainer = [self.containerView constraints];
+    NSArray<NSLayoutConstraint*>* cstForContainer = [self.superview constraints];
     if(!_autolayoutKeyConstraints){
         _autolayoutKeyConstraints = [NSMutableDictionary dictionary];
     }
@@ -245,18 +249,18 @@
         NSLayoutAttribute attr  = NSLayoutAttributeNotAnAttribute;
         id key                  = nil;
         if (__builtin_available(iOS 9.0, *)) {
-            if(cst.firstItem == self.userView  && (cst.secondItem == self.containerView || [cst.secondItem isKindOfClass:[NSLayoutAnchor class]])){
+            if(cst.firstItem == self.userView  && (cst.secondItem == self.superview || [cst.secondItem isKindOfClass:[NSLayoutAnchor class]])){
                 attr = cst.firstAttribute;
             }
-            else if((cst.firstItem == self.containerView || [cst.firstItem isKindOfClass:[NSLayoutAnchor class]])
+            else if((cst.firstItem == self.superview || [cst.firstItem isKindOfClass:[NSLayoutAnchor class]])
                     && cst.secondItem == self.userView){
                 attr = cst.secondAttribute;
             }
         } else {
-            if(cst.firstItem == self.userView && cst.secondItem == self.containerView){
+            if(cst.firstItem == self.userView && cst.secondItem == self.superview){
                 attr = cst.firstAttribute;
             }
-            else if(cst.firstItem == self.containerView && cst.secondItem == self.userView){
+            else if(cst.firstItem == self.superview && cst.secondItem == self.userView){
                 attr = cst.secondAttribute;
             }
         }
@@ -276,10 +280,10 @@
             {
                 key = @"bottom";
                 {
-                    NSLayoutConstraint* bottomAnimation = [NSLayoutConstraint constraintWithItem:self.containerView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.userView attribute:NSLayoutAttributeTop multiplier:1.0 constant:0];
+                    NSLayoutConstraint* bottomAnimation = [NSLayoutConstraint constraintWithItem:self.superview attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.userView attribute:NSLayoutAttributeTop multiplier:1.0 constant:0];
                     _autolayoutKeyConstraints[@"bottomAnimation"] = bottomAnimation;
                     [bottomAnimation setPriority:(UILayoutPriorityRequired -1)];
-                    [self.containerView addConstraint:bottomAnimation];
+                    [self.superview addConstraint:bottomAnimation];
                     [bottomAnimation setActive:NO];
                 }
             }

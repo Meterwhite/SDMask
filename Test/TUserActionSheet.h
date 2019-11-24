@@ -14,6 +14,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UILabel *action0;
 @property (weak, nonatomic) IBOutlet UIButton *action1;
 @property (weak, nonatomic) IBOutlet UILabel *actionCancel_1;
+
+- (void)didTapSomething:(void(^)(void))block;
 @end
 
 NS_ASSUME_NONNULL_END

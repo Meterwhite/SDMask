@@ -11,11 +11,15 @@
 #import "SDMaskProtocol.h"
 #import "SDMaskBindingEvent.h"
 #import "SDMaskModel.h"
+/**
+ * Begin with userView and wrap it with generics.
+ */
+#define SDMaskUserView(userView) ((SDMaskUserContent<typeof(userView)>*)userView)
 
 
 #define SDMaskUserBlock_T(T) void(^_Nonnull)(SDMaskModel<T>* _Nonnull model)
 #define SDMaskUserBindingEventBlock_T(T) void(^_Nonnull)(SDMaskBindingEvent<T>* _Nonnull event)
-
+#define SDMaskSettingBlock_T(T) void(NS_NOESCAPE ^ _Nonnull)(SDMask<T>* _Nonnull mask)
 /**
  * Methods in  'SDMaskProtocol.h'
  * Note : SDMask is a Interface as a protocol to implement generics.
@@ -33,31 +37,40 @@
 - (nonnull SDMask<TUserView>*)initWithUserView:(nonnull TUserView)view;
 #pragma mark - Life cycle
 /// View did add to container.Config something here.
-- (nonnull SDMask*)userViewDidLoad:(SDMaskUserBlock_T(TUserView))block;
+- (nonnull SDMask<TUserView>*)userViewDidLoad:(SDMaskUserBlock_T(TUserView))block;
 /// Set something befor view animation.
-- (nonnull SDMask*)userViewPresentationWillAnimate:(SDMaskUserBlock_T(TUserView))block;
+- (nonnull SDMask<TUserView>*)userViewPresentationWillAnimate:(SDMaskUserBlock_T(TUserView))block;
 /// Set something befor view animation.
-- (nonnull SDMask*)userViewPresentationDoAnimations:(SDMaskUserBlock_T(TUserView))block;
-- (nonnull SDMask*)userViewPresentationCompleted:(SDMaskUserBlock_T(TUserView))block;
+- (nonnull SDMask<TUserView>*)userViewPresentationDoAnimations:(SDMaskUserBlock_T(TUserView))block;
+- (nonnull SDMask<TUserView>*)userViewPresentationCompleted:(SDMaskUserBlock_T(TUserView))block;
 /// - (nonnull SDMask*)userViewDidLoad:(nonnull SDMaskUserBlock)block;
-- (nonnull SDMask*)userViewDismissionWillAnimate:(SDMaskUserBlock_T(TUserView))block;
-- (nonnull SDMask*)userViewDismissionDoAnimations:(SDMaskUserBlock_T(TUserView))block;
-- (nonnull SDMask*)userViewDismissionCompleted:(SDMaskUserBlock_T(TUserView))block;
+- (nonnull SDMask<TUserView>*)userViewDismissionWillAnimate:(SDMaskUserBlock_T(TUserView))block;
+- (nonnull SDMask<TUserView>*)userViewDismissionDoAnimations:(SDMaskUserBlock_T(TUserView))block;
+- (nonnull SDMask<TUserView>*)userViewDismissionCompleted:(SDMaskUserBlock_T(TUserView))block;
 #pragma mark - Events
 /**
  * [mask bindEventForControls:@[control0, [control1 sdm_withBindingKey:@"OK"], ...]];
  */
-- (nonnull SDMask*)bindEventForControls:(nonnull NSArray<UIView*>*)bindingInfo;
-- (nonnull SDMask*)bindEventForCancelControl:(nonnull UIView*)control;
+- (nonnull SDMask<TUserView>*)bindEventForControls:(nonnull NSArray<UIView*>*)bindingInfo;
+- (nonnull SDMask<TUserView>*)bindEventForCancelControl:(nonnull UIView*)control;
 /// Handel all control events .
-- (nonnull SDMask*)bindingEventsUsingBlock:(SDMaskUserBindingEventBlock_T(TUserView))block;
+- (nonnull SDMask<TUserView>*)bindingEventsUsingBlock:(SDMaskUserBindingEventBlock_T(TUserView))block;
 /// One control to one event.
 /// @param indexer index, key, or control
-- (nonnull SDMask*)bindingEventFor:(nonnull id)indexer usingBlock:(SDMaskUserBindingEventBlock_T(TUserView))block;
+- (nonnull SDMask<TUserView>*)bindingEventFor:(nonnull id)indexer usingBlock:(SDMaskUserBindingEventBlock_T(TUserView))block;
 #pragma mark - Display
 - (void)show;
 - (void)dismiss;
 /// Note : Default for alert is NO. Default for action sheet is YES..
-- (nonnull SDMask*)usingAutoDismiss;
-- (nonnull SDMask*)disableSystemAnimation;
+- (nonnull SDMask<TUserView>*)usingAutoDismiss;
+- (nonnull SDMask<TUserView>*)disableSystemAnimation;
+@end
+
+
+@interface SDMaskUserContent<__covariant TUserView> : NSProxy
+#pragma mark - UIView (SDMaskExtension)
+- (nonnull SDMask<TUserView>*)sdm_showAlertUsingBlock:(SDMaskSettingBlock_T(TUserView))block;
+- (nonnull SDMask<TUserView>*)sdm_showActionSheetUsingBlock:(SDMaskSettingBlock_T(TUserView))block;
+- (nonnull SDMask<TUserView>*)sdm_showAlertIn:(nonnull UIView*)superview usingBlock:(SDMaskSettingBlock_T(TUserView))block;
+- (nonnull SDMask<TUserView>*)sdm_showActionSheetIn:(nonnull UIView*)superview usingBlock:(SDMaskSettingBlock_T(TUserView))block;
 @end

@@ -59,7 +59,7 @@ typedef void(^SDMaskUserBindingEventBlock)(SDMaskBindingEvent* _Nonnull event);
 #pragma mark - Display
 - (void)show;
 - (void)dismiss;
-/// Note : Default for alert is NO. Default for action sheet is YES..
+/// Note : Default NO.
 - (nonnull SDMask*)usingAutoDismiss;
 - (nonnull SDMask*)disableSystemAnimation;
 @end

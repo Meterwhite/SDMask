@@ -31,10 +31,10 @@
 #pragma mark - Core
 - (void)show
 {
-    if(!self.model.container) return;
+    if(!self.model.maskOwner) return;
     /// Frame layout
-    [self.model.container addSubview:self];
-    self.frame = [self.model.container bounds];
+    [self.model.maskOwner addSubview:self];
+    self.frame = [self.model.maskOwner bounds];
     [self addSubview:self.model.userView];
     if(_userViewDidLoadBlock) _userViewDidLoadBlock(self.model);
     if(self.model.isUsingAutolayout) [self.model performSelector:@selector(updateConstraints)];
@@ -94,7 +94,12 @@
     if(self = [super init]) {
         _userView = view;
         _model = [[SDMaskModel alloc] initWithUserView:view forMask:(id)self];
-        [self setBackgroundColor:SDMaskModel.defaultBackgroundColor];
+        if(self.model.backgroundColor){
+            [self setBackgroundColor:self.model.backgroundColor];
+        }else{
+            [self setBackgroundColor:SDMaskModel.defaultBackgroundColor];
+        }
+
         [self addTarget:self action:@selector(dismiss:) forControlEvents:UIControlEventTouchUpInside];
         [view setAutoresizingMask:UIViewAutoresizingNone];
         [self setAutoresizingMask:UIViewAutoresizingNone];
@@ -105,23 +110,24 @@
 #pragma mark - System animation
 - (void)systemAnimate:(SDMaskAnimationStyle)animation presentElseDismiss:(BOOL)presentElseDismiss willElseDo:(BOOL)willElseDo
 {
-    CGRect  desRect             = self.userView.bounds;
-    CGFloat desAlphaForUserView = 0.0;
+    CGRect  deBounds= self.userView.bounds;
+    CGRect  deFrame = self.userView.frame;
+    CGFloat deAlpha = 0.0;
     switch (animation) {
         case SDMaskAnimationAlert:
         {
             if(willElseDo){
                 if(!self.model.isUsingAutolayout){
-                    desRect.origin = CGPointMake(SDMaskModel.screenWidth*0.5 - desRect.size.width*0.5, SDMaskModel.screenHeight*0.5 - desRect.size.height*0.5);
-                    self.userView.frame = desRect;
+                    deBounds.origin = CGPointMake(SDMaskModel.screenWidth*0.5 - deBounds.size.width*0.5, SDMaskModel.screenHeight*0.5 - deBounds.size.height*0.5);
+                    self.userView.frame = deBounds;
                 }
             }
             if(willElseDo == presentElseDismiss) {
-                desAlphaForUserView = 0.6;
+                deAlpha = 0.6;
             } else {
-                desAlphaForUserView = 1.0;
+                deAlpha = 1.0;
             }
-            self.userView.alpha = desAlphaForUserView;
+            self.userView.alpha = deAlpha;
         }
             break;
         case SDMaskAnimationActionSheet:
@@ -151,13 +157,61 @@
                 [self layoutIfNeeded];
             } else {
                 if(willElseDo == presentElseDismiss) {
-                    desRect.origin  = CGPointMake(SDMaskModel.screenWidth*0.5 - desRect.size.width*0.5, SDMaskModel.screenHeight);
+                    deBounds.origin  = CGPointMake(SDMaskModel.screenWidth*0.5 - deBounds.size.width*0.5, SDMaskModel.screenHeight);
                 } else {
-                    desRect.origin = CGPointMake(SDMaskModel.screenWidth*0.5 - desRect.size.width*0.5, SDMaskModel.screenHeight - desRect.size.height);
+                    deBounds.origin = CGPointMake(SDMaskModel.screenWidth*0.5 - deBounds.size.width*0.5, SDMaskModel.screenHeight - deBounds.size.height);
                 }
-                self.userView.frame = desRect;
+                self.userView.frame = deBounds;
             }
         }
+            break;
+        case SDMaskAnimationLeftPush:
+        case SDMaskAnimationRightPush:
+        {
+            /// - Autolayout
+            if(self.model.isUsingAutolayout) {
+                NSNumber* userWidth = [self.model valueForKeyPath:@"_autolayoutKeyConstraints.width.constant"];
+                NSString* dDes = animation == SDMaskAnimationLeftPush ? @"left" : @"right";
+                NSLayoutConstraint* hor = [self.model valueForKeyPath:[NSString stringWithFormat:@"_autolayoutKeyConstraints.%@",dDes]];
+                NSLayoutConstraint* horAnimation = [self.model valueForKeyPath:[NSString stringWithFormat:@"_autolayoutKeyConstraints.%@Animation",dDes]];
+                if(userWidth){
+                    /// Push animation
+                    if(presentElseDismiss == willElseDo) {
+                        CGFloat l = (hor.firstItem == self.userView ? -1.0 : 1.0) * userWidth.floatValue;
+                        if(animation == SDMaskAnimationRightPush) l = -l;
+                        hor.constant = l;
+                    } else {
+                        hor.constant = [[self.model valueForKeyPath:[NSString stringWithFormat:@"_autolayoutKeyValues.%@",dDes]] floatValue];
+                    }
+                } else {
+                    /// Bottom switch to top animation
+                    if(presentElseDismiss == willElseDo) {
+                        [hor setActive:NO];
+                        [horAnimation setActive:YES];
+                    } else {
+                        [hor setActive:YES];
+                        [horAnimation setActive:NO];
+                    }
+                }
+                [self setNeedsLayout];
+                [self layoutIfNeeded];
+            }
+            /// - Frame layout
+            else {
+                if(willElseDo == presentElseDismiss) {
+                    CGFloat x = animation == SDMaskAnimationLeftPush ? - deFrame.size.width : SDMaskModel.screenWidth;
+                    deFrame.origin = CGPointMake(x, deFrame.origin.y);
+                    /// Hide
+                }else{
+                    CGFloat x = animation == SDMaskAnimationLeftPush ? 0 : SDMaskModel.screenWidth - deBounds.size.width;
+                    deFrame.origin = CGPointMake(x, deFrame.origin.y);
+                }
+                [self.model setValue:@(NO) forKey:@"_isUsingAutolayout"];
+                self.userView.frame = deFrame;
+            }
+        }
+            break;
+        default:
             break;
     }
 }

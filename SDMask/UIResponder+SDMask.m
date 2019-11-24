@@ -30,7 +30,7 @@
             }
         } while (0);
         UIResponder<SDMaskProtocol>* mask = [[cls alloc] initWithUserView:userView];
-        mask.model.container = self;
+        mask.model.maskOwner = self;
         return mask;
     };
 }
@@ -50,7 +50,7 @@
             }
         } while (0);
         SDMask* mask = [[cls alloc] initWithUserView:userView];
-        mask.model.container = self;
+        mask.model.maskOwner = self;
         mask.model.animte = SDMaskAnimationAlert;
         return mask;
     };
@@ -71,7 +71,7 @@
             }
         } while (0);
         SDMask* mask = [[cls alloc] initWithUserView:userView];
-        mask.model.container = self;
+        mask.model.maskOwner = self;
         mask.model.animte = SDMaskAnimationActionSheet;
         return mask;
     };
@@ -81,43 +81,47 @@
 
 @implementation UIView (SDMaskExtension)
 
-- (void)sdm_showAlertUsingBlock:(NS_NOESCAPE SDMaskSettingBlock)block
+- (nonnull SDMask*)sdm_showAlertUsingBlock:(NS_NOESCAPE SDMaskSettingBlock)block
 {
     id<SDMaskProtocol> mask = [[SDMaskController alloc] initWithUserView:self];
     mask.model.animte = SDMaskAnimationAlert;
     if(block) block(mask);
     [mask show];
+    return mask;
 }
 
-- (void)sdm_showActionSheetUsingBlock:(NS_NOESCAPE SDMaskSettingBlock)block
+- (nonnull SDMask*)sdm_showActionSheetUsingBlock:(NS_NOESCAPE SDMaskSettingBlock)block
 {
     id<SDMaskProtocol> mask = (id)[[SDMaskController alloc] initWithUserView:self];
     mask.model.animte = SDMaskAnimationActionSheet;
     if(block) block(mask);
     [mask show];
+    return mask;
 }
 
-- (void)sdm_showAlertIn:(UIView *)superview usingBlock:(NS_NOESCAPE SDMaskSettingBlock)block
+- (nonnull SDMask*)sdm_showAlertIn:(UIView *)superview usingBlock:(NS_NOESCAPE SDMaskSettingBlock)block
 {
     id<SDMaskProtocol> mask = [[SDMaskView alloc] initWithUserView:self];
     mask.model.animte = SDMaskAnimationAlert;
-    mask.model.container = superview;
+    mask.model.maskOwner = superview;
     if(block) block(mask);
     [mask show];
+    return mask;
 }
 
-- (void)sdm_showActionSheetIn:(UIView *)superview usingBlock:(NS_NOESCAPE  SDMaskSettingBlock)block
+- (nonnull SDMask*)sdm_showActionSheetIn:(UIView *)superview usingBlock:(NS_NOESCAPE  SDMaskSettingBlock)block
 {
     id<SDMaskProtocol> mask = [[SDMaskView alloc] initWithUserView:self];
     mask.model.animte = SDMaskAnimationActionSheet;
-    mask.model.container = superview;
+    mask.model.maskOwner = superview;
     if(block) block(mask);
     [mask show];
+    return mask;
 }
 
 static char keyForBindingKey = '\0';
 
-- (instancetype)sdm_withBindingKey:(id)key
+- (instancetype)sdm_userViewWithBindingKey:(id)key
 {
     objc_setAssociatedObject(self, &keyForBindingKey, key, OBJC_ASSOCIATION_COPY_NONATOMIC);
     return self;

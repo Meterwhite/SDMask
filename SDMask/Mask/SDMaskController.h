@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "SDMaskProtocol.h"
 
-/// Documentation is in the protocol SDMask.
+/// Documentation in 'SDMaskProtocol.h'
 @interface SDMaskController: UIViewController
 <
     SDMaskProtocol

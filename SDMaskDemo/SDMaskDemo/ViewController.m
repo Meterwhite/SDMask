@@ -20,6 +20,105 @@
  */
 @implementation ViewController
 
+#pragma mark - User demos
+- (void)demoBegin
+{
+    /// User view is content view in mask view.
+    TUserActionSheet* userView;
+    
+    /// This is mask view.It controls all.
+    /// There are tow way to begin.
+    /// 1. Begin with userView and wrap it with generics.
+    SDMaskUserView(userView);
+    /// 2. Begin with view's owner and wrap it with generics.
+    SDMaskWith(self, userView);/// Owner is controller
+    SDMaskWith(self.view, userView);/// Owner is controller's view
+}
+
+- (void)demoSimple
+{
+    TUserActionSheet* userView;
+    [SDMaskUserView(userView) sdm_showActionSheetUsingBlock:^(SDMask<TUserActionSheet *> * _Nonnull mask) {
+        /// Frame layout : Set size
+        mask.userView.frame = CGRectNull;
+        /// User work.
+        [userView didTapSomething:^{
+            /// ...
+            [mask dismiss];
+        }];
+    }];
+}
+
+- (void)demoBindEvents
+{
+    TUserActionSheet* userView;
+    [SDMaskUserView(userView) sdm_showActionSheetIn:self.view usingBlock:^(SDMask<TUserActionSheet *> * _Nonnull mask) {
+        /// Bind cancel button
+        [mask bindEventForCancelControl:userView.actionCancel_1];
+        /// Bind other controls
+        [mask bindEventForControls:@[userView.action0, [userView.action1 sdm_userViewWithBindingKey:@"$"]]];
+        ///Handle binding events
+        [mask bindingEventsUsingBlock:^(SDMaskBindingEvent<TUserActionSheet *> * _Nonnull event) {
+            /// Use mark key.
+            if([event.key isEqualToString:@"$"]){
+                /// ...
+                return;
+            }
+            /// Or use index.
+            switch (event.index) {
+                case 0:
+                    /// ...
+                    break;
+                default:
+                    break;
+            }
+        }];
+    }];
+}
+
+- (void)demoCustomAnimation
+{
+    TUserActionSheet* userView;
+    [SDMaskUserView(userView) sdm_showAlertUsingBlock:^(SDMask<TUserActionSheet *> * _Nonnull mask) {
+        [[[[mask userViewPresentationWillAnimate:^(SDMaskModel<TUserActionSheet *> * _Nonnull model) {
+            model.userView.frame = CGRectNull;
+        }] userViewPresentationDoAnimations:^(SDMaskModel<TUserActionSheet *> * _Nonnull model) {
+            model.userView.frame = CGRectNull;
+        }] userViewDismissionDoAnimations:^(SDMaskModel<TUserActionSheet *> * _Nonnull model) {
+            model.userView.frame = CGRectNull;
+        }] disableSystemAnimation];
+    }];
+}
+
+- (void)demoUsingMask
+{
+    TUserActionSheet* userView;
+    SDMask<TUserActionSheet*>* mask = SDMaskWith(self, userView);
+    mask.model.animte = SDMaskAnimationActionSheet;
+    mask.model.autoDismiss = YES;
+    [mask userViewDidLoad:^(SDMaskModel<TUserActionSheet *> * _Nonnull model) {
+        /// Layout...
+    }];
+    /// Bind events
+    [mask bindEventForCancelControl:userView.actionCancel_1];
+    /// ...
+    /// ...
+    [mask show];
+}
+
+- (void)demoCircularReference
+{
+    /// Wrong:
+    UIButton* cancle;
+    SDMask* outMask;
+    [outMask userViewDidLoad:^(SDMaskModel * _Nonnull model) {
+        [outMask bindEventForCancelControl:cancle];/// Referenc the out value.
+    }];
+    /// Reason: mask -> block(userViewDidLoad) -> mask
+}
+
+
+#pragma mark - Lib test
 #pragma mark - Frame layout
 - (IBAction)actionAlert:(id)sender {
     UIView* userView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 280, 200)];
@@ -31,7 +130,7 @@
     }];
 #else
     /// Custom animation
-    [userView sdm_showAlertIn:self.view usingBlock:^(SDMask<UIView*>* mask) {
+    [SDMaskUserView(userView) sdm_showAlertIn:self.view usingBlock:^(SDMask<UIView*>* mask) {
         [[[[[mask userViewPresentationWillAnimate:^(SDMaskModel<UIView*> * model) {
             CGRect frame = userView.frame;
             frame.origin = CGPointMake(0, 0);
@@ -50,22 +149,39 @@
 }
 
 - (IBAction)actionActionSheet:(UIButton *)sender {
-    UIView* userView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 280, 180)];
-    [userView setBackgroundColor:UIColor.whiteColor];
-#ifdef DEBUG
-    [userView sdm_showActionSheetUsingBlock:nil];
-#else
-    [userView sdm_showActionSheetIn:self.view usingBlock:nil];
-#endif
+//    UIView* userView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 280, 180)];
+//    [userView setBackgroundColor:UIColor.whiteColor];
+//#ifdef DEBUG
+//    [userView sdm_showActionSheetUsingBlock:nil];
+//#else
+//    [[userView sdm_showActionSheetIn:self.view usingBlock:nil] usingAutoDismiss];
+//#endif
+    
+    {
+//        TUserAlertView* userView = [[NSBundle mainBundle] loadNibNamed:@"TUserAlertView" owner:nil options:nil].firstObject;
+//        userView.frame = CGRectMake(0, 200, 100, 100);
+//        SDMask* mask = SDMaskWith(self.view, userView);
+////        mask.model.animte = SDMaskAnimationRightPush;
+//        mask.model.animte = SDMaskAnimationRightPush;
+//        [mask userViewDidLoad:^(SDMaskModel * _Nonnull model) {
+//            model.setAutolayoutValueForKey(@(0), @"right");
+////            model.setAutolayoutValueForKey(@(0), @"left");
+////            model.setAutolayoutValueForKey(@(150), @"width");
+//            model.setAutolayoutValueForKey(@(150), @"height");
+//            model.setAutolayoutValueForKey(@(0), @"centerY");
+//        }];
+//        [mask usingAutoDismiss];
+//        [mask show];
+    }
 }
 
 #pragma mark - SDAutolayout
 - (IBAction)sdAutolayoutAlert:(id)sender {
     TUserAlertView* userView = [[NSBundle mainBundle] loadNibNamed:@"TUserAlertView" owner:nil options:nil].firstObject;
 #ifdef DEBUG
-    SDMask<TUserAlertView*>* mask = self.view.sdm_maskWith(userView);
+    SDMask<TUserAlertView*>* mask = SDMaskWith(self.view, userView);
 #else
-    SDMask<TUserAlertView*>* mask = self.sdm_maskWith(userView);
+    SDMask<TUserAlertView*>* mask = SDMaskWith(self, userView);
 #endif
     [mask userViewDidLoad:^(SDMaskModel<TUserAlertView*> *model) {
         model.animte = SDMaskAnimationAlert;
@@ -142,9 +258,9 @@
     [mask userViewDidLoad:^(SDMaskModel<TUserAlertView*> *model) {
         model.animte = SDMaskAnimationAlert;
         [model.userView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.center.equalTo(model.containerView);
-            make.left.equalTo(model.containerView.mas_left).offset(20);
-            make.right.equalTo(model.containerView.mas_right).offset(-20);
+            make.center.equalTo(model.superview);
+            make.left.equalTo(model.superview.mas_left).offset(20);
+            make.right.equalTo(model.superview.mas_right).offset(-20);
         }];
     }];
     [[[mask bindEventForCancelControl:userView.cancelButton_1] usingAutoDismiss] show];
@@ -164,9 +280,9 @@
     [mask userViewDidLoad:^(SDMaskModel<TUserActionSheet*> * model) {
         model.animte = SDMaskAnimationActionSheet;
         [model.userView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.bottom.equalTo(model.containerView.mas_bottom).priorityHigh();
-            make.left.equalTo(model.containerView.mas_left).offset(15).priorityHigh();
-            make.right.equalTo(model.containerView.mas_right).offset(-15).priorityHigh();
+            make.bottom.equalTo(model.superview.mas_bottom).priorityHigh();
+            make.left.equalTo(model.superview.mas_left).offset(15).priorityHigh();
+            make.right.equalTo(model.superview.mas_right).offset(-15).priorityHigh();
         }];
     }];
     [[[mask bindEventForCancelControl:userView.actionCancel_1] usingAutoDismiss] show];

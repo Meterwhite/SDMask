@@ -13,8 +13,23 @@
 @class SDMaskBindingEvent;
 @protocol SDMaskProtocol;
 typedef enum : NSUInteger {
-    SDMaskAnimationAlert,
-    SDMaskAnimationActionSheet
+    /**
+     * Fade in and out from the center
+     */
+    SDMaskAnimationAlert        =   0,
+    /**
+     * Push the view from the bottom center
+     */
+    SDMaskAnimationActionSheet  =   1,
+    /**
+     * Push the view from the left
+     */
+    SDMaskAnimationLeftPush     =   2,
+    /**
+     * Push the view from the right
+     */
+    SDMaskAnimationRightPush    =   3,
+    SDMaskAnimationCustom       =   8964
 } SDMaskAnimationStyle;
 
 /**
@@ -25,12 +40,14 @@ typedef enum : NSUInteger {
 #pragma mark - View
 /// Need!
 @property (nullable,nonatomic,weak) TUserView userView;
-/// Need! Who present mask.It is view or controller.For controller sometimes this peoperty may not instead of weak self,if controller not be specified.
-@property (nullable,nonatomic,weak) __kindof UIResponder* container;
+/// Need! The owner present current mask view.It may be view or controller.For controller sometimes this peoperty may not instead of weak self,if controller not be specified.
+@property (nullable,nonatomic,weak) __kindof UIResponder* maskOwner;
 /// Super view for user view.
-@property (nullable,nonatomic,readonly) UIView* containerView;
+@property (nullable,nonatomic,readonly) UIView* superview;
 /// This mask object.
-@property (nullable,nonatomic,weak) SDMask*  thisMask;
+@property (nullable,nonatomic,weak) SDMask* thisMask;
+/// Default nil.
+@property (nullable,nonatomic,strong) UIColor* backgroundColor;
 
 #pragma mark - Animation
 /// Default 'YES'. 'NO' means user makes animation himself, otherwise there will be no animation.
@@ -40,7 +57,7 @@ typedef enum : NSUInteger {
 @property (nonatomic) NSTimeInterval presentTime;
 /// Default 0.25
 @property (nonatomic) NSTimeInterval dismissTime;
-///  Alert default NO. Action sheet Default YES.
+///  Default NO.
 @property (nonatomic) BOOL autoDismiss;
 
 #pragma mark - Bind events
