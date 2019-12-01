@@ -149,29 +149,37 @@
 }
 
 - (IBAction)actionActionSheet:(UIButton *)sender {
-    UIView* userView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 280, 180)];
-    [userView setBackgroundColor:UIColor.whiteColor];
-#ifdef DEBUG
-    [userView sdm_showActionSheetUsingBlock:nil];
-#else
-    [[userView sdm_showActionSheetIn:self.view usingBlock:nil] usingAutoDismiss];
-#endif
+//    UIView* userView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 280, 180)];
+//    [userView setBackgroundColor:UIColor.whiteColor];
+//#ifdef DEBUG
+//    [userView sdm_showActionSheetUsingBlock:nil];
+//#else
+//    [[userView sdm_showActionSheetIn:self.view usingBlock:nil] usingAutoDismiss];
+//#endif
     
     {
-//        TUserAlertView* userView = [[NSBundle mainBundle] loadNibNamed:@"TUserAlertView" owner:nil options:nil].firstObject;
-//        userView.frame = CGRectMake(0, 200, 100, 100);
-//        SDMask* mask = SDMaskWith(self.view, userView);
-////        mask.model.animte = SDMaskAnimationRightPush;
-//        mask.model.animte = SDMaskAnimationRightPush;
-//        [mask userViewDidLoad:^(SDMaskModel * _Nonnull model) {
-//            model.setAutolayoutValueForKey(@(0), @"right");
-////            model.setAutolayoutValueForKey(@(0), @"left");
-////            model.setAutolayoutValueForKey(@(150), @"width");
+        TUserAlertView* userView = [[NSBundle mainBundle] loadNibNamed:@"TUserAlertView" owner:nil options:nil].firstObject;
+        userView.frame = CGRectMake(0, 200, 100, 100);
+        SDMask* mask = SDMaskWith(self.view, userView);
+        mask.model.animte = SDMaskAnimationRightPush;
+//        mask.model.animte = SDMaskAnimationLeftPush;
+        [mask userViewDidLoad:^(SDMaskModel * _Nonnull model) {
+////            model.setAutolayoutValueForKey(@(0), @"right");
+//            model.setAutolayoutValueForKey(@(0), @"left");
+//            model.setAutolayoutValueForKey(@(150), @"width");
 //            model.setAutolayoutValueForKey(@(150), @"height");
 //            model.setAutolayoutValueForKey(@(0), @"centerY");
-//        }];
-//        [mask usingAutoDismiss];
-//        [mask show];
+            
+            [model.userView mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.top.equalTo(model.superview.mas_top);
+//                make.left.equalTo(model.superview.mas_left);
+                make.right.equalTo(model.superview.mas_right);
+                make.bottom.equalTo(model.superview.mas_bottom);
+                make.width.offset(128);
+            }];
+        }];
+        [mask usingAutoDismiss];
+        [mask show];
     }
 }
 

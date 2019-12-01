@@ -6,6 +6,7 @@
 //  Copyright © 2019 MeterWhite. All rights reserved.
 //
 
+#import "SDMaskNotificationName.h"
 #import "SDMaskBindingEvent.h"
 #import "UIResponder+SDMask.h"
 #import "SDMaskInterface.h"
@@ -55,9 +56,9 @@
 - (void)actionTap:(id)object
 {
     SDMaskUserBindingEventBlock eventCenterBlock = [self.model valueForKey:@"_blockForBindingEventsUsingBlock"];
-    NSMutableDictionary*       eventMap         = [self.model valueForKey:@"_blockForBindingEventForUsingBlock"];
-    SDMaskUserBindingEventBlock eventBlock       = nil;
-    UIView*                    control          = nil;
+    NSMutableDictionary*        eventMap         = [self.model valueForKey:@"_blockForBindingEventForUsingBlock"];
+    SDMaskUserBindingEventBlock eventBlock = nil;
+    UIView*                     control    = nil;
     /// Event center first.
     self.model.latestEvent = self;
     if(eventCenterBlock) eventCenterBlock(self);
@@ -72,6 +73,7 @@
         if ((eventBlock = eventMap[@(self.index)])) break;
         if (self.key && (eventBlock = eventMap[self.key])) break;
     } while (0);
+    [[NSNotificationCenter defaultCenter] postNotificationName:SDMaskNotificationName.userInteraction object:control userInfo:@{@"event":self}];
     if(eventBlock) eventBlock(self);
     /// Handling default behavior.
     if(self.index == -1 || _needKeepMask == NO) [self.model.thisMask dismiss];

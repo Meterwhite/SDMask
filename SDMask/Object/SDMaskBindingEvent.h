@@ -11,7 +11,7 @@
 #import "SDMaskModel.h"
 
 /**
- *  This object is from user interaction.
+ *  This object is from user`s interaction.
  */
 @interface SDMaskBindingEvent<__covariant TUserView> : NSObject
 /// Kind of UIView.

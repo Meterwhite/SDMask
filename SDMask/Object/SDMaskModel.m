@@ -6,11 +6,12 @@
 //  Copyright © 2019 MeterWhite. All rights reserved.
 //
 
-#import <objc/runtime.h>
+#import "SDMaskNotificationName.h"
 #import "UIResponder+SDMask.h"
 #import "SDMaskController.h"
-#import "SDMaskModel.h"
 #import "SDMaskProtocol.h"
+#import <objc/runtime.h>
+#import "SDMaskModel.h"
 
 @implementation SDMaskModel
 {
@@ -32,6 +33,7 @@
         _presentTime            = 0.2;
         _usingSystemAnimation   = YES;
         _autoDismiss            = NO;
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(whatNotification:) name:SDMaskNotificationName.needDismiss object:nil];
     }
     return self;
 }
@@ -132,7 +134,6 @@
             [constraintsForSuper addObject:cst = [self makeConstraint:NSLayoutAttributeTrailing value:[value floatValue]]];
             _autolayoutKeyConstraints[key] = cst;
             /// System animation.
-//            NSLayoutConstraint* rightAnimation = [NSLayoutConstraint constraintWithItem:self.userView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.superview attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:0];
             NSLayoutConstraint* rightAnimation = [NSLayoutConstraint constraintWithItem:self.superview attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.userView attribute:NSLayoutAttributeLeading multiplier:1.0 constant:0];
             rightAnimation.identifier = SDMaskAnimationKey;
             [constraintsForSuper addObject:rightAnimation];
@@ -233,7 +234,7 @@
 {
     [self.userView setTranslatesAutoresizingMaskIntoConstraints:NO];
     NSArray<NSLayoutConstraint*>* cstForUserView = [self.userView constraints];
-    NSArray<NSLayoutConstraint*>* cstForContainer = [self.superview constraints];
+    NSArray<NSLayoutConstraint*>* cstForSuperview= [self.superview constraints];
     if(!_autolayoutKeyConstraints){
         _autolayoutKeyConstraints = [NSMutableDictionary dictionary];
     }
@@ -245,7 +246,7 @@
             _autolayoutKeyConstraints[@"height"] = cst;
         }
     }
-    for (NSLayoutConstraint* cst in cstForContainer) {
+    for (NSLayoutConstraint* cst in cstForSuperview) {
         NSLayoutAttribute attr  = NSLayoutAttributeNotAnAttribute;
         id key                  = nil;
         if (__builtin_available(iOS 9.0, *)) {
@@ -274,6 +275,14 @@
             case NSLayoutAttributeLeading:
             {
                 key = @"left";
+                {
+                    NSLayoutConstraint* leftAnimation = [NSLayoutConstraint constraintWithItem:self.superview attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.userView attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:0];
+                    [leftAnimation setIdentifier:SDMaskAnimationKey];
+                    _autolayoutKeyConstraints[@"leftAnimation"] = leftAnimation;
+                    [leftAnimation setPriority:(UILayoutPriorityRequired -1)];
+                    [self.superview addConstraint:leftAnimation];
+                    [leftAnimation setActive:NO];
+                }
             }
                 break;
             case NSLayoutAttributeBottom:
@@ -281,6 +290,7 @@
                 key = @"bottom";
                 {
                     NSLayoutConstraint* bottomAnimation = [NSLayoutConstraint constraintWithItem:self.superview attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.userView attribute:NSLayoutAttributeTop multiplier:1.0 constant:0];
+                    [bottomAnimation setIdentifier:SDMaskAnimationKey];
                     _autolayoutKeyConstraints[@"bottomAnimation"] = bottomAnimation;
                     [bottomAnimation setPriority:(UILayoutPriorityRequired -1)];
                     [self.superview addConstraint:bottomAnimation];
@@ -292,6 +302,14 @@
             case NSLayoutAttributeTrailing:
             {
                 key = @"right";
+                {
+                    NSLayoutConstraint* rightAnimation = [NSLayoutConstraint constraintWithItem:self.userView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.superview attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:0];
+                    [rightAnimation setIdentifier:SDMaskAnimationKey];
+                    _autolayoutKeyConstraints[@"rightAnimation"] = rightAnimation;
+                    [rightAnimation setPriority:(UILayoutPriorityRequired -1)];
+                    [self.superview addConstraint:rightAnimation];
+                    [rightAnimation setActive:NO];
+                }
             }
                 break;
             case NSLayoutAttributeCenterX:
@@ -307,6 +325,16 @@
             default: break;
         }
         if(key) _autolayoutKeyConstraints[key] = cst;
+    }
+}
+
+#pragma mark - Notification
+- (void)whatNotification:(NSNotification*)notify
+{
+    if(notify.object && notify.object != self.thisMask && notify.object != self.userView) return;
+    
+    if([notify.name isEqualToString:SDMaskNotificationName.needDismiss]){
+        [(id<SDMaskProtocol>)self.thisMask dismiss];
     }
 }
 

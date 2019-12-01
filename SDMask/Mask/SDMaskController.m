@@ -6,6 +6,8 @@
 //  Copyright © 2016年 MeterWhite. All rights reserved.
 //
 
+#import "NSLayoutConstraint+SDMask.h"
+#import "SDMaskNotificationName.h"
 #import "SDMaskBindingEvent.h"
 #import "UIResponder+SDMask.h"
 #import "SDMaskController.h"
@@ -25,8 +27,8 @@
     SDMaskUserBlock _userViewDismissionDoAnimationsBlock;
     SDMaskUserBlock _userViewDismissionCompletedBlock;
 }
-@synthesize userView    = _userView;
-@synthesize model       = _model;
+@synthesize userView = _userView;
+@synthesize model    = _model;
 
 #pragma mark - Core
 - (void)show
@@ -153,9 +155,14 @@
                 if(userHeight){
                     /// Height animation
                     if(presentElseDismiss == willElseDo) {
+                        [bottom takeConstantSnapshot];
                         bottom.constant = (bottom.firstItem == self.userView ? 1.0 : -1.0) * userHeight.floatValue;
                     } else {
-                        bottom.constant = [[self.model valueForKeyPath:@"_autolayoutKeyValues.bottom"] floatValue];
+                        /**
+                         * bottom.constant = [[self.model valueForKeyPath:@"_autolayoutKeyValues.bottom"] floatValue];
+                         * The fowlloed code is berter.
+                         */
+                        bottom.constant = bottom.constantSnapshot;
                     }
                 } else {
                     /// Bottom switch to top animation
@@ -196,9 +203,10 @@
                     if(presentElseDismiss == willElseDo) {
                         CGFloat l = (hor.firstItem == self.userView ? -1.0 : 1.0) * userWidth.floatValue;
                         if(animation == SDMaskAnimationRightPush) l = -l;
+                        [hor takeConstantSnapshot];
                         hor.constant = l;
                     } else {
-                        hor.constant = [[self.model valueForKeyPath:[NSString stringWithFormat:@"_autolayoutKeyValues.%@",dDes]] floatValue];
+                        hor.constant = hor.constantSnapshot;
                     }
                 } else {
                     /// Bottom switch to top animation

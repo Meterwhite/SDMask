@@ -27,25 +27,6 @@ typedef void(^SDMaskSettingBlock)(SDMask* _Nonnull mask);
 #define SDActionsheetMaskWith(owner, userView) \
 ((SDMask<typeof(userView)>*)owner.sdm_actionSheetMaskWith(userView))
 
-/// Extension for mask view`s owner.
-@interface UIResponder(SDMaskExtension)
-/**
- *  Get default SDMask object from its presenter.
- */
-@property (nonnull,nonatomic,copy,readonly) SDMask* _Nonnull
-(^sdm_maskWith)(UIView* _Nonnull userView);
-/**
-*  Get alert style SDMask object from its presenter.
-*/
-@property (nonnull,nonatomic,copy,readonly) SDMask* _Nonnull
-(^sdm_alertMaskWith)(UIView* _Nonnull userView);
-/**
-*  Get action sheet style SDMask object from its presenter.
-*/
-@property (nonnull,nonatomic,copy,readonly) SDMask* _Nonnull
-(^sdm_actionSheetMaskWith)(UIView* _Nonnull userView);
-@end
-
 
 /**
  * Extension for mask content view.
@@ -66,6 +47,10 @@ typedef void(^SDMaskSettingBlock)(SDMask* _Nonnull mask);
  *  Show mask view with user view.You can do something in block.
  */
 - (nonnull SDMask*)sdm_showActionSheetUsingBlock:(nullable NS_NOESCAPE SDMaskSettingBlock)block;
+
+- (nonnull SDMask*)sdm_showLeftPushUsingBlock:(nullable NS_NOESCAPE SDMaskSettingBlock)block;
+
+- (nonnull SDMask*)sdm_showRightPushUsingBlock:(nullable NS_NOESCAPE SDMaskSettingBlock)block;
 /**
  *  Show mask view from specified view with user view.You can do something in block.
  */
@@ -74,6 +59,10 @@ typedef void(^SDMaskSettingBlock)(SDMask* _Nonnull mask);
  *  Show mask view from specified view with user view.You can do something in block.
  */
 - (nonnull SDMask*)sdm_showActionSheetIn:(nonnull UIView*)superview usingBlock:(nullable NS_NOESCAPE SDMaskSettingBlock)block;
+
+- (nonnull SDMask*)sdm_showLeftPushIn:(nonnull UIView*)superview usingBlock:(nullable NS_NOESCAPE SDMaskSettingBlock)block;
+
+- (nonnull SDMask*)sdm_showRightPushIn:(nonnull UIView*)superview usingBlock:(nullable NS_NOESCAPE SDMaskSettingBlock)block;
 
 #pragma mark - Bind key
 /**
@@ -87,4 +76,30 @@ typedef void(^SDMaskSettingBlock)(SDMask* _Nonnull mask);
 
 #pragma mark - Safe area
 @property (nonnull,nonatomic,readonly)id sdm_safeGuide;
+@end
+
+
+/// Extension for mask view`s owner.
+@interface UIResponder(SDMaskExtension)
+/**
+ *  Get default SDMask object from its presenter.
+ */
+@property (nonnull,nonatomic,copy,readonly) SDMask* _Nonnull
+(^sdm_maskWith)(UIView* _Nonnull userView);
+/**
+ *  Get alert style SDMask object from its presenter.
+ */
+@property (nonnull,nonatomic,copy,readonly) SDMask* _Nonnull
+(^sdm_alertMaskWith)(UIView* _Nonnull userView);
+/**
+ *  Get action sheet style SDMask object from its presenter.
+ */
+@property (nonnull,nonatomic,copy,readonly) SDMask* _Nonnull
+(^sdm_actionSheetMaskWith)(UIView* _Nonnull userView);
+
+@property (nonnull,nonatomic,copy,readonly) SDMask* _Nonnull
+(^sdm_leftPushMaskWith)(UIView* _Nonnull userView);
+
+@property (nonnull,nonatomic,copy,readonly) SDMask* _Nonnull
+(^sdm_rightPushMaskWith)(UIView* _Nonnull userView);
 @end
