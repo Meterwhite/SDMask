@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "SDMaskProtocol.h"
 
-typedef void(^SDMaskSettingBlock)(SDMask* _Nonnull mask);
+typedef void(^SDMaskSettingBlock)(SDMask *_Nonnull mask);
 /**
  * Begin with view's owner and wrap it with generics.
  * owner : Object whitch present mask view.
@@ -30,8 +30,8 @@ typedef void(^SDMaskSettingBlock)(SDMask* _Nonnull mask);
 
 /**
  * Extension for mask content view.
- * [userView sdm_showAlertUsingBlock:^(Mask* mask){
- *      [mask ...^(SDMaskModel* model){
+ * [userView sdm_showAlertUsingBlock:^(Mask *mask){
+ *      [mask ...^(SDMaskModel *model){
  * Wrong:    [mask ...];//caused circular references.
  * Right:    [model.thisMask ...];
  *      }];
@@ -51,6 +51,8 @@ typedef void(^SDMaskSettingBlock)(SDMask* _Nonnull mask);
 - (nonnull SDMask*)sdm_showLeftPushUsingBlock:(nullable NS_NOESCAPE SDMaskSettingBlock)block;
 
 - (nonnull SDMask*)sdm_showRightPushUsingBlock:(nullable NS_NOESCAPE SDMaskSettingBlock)block;
+
+- (nonnull SDMask*)sdm_showHUDUsingBlock:(nullable NS_NOESCAPE SDMaskSettingBlock)block;
 /**
  *  Show mask view from specified view with user view.You can do something in block.
  */
@@ -63,6 +65,8 @@ typedef void(^SDMaskSettingBlock)(SDMask* _Nonnull mask);
 - (nonnull SDMask*)sdm_showLeftPushIn:(nonnull UIView*)superview usingBlock:(nullable NS_NOESCAPE SDMaskSettingBlock)block;
 
 - (nonnull SDMask*)sdm_showRightPushIn:(nonnull UIView*)superview usingBlock:(nullable NS_NOESCAPE SDMaskSettingBlock)block;
+
+- (nonnull SDMask*)sdm_showHUDIn:(nonnull UIView*)superview usingBlock:(nullable NS_NOESCAPE SDMaskSettingBlock)block;
 
 #pragma mark - Bind key
 /**
@@ -84,22 +88,25 @@ typedef void(^SDMaskSettingBlock)(SDMask* _Nonnull mask);
 /**
  *  Get default SDMask object from its presenter.
  */
-@property (nonnull,nonatomic,copy,readonly) SDMask* _Nonnull
-(^sdm_maskWith)(UIView* _Nonnull userView);
+@property (nonnull,nonatomic,copy,readonly) SDMask *_Nonnull
+(^sdm_maskWith)(UIView *_Nonnull userView);
 /**
  *  Get alert style SDMask object from its presenter.
  */
-@property (nonnull,nonatomic,copy,readonly) SDMask* _Nonnull
-(^sdm_alertMaskWith)(UIView* _Nonnull userView);
+@property (nonnull,nonatomic,copy,readonly) SDMask *_Nonnull
+(^sdm_alertMaskWith)(UIView *_Nonnull userView);
 /**
  *  Get action sheet style SDMask object from its presenter.
  */
-@property (nonnull,nonatomic,copy,readonly) SDMask* _Nonnull
-(^sdm_actionSheetMaskWith)(UIView* _Nonnull userView);
+@property (nonnull,nonatomic,copy,readonly) SDMask *_Nonnull
+(^sdm_actionSheetMaskWith)(UIView *_Nonnull userView);
 
-@property (nonnull,nonatomic,copy,readonly) SDMask* _Nonnull
-(^sdm_leftPushMaskWith)(UIView* _Nonnull userView);
+@property (nonnull,nonatomic,copy,readonly) SDMask *_Nonnull
+(^sdm_leftPushMaskWith)(UIView *_Nonnull userView);
 
-@property (nonnull,nonatomic,copy,readonly) SDMask* _Nonnull
-(^sdm_rightPushMaskWith)(UIView* _Nonnull userView);
+@property (nonnull,nonatomic,copy,readonly) SDMask *_Nonnull
+(^sdm_rightPushMaskWith)(UIView *_Nonnull userView);
+
+@property (nonnull,nonatomic,copy,readonly) SDMask *_Nonnull
+(^sdm_HUDMaskWith)(UIView *_Nonnull userView);
 @end

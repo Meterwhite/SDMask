@@ -14,7 +14,7 @@
 #import "SDMaskModel.h"
 
 @interface SDMaskController ()
-@property UIView* userView;
+@property UIView *userView;
 @end
 
 @implementation SDMaskController
@@ -43,7 +43,13 @@
 - (void)dismiss:(id)obj
 {
     if(obj == self.view && !self.model.autoDismiss) return;
-    [self dismiss];
+    if(self.model.dismissDelayTime > 0){
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(self.model.dismissDelayTime * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self dismiss];
+        });
+    }else{
+        [self dismiss];
+    }
 }
 
 - (void)dismiss
@@ -65,7 +71,7 @@
 
 - (void)loadView
 {
-    UIButton* newView = [UIButton buttonWithType:UIButtonTypeCustom];
+    UIButton *newView = [UIButton buttonWithType:UIButtonTypeCustom];
     if(self.model.backgroundColor){
         [newView setBackgroundColor:self.model.backgroundColor];
     }else{
@@ -90,6 +96,7 @@
     SDMaskUserBlock willAnimate      = nil;
     SDMaskUserBlock willDoneAnimate  = nil;
     SDMaskUserBlock completeAnimate  = nil;
+    __block BOOL    appearing        = isAppearing;
     if(self.isBeingPresented) {
         willAnimate     = _userViewPresentationWillAnimateBlock;
         willDoneAnimate = _userViewPresentationDoAnimationsBlock;
@@ -107,6 +114,7 @@
         if(willDoneAnimate) willDoneAnimate(self.model);
     } completion:^(BOOL finished) {
         if(completeAnimate) completeAnimate(self.model);
+        if(appearing && self.model.dismissDelayTime > 0) [self dismiss:nil];
     }];
     [super beginAppearanceTransition:isAppearing animated:animated];
 }
@@ -129,6 +137,7 @@
     CGFloat deAlpha = 0.0;
     switch (animation) {
         case SDMaskAnimationAlert:
+        case SDMaskAnimationHUD:
         {
             if(willElseDo){
                 if(!self.model.isUsingAutolayout){
@@ -145,13 +154,13 @@
             self.userView.alpha = deAlpha;
         }
             break;
-        case SDMaskAnimationActionSheet:
+        case SDMaskAnimationSheet:
         {
             /// - Autolayout
             if(self.model.isUsingAutolayout) {
-                NSNumber* userHeight = [self.model valueForKeyPath:@"_autolayoutKeyConstraints.height.constant"];
-                NSLayoutConstraint* bottom = [self.model valueForKeyPath:@"_autolayoutKeyConstraints.bottom"];
-                NSLayoutConstraint* bottomAnimation = [self.model valueForKeyPath:@"_autolayoutKeyConstraints.bottomAnimation"];
+                NSNumber *userHeight = [self.model valueForKeyPath:@"_autolayoutKeyConstraints.height.constant"];
+                NSLayoutConstraint *bottom = [self.model valueForKeyPath:@"_autolayoutKeyConstraints.bottom"];
+                NSLayoutConstraint *bottomAnimation = [self.model valueForKeyPath:@"_autolayoutKeyConstraints.bottomAnimation"];
                 if(userHeight){
                     /// Height animation
                     if(presentElseDismiss == willElseDo) {
@@ -194,10 +203,10 @@
         {
             /// - Autolayout
             if(self.model.isUsingAutolayout) {
-                NSNumber* userWidth = [self.model valueForKeyPath:@"_autolayoutKeyConstraints.width.constant"];
-                NSString* dDes = animation == SDMaskAnimationLeftPush ? @"left" : @"right";
-                NSLayoutConstraint* hor = [self.model valueForKeyPath:[NSString stringWithFormat:@"_autolayoutKeyConstraints.%@",dDes]];
-                NSLayoutConstraint* horAnimation = [self.model valueForKeyPath:[NSString stringWithFormat:@"_autolayoutKeyConstraints.%@Animation",dDes]];
+                NSNumber *userWidth = [self.model valueForKeyPath:@"_autolayoutKeyConstraints.width.constant"];
+                NSString *dDes = animation == SDMaskAnimationLeftPush ? @"left" : @"right";
+                NSLayoutConstraint *hor = [self.model valueForKeyPath:[NSString stringWithFormat:@"_autolayoutKeyConstraints.%@",dDes]];
+                NSLayoutConstraint *horAnimation = [self.model valueForKeyPath:[NSString stringWithFormat:@"_autolayoutKeyConstraints.%@Animation",dDes]];
                 if(userWidth){
                     /// Push animation
                     if(presentElseDismiss == willElseDo) {
@@ -244,10 +253,10 @@
 #pragma mark - Bind events
 - (id<SDMaskProtocol>)bindEventForControls:(NSArray<UIView *> *)bindingInfo
 {
-    NSMutableArray* bindings = [NSMutableArray array];
+    NSMutableArray *bindings = [NSMutableArray array];
     [bindingInfo enumerateObjectsUsingBlock:^(UIView * item, NSUInteger idx, BOOL * stop) {
         if(item.userInteractionEnabled == NO) [item setUserInteractionEnabled:YES];
-        SDMaskBindingEvent* event = [[SDMaskBindingEvent alloc] initWithSender:item model:self.model atIndex:idx];
+        SDMaskBindingEvent *event = [[SDMaskBindingEvent alloc] initWithSender:item model:self.model atIndex:idx];
         [bindings addObject:event];
     }];
     if(bindings.count){
@@ -258,13 +267,13 @@
 
 - (id<SDMaskProtocol>)bindEventForCancelControl:(id)control
 {
-     SDMaskBindingEvent* event = [[SDMaskBindingEvent alloc] initWithSender:control model:self.model atIndex:-1];
+     SDMaskBindingEvent *event = [[SDMaskBindingEvent alloc] initWithSender:control model:self.model atIndex:-1];
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wundeclared-selector"
     if([control respondsToSelector:@selector(addTarget:action:forControlEvents:)]){
         [control addTarget:event action:@selector(actionTap:) forControlEvents:UIControlEventTouchUpInside];
     } else {
-        UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc] initWithTarget:event action:@selector(actionTap:)];
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:event action:@selector(actionTap:)];
         [control addGestureRecognizer:tap];
     }
 #pragma clang diagnostic pop
@@ -281,7 +290,7 @@
 
 - (id<SDMaskProtocol>)bindingEventFor:(id)indexer usingBlock:(SDMaskUserBindingEventBlock)block
 {
-    NSMutableDictionary* dic = [self.model valueForKey:@"_blockForBindingEventForUsingBlock"];
+    NSMutableDictionary *dic = [self.model valueForKey:@"_blockForBindingEventForUsingBlock"];
     if(!dic){
         dic = [NSMutableDictionary dictionary];
         [self.model setValue:dic forKey:@"_blockForBindingEventForUsingBlock"];

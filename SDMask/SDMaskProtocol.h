@@ -16,13 +16,13 @@
  * Use Strongly referenced 'userView' in this block is safe.
  * Strongly referenced 'mask' object in block will cause circular references.Because mask retaind this block.
  */
-typedef void(^SDMaskUserBlock)(SDMaskModel* _Nonnull model);
+typedef void(^SDMaskUserBlock)(SDMaskModel *_Nonnull model);
 
 /**
  * Use Strongly referenced 'userView' in this block is safe.
  * Strongly referenced 'mask' object in block will cause circular references.Because mask retaind this block.
  */
-typedef void(^SDMaskUserBindingEventBlock)(SDMaskBindingEvent* _Nonnull event);
+typedef void(^SDMaskUserBindingEventBlock)(SDMaskBindingEvent *_Nonnull event);
 
 @class SDMask;
 
@@ -30,7 +30,7 @@ typedef void(^SDMaskUserBindingEventBlock)(SDMaskBindingEvent* _Nonnull event);
 
 @property (nullable,nonatomic,readonly) id userView;
 #pragma mark - Properties
-@property (nullable,nonatomic,readonly) SDMaskModel* model;
+@property (nullable,nonatomic,readonly) SDMaskModel *model;
 #pragma mark - Init
 - (nonnull id<SDMaskProtocol>)initWithUserView:(nonnull UIView*)view;
 #pragma mark - Life cycle

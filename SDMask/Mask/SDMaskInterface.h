@@ -17,7 +17,7 @@
 #define SDMaskUserView(userView) ((SDMaskUserContent<typeof(userView)>*)userView)
 
 
-#define SDMaskUserBlock_T(T) void(^_Nonnull)(SDMaskModel<T>* _Nonnull model)
+#define SDMaskUserBlock_T(T) void(^_Nonnull)(SDMaskModel<T> *_Nonnull model)
 #define SDMaskUserBindingEventBlock_T(T) void(^_Nonnull)(SDMaskBindingEvent<T>* _Nonnull event)
 #define SDMaskSettingBlock_T(T) void(NS_NOESCAPE ^ _Nonnull)(SDMask<T>* _Nonnull mask)
 /**

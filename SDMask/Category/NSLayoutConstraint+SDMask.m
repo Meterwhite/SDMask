@@ -8,7 +8,7 @@
 
 #import "NSLayoutConstraint+SDMask.h"
 
-static NSMapTable<NSLayoutConstraint*,NSNumber*>* _constraintSnapshot_map;
+static NSMapTable<NSLayoutConstraint*,NSNumber*> *_constraintSnapshot_map;
 static dispatch_semaphore_t _constraintSnapshot_map_lock;
 
 @implementation NSLayoutConstraint (SDMask)
@@ -16,7 +16,7 @@ static dispatch_semaphore_t _constraintSnapshot_map_lock;
 - (CGFloat)constantSnapshot
 {
     if(!_constraintSnapshot_map) return CGFLOAT_MAX;
-    NSNumber* nconstant = [_constraintSnapshot_map objectForKey:self];
+    NSNumber *nconstant = [_constraintSnapshot_map objectForKey:self];
     if(!nconstant) return CGFLOAT_MAX;
 #if defined(__LP64__) && __LP64__
     return [nconstant doubleValue];

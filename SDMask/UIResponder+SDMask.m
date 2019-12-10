@@ -18,7 +18,7 @@
 - (nonnull SDMask*)sdm_showAlertUsingBlock:(NS_NOESCAPE SDMaskSettingBlock)block
 {
     id<SDMaskProtocol> mask = [[SDMaskController alloc] initWithUserView:self];
-    mask.model.animte = SDMaskAnimationAlert;
+    [mask.model setAnimte:SDMaskAnimationAlert];
     if(block) block(mask);
     [mask show];
     return mask;
@@ -27,7 +27,7 @@
 - (nonnull SDMask*)sdm_showActionSheetUsingBlock:(NS_NOESCAPE SDMaskSettingBlock)block
 {
     id<SDMaskProtocol> mask = (id)[[SDMaskController alloc] initWithUserView:self];
-    mask.model.animte = SDMaskAnimationActionSheet;
+    [mask.model setAnimte:SDMaskAnimationSheet];
     if(block) block(mask);
     [mask show];
     return mask;
@@ -36,7 +36,7 @@
 - (nonnull SDMask*)sdm_showLeftPushUsingBlock:(NS_NOESCAPE SDMaskSettingBlock)block
 {
     id<SDMaskProtocol> mask = (id)[[SDMaskController alloc] initWithUserView:self];
-    mask.model.animte = SDMaskAnimationLeftPush;
+    [mask.model setAnimte:SDMaskAnimationLeftPush];
     if(block) block(mask);
     [mask show];
     return mask;
@@ -45,7 +45,17 @@
 - (nonnull SDMask*)sdm_showRightPushUsingBlock:(NS_NOESCAPE SDMaskSettingBlock)block
 {
     id<SDMaskProtocol> mask = (id)[[SDMaskController alloc] initWithUserView:self];
-    mask.model.animte = SDMaskAnimationRightPush;
+    [mask.model setAnimte:SDMaskAnimationRightPush];
+    if(block) block(mask);
+    [mask show];
+    return mask;
+}
+
+- (nonnull SDMask*)sdm_showHUDUsingBlock:(NS_NOESCAPE SDMaskSettingBlock)block
+{
+    id<SDMaskProtocol> mask = (id)[[SDMaskController alloc] initWithUserView:self];
+    [mask.model setAnimte:SDMaskAnimationHUD];
+    [mask.model setAutoDismiss:YES];
     if(block) block(mask);
     [mask show];
     return mask;
@@ -54,8 +64,8 @@
 - (nonnull SDMask*)sdm_showAlertIn:(UIView *)superview usingBlock:(NS_NOESCAPE SDMaskSettingBlock)block
 {
     id<SDMaskProtocol> mask = [[SDMaskView alloc] initWithUserView:self];
-    mask.model.animte = SDMaskAnimationAlert;
-    mask.model.maskOwner = superview;
+    [mask.model setMaskOwner:superview];
+    [mask.model setAnimte:SDMaskAnimationAlert];
     if(block) block(mask);
     [mask show];
     return mask;
@@ -64,8 +74,8 @@
 - (nonnull SDMask*)sdm_showActionSheetIn:(UIView *)superview usingBlock:(NS_NOESCAPE  SDMaskSettingBlock)block
 {
     id<SDMaskProtocol> mask = [[SDMaskView alloc] initWithUserView:self];
-    mask.model.animte = SDMaskAnimationActionSheet;
-    mask.model.maskOwner = superview;
+    [mask.model setMaskOwner:superview];
+    [mask.model setAnimte:SDMaskAnimationSheet];
     if(block) block(mask);
     [mask show];
     return mask;
@@ -74,8 +84,8 @@
 - (nonnull SDMask*)sdm_showLeftPushIn:(UIView *)superview usingBlock:(NS_NOESCAPE  SDMaskSettingBlock)block
 {
     id<SDMaskProtocol> mask = [[SDMaskView alloc] initWithUserView:self];
-    mask.model.animte = SDMaskAnimationLeftPush;
-    mask.model.maskOwner = superview;
+    [mask.model setMaskOwner:superview];
+    [mask.model setAnimte:SDMaskAnimationLeftPush];
     if(block) block(mask);
     [mask show];
     return mask;
@@ -84,8 +94,19 @@
 - (nonnull SDMask*)sdm_showRightPushIn:(UIView *)superview usingBlock:(NS_NOESCAPE  SDMaskSettingBlock)block
 {
     id<SDMaskProtocol> mask = [[SDMaskView alloc] initWithUserView:self];
-    mask.model.animte = SDMaskAnimationRightPush;
-    mask.model.maskOwner = superview;
+    [mask.model setMaskOwner:superview];
+    [mask.model setAnimte:SDMaskAnimationRightPush];
+    if(block) block(mask);
+    [mask show];
+    return mask;
+}
+
+- (nonnull SDMask*)sdm_showHUDIn:(UIView *)superview usingBlock:(NS_NOESCAPE  SDMaskSettingBlock)block
+{
+    id<SDMaskProtocol> mask = [[SDMaskView alloc] initWithUserView:self];
+    [mask.model setMaskOwner:superview];
+    [mask.model setAnimte:SDMaskAnimationHUD];
+    [mask.model setAutoDismiss:YES];
     if(block) block(mask);
     [mask show];
     return mask;
@@ -116,7 +137,7 @@ static char keyForBindingKey = '\0';
 
 - (SDMask * _Nonnull (^)(UIView * _Nonnull))sdm_maskWith
 {
-    return ^ id (UIView* userView){
+    return ^ id (UIView *userView){
         Class cls = nil;
         do {
             if([self.class isSubclassOfClass:UIViewController.class]){
@@ -129,14 +150,14 @@ static char keyForBindingKey = '\0';
             }
         } while (0);
         UIResponder<SDMaskProtocol>* mask = [[cls alloc] initWithUserView:userView];
-        mask.model.maskOwner = self;
+        [mask.model setMaskOwner:self];
         return mask;
     };
 }
 
 - (SDMask * _Nonnull (^)(UIView * _Nonnull))sdm_alertMaskWith
 {
-    return ^ id (UIView* userView) {
+    return ^ id (UIView *userView) {
         Class cls = nil;
         do {
             if([self.class isSubclassOfClass:UIViewController.class]){
@@ -148,16 +169,16 @@ static char keyForBindingKey = '\0';
                 break;
             }
         } while (0);
-        SDMask* mask = [[cls alloc] initWithUserView:userView];
-        mask.model.maskOwner = self;
-        mask.model.animte = SDMaskAnimationAlert;
+        SDMask *mask = [[cls alloc] initWithUserView:userView];
+        [mask.model setMaskOwner:self];
+        [mask.model setAnimte:SDMaskAnimationAlert];
         return mask;
     };
 }
 
 - (SDMask * _Nonnull (^)(UIView * _Nonnull))sdm_actionSheetMaskWith
 {
-    return ^ id (UIView* userView) {
+    return ^ id (UIView *userView) {
         Class cls = nil;
         do {
             if([self.class isSubclassOfClass:UIViewController.class]){
@@ -169,16 +190,16 @@ static char keyForBindingKey = '\0';
                 break;
             }
         } while (0);
-        SDMask* mask = [[cls alloc] initWithUserView:userView];
-        mask.model.maskOwner = self;
-        mask.model.animte = SDMaskAnimationActionSheet;
+        SDMask *mask = [[cls alloc] initWithUserView:userView];
+        [mask.model setMaskOwner:self];
+        [mask.model setAnimte:SDMaskAnimationSheet];
         return mask;
     };
 }
 
 - (SDMask * _Nonnull (^)(UIView * _Nonnull))sdm_leftPushMaskWith
 {
-    return ^ id (UIView* userView) {
+    return ^ id (UIView *userView) {
         Class cls = nil;
         do {
             if([self.class isSubclassOfClass:UIViewController.class]){
@@ -190,16 +211,16 @@ static char keyForBindingKey = '\0';
                 break;
             }
         } while (0);
-        SDMask* mask = [[cls alloc] initWithUserView:userView];
-        mask.model.maskOwner = self;
-        mask.model.animte = SDMaskAnimationLeftPush;
+        SDMask *mask = [[cls alloc] initWithUserView:userView];
+        [mask.model setMaskOwner:self];
+        [mask.model setAnimte:SDMaskAnimationLeftPush];
         return mask;
     };
 }
 
 - (SDMask * _Nonnull (^)(UIView * _Nonnull))sdm_rightPushMaskWith
 {
-    return ^ id (UIView* userView) {
+    return ^ id (UIView *userView) {
         Class cls = nil;
         do {
             if([self.class isSubclassOfClass:UIViewController.class]){
@@ -211,9 +232,31 @@ static char keyForBindingKey = '\0';
                 break;
             }
         } while (0);
-        SDMask* mask = [[cls alloc] initWithUserView:userView];
-        mask.model.maskOwner = self;
-        mask.model.animte = SDMaskAnimationRightPush;
+        SDMask *mask = [[cls alloc] initWithUserView:userView];
+        [mask.model setMaskOwner:self];
+        [mask.model setAnimte:SDMaskAnimationRightPush];
+        return mask;
+    };
+}
+
+- (SDMask * _Nonnull (^)(UIView * _Nonnull))sdm_HUDMaskWith
+{
+    return ^ id (UIView *userView) {
+        Class cls = nil;
+        do {
+            if([self.class isSubclassOfClass:UIViewController.class]){
+                cls = SDMaskController.class;
+                break;
+            }
+            if([self.class isSubclassOfClass:UIView.class]){
+                cls = SDMaskView.class;
+                break;
+            }
+        } while (0);
+        SDMask *mask = [[cls alloc] initWithUserView:userView];
+        [mask.model setMaskOwner:self];
+        [mask.model setAnimte:SDMaskAnimationHUD];
+        [mask.model setAutoDismiss:YES];
         return mask;
     };
 }

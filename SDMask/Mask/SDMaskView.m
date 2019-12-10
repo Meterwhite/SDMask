@@ -6,15 +6,15 @@
 //  Copyright © 2019 Meterwhite. All rights reserved.
 //
 
-#import <objc/runtime.h>
 #import "NSLayoutConstraint+SDMask.h"
 #import "SDMaskController.h"
 #import "SDMaskProtocol.h"
+#import <objc/runtime.h>
 #import "SDMaskModel.h"
 #import "SDMaskView.h"
 
 @interface SDMaskView ()
-@property UIView* userView;
+@property UIView *userView;
 @end
 
 @implementation SDMaskView
@@ -51,6 +51,7 @@
         if(willDoneAnimate) willDoneAnimate(self.model);
     } completion:^(BOOL finished) {
         if(completeAnimate) completeAnimate(self.model);
+        if(self.model.dismissDelayTime > 0) [self dismiss:nil];
     }];
     /// Animation for mask
     self.alpha = 0.0;
@@ -62,7 +63,13 @@
 - (void)dismiss:(id)obj
 {
     if(obj == self && !self.model.autoDismiss) return;
-    [self dismiss];
+    if(self.model.dismissDelayTime > 0){
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(self.model.dismissDelayTime * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self dismiss];
+        });
+    }else{
+        [self dismiss];
+    }
 }
 
 - (void)dismiss
@@ -100,7 +107,6 @@
         }else{
             [self setBackgroundColor:SDMaskModel.defaultBackgroundColor];
         }
-
         [self addTarget:self action:@selector(dismiss:) forControlEvents:UIControlEventTouchUpInside];
         [view setAutoresizingMask:UIViewAutoresizingNone];
         [self setAutoresizingMask:UIViewAutoresizingNone];
@@ -116,6 +122,7 @@
     CGFloat deAlpha = 0.0;
     switch (animation) {
         case SDMaskAnimationAlert:
+        case SDMaskAnimationHUD:
         {
             if(willElseDo){
                 if(!self.model.isUsingAutolayout){
@@ -131,12 +138,12 @@
             self.userView.alpha = deAlpha;
         }
             break;
-        case SDMaskAnimationActionSheet:
+        case SDMaskAnimationSheet:
         {
             if(self.model.isUsingAutolayout) {
-                NSNumber* userHeight = [self.model valueForKeyPath:@"_autolayoutKeyConstraints.height.constant"];
-                NSLayoutConstraint* bottom = [self.model valueForKeyPath:@"_autolayoutKeyConstraints.bottom"];
-                NSLayoutConstraint* bottomAnimation = [self.model valueForKeyPath:@"_autolayoutKeyConstraints.bottomAnimation"];
+                NSNumber *userHeight = [self.model valueForKeyPath:@"_autolayoutKeyConstraints.height.constant"];
+                NSLayoutConstraint *bottom = [self.model valueForKeyPath:@"_autolayoutKeyConstraints.bottom"];
+                NSLayoutConstraint *bottomAnimation = [self.model valueForKeyPath:@"_autolayoutKeyConstraints.bottomAnimation"];
                 if(userHeight){
                     /// Height animation
                     if(presentElseDismiss == willElseDo) {
@@ -172,10 +179,10 @@
         {
             /// - Autolayout
             if(self.model.isUsingAutolayout) {
-                NSNumber* userWidth = [self.model valueForKeyPath:@"_autolayoutKeyConstraints.width.constant"];
-                NSString* dDes = animation == SDMaskAnimationLeftPush ? @"left" : @"right";
-                NSLayoutConstraint* hor = [self.model valueForKeyPath:[NSString stringWithFormat:@"_autolayoutKeyConstraints.%@",dDes]];
-                NSLayoutConstraint* horAnimation = [self.model valueForKeyPath:[NSString stringWithFormat:@"_autolayoutKeyConstraints.%@Animation",dDes]];
+                NSNumber *userWidth = [self.model valueForKeyPath:@"_autolayoutKeyConstraints.width.constant"];
+                NSString *dDes = animation == SDMaskAnimationLeftPush ? @"left" : @"right";
+                NSLayoutConstraint *hor = [self.model valueForKeyPath:[NSString stringWithFormat:@"_autolayoutKeyConstraints.%@",dDes]];
+                NSLayoutConstraint *horAnimation = [self.model valueForKeyPath:[NSString stringWithFormat:@"_autolayoutKeyConstraints.%@Animation",dDes]];
                 if(userWidth){
                     /// Push animation
                     if(presentElseDismiss == willElseDo) {

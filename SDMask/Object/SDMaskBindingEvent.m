@@ -14,7 +14,7 @@
 #import "SDMaskModel.h"
 
 @interface SDMaskBindingEvent ()
-@property UIView* sender;
+@property UIView *sender;
 @end
 
 @implementation SDMaskBindingEvent
@@ -44,7 +44,7 @@
                 break;
             }
             /// Using gesture
-            UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(actionTap:)];
+            UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(actionTap:)];
             [sender addGestureRecognizer:tap];
         } while (0);
     }
@@ -56,9 +56,9 @@
 - (void)actionTap:(id)object
 {
     SDMaskUserBindingEventBlock eventCenterBlock = [self.model valueForKey:@"_blockForBindingEventsUsingBlock"];
-    NSMutableDictionary*        eventMap         = [self.model valueForKey:@"_blockForBindingEventForUsingBlock"];
+    NSMutableDictionary *       eventMap         = [self.model valueForKey:@"_blockForBindingEventForUsingBlock"];
     SDMaskUserBindingEventBlock eventBlock = nil;
-    UIView*                     control    = nil;
+    UIView *                    control    = nil;
     /// Event center first.
     self.model.latestEvent = self;
     if(eventCenterBlock) eventCenterBlock(self);

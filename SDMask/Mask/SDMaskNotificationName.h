@@ -17,13 +17,13 @@ NS_ASSUME_NONNULL_BEGIN
  * object = nil : dismiss all mask view.
  * object = Specified mask view or user view.
  */
-@property (nonatomic,readonly,class,copy) NSString* needDismiss;
+@property (nonatomic,readonly,class,copy) NSString *needDismiss;
 #pragma mark - User observed notification
 /**
  * Get event object using nofication.
  * userInfo[@"event"] = SDMaskBindingEvent
  */
-@property (nonatomic,readonly,class,copy) NSString* userInteraction;
+@property (nonatomic,readonly,class,copy) NSString *userInteraction;
 
 #pragma mark - System notification
 /// ...
