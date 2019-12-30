@@ -3,7 +3,7 @@
 ## 介绍 Introduce
 * A perfect iOS mask view that help you to present custom view.User dont need to care about animations and events.
 * Skir的（SD）iOS蒙版.帮助弹出自定义视图，用户不再关心动画和点击事件。
-* 随手一赞.好运百万.
+* 点赞富一生.
 * Good luck for one start .
 
 ## Import

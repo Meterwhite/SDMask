@@ -71,6 +71,8 @@
 #pragma mark - UIView (SDMaskExtension)
 - (nonnull SDMask<TUserView>*)sdm_showAlertUsingBlock:(SDMaskSettingBlock_T(TUserView))block;
 - (nonnull SDMask<TUserView>*)sdm_showActionSheetUsingBlock:(SDMaskSettingBlock_T(TUserView))block;
+- (nonnull SDMask<TUserView>*)sdm_showHUDUsingBlock:(SDMaskSettingBlock_T(TUserView))block;
 - (nonnull SDMask<TUserView>*)sdm_showAlertIn:(nonnull UIView*)superview usingBlock:(SDMaskSettingBlock_T(TUserView))block;
 - (nonnull SDMask<TUserView>*)sdm_showActionSheetIn:(nonnull UIView*)superview usingBlock:(SDMaskSettingBlock_T(TUserView))block;
+- (nonnull SDMask<TUserView>*)sdm_showHUDIn:(nonnull UIView*)superview usingBlock:(SDMaskSettingBlock_T(TUserView))block;
 @end
