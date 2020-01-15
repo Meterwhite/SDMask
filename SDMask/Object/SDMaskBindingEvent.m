@@ -22,8 +22,7 @@
     BOOL _needKeepMask;
 }
 
-- (instancetype)init
-{
+- (instancetype)init {
     self = [super init];
     if (self) {
         _needKeepMask = NO;
@@ -31,8 +30,7 @@
     return self;
 }
 
-- (instancetype)initWithSender:(id)sender model:(SDMaskModel *)model atIndex:(NSInteger)index
-{
+- (instancetype)initWithSender:(id)sender model:(SDMaskModel *)model atIndex:(NSInteger)index {
     if(self = [self init]){
         _sender = sender;
         _model = model;
@@ -53,8 +51,7 @@
 
 /// First action.
 /// @param object object could from UIButton or UIGesture.
-- (void)actionTap:(id)object
-{
+- (void)actionTap:(id)object {
     SDMaskUserBindingEventBlock eventCenterBlock = [self.model valueForKey:@"_blockForBindingEventsUsingBlock"];
     NSMutableDictionary *       eventMap         = [self.model valueForKey:@"_blockForBindingEventForUsingBlock"];
     SDMaskUserBindingEventBlock eventBlock = nil;
@@ -79,13 +76,11 @@
     if(self.index == -1 || _needKeepMask == NO) [self.model.thisMask dismiss];
 }
 
-- (NSString *)key
-{
+- (NSString *)key {
     return self.sender.sdm_bindingKey;
 }
 
-- (void)setNeedKeepMask
-{
+- (void)setNeedKeepMask {
     _needKeepMask = YES;
 }
 @end

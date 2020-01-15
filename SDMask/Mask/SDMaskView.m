@@ -30,8 +30,7 @@
 @synthesize userView = _userView;
 @synthesize model    = _model;
 #pragma mark - Core
-- (void)show
-{
+- (void)show {
     if(!self.model.maskOwner) return;
     /// Frame layout
     [self.model.maskOwner addSubview:self];
@@ -60,8 +59,7 @@
     }];
 }
 
-- (void)dismiss:(id)obj
-{
+- (void)dismiss:(id)obj {
     if(obj == self && !self.model.autoDismiss) return;
     if(self.model.dismissDelayTime > 0){
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(self.model.dismissDelayTime * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -72,8 +70,7 @@
     }
 }
 
-- (void)dismiss
-{
+- (void)dismiss {
     SDMaskUserBlock willAnimate      = _userViewDismissionWillAnimateBlock;
     SDMaskUserBlock willDoneAnimate  = _userViewDismissionDoAnimationsBlock;
     SDMaskUserBlock completeAnimate  = _userViewDismissionCompletedBlock;
@@ -97,8 +94,7 @@
 }
 
 #pragma mark - View
-- (instancetype)initWithUserView:(UIView *)view
-{
+- (instancetype)initWithUserView:(UIView *)view {
     if(self = [super init]) {
         _userView = view;
         _model = [[SDMaskModel alloc] initWithUserView:view forMask:(id)self];
@@ -115,8 +111,7 @@
 }
 
 #pragma mark - System animation
-- (void)systemAnimate:(SDMaskAnimationStyle)animation presentElseDismiss:(BOOL)presentElseDismiss willElseDo:(BOOL)willElseDo
-{
+- (void)systemAnimate:(SDMaskAnimationStyle)animation presentElseDismiss:(BOOL)presentElseDismiss willElseDo:(BOOL)willElseDo {
     CGRect  deBounds= self.userView.bounds;
     CGRect  deFrame = self.userView.frame;
     CGFloat deAlpha = 0.0;
@@ -131,7 +126,7 @@
                 }
             }
             if(willElseDo == presentElseDismiss) {
-                deAlpha = 0.6;
+                deAlpha = 0.8;
             } else {
                 deAlpha = 1.0;
             }
@@ -227,91 +222,76 @@
 }
 
 #pragma mark - Bind events
-- (id<SDMaskProtocol>)bindEventForControls:(NSArray<UIView *> *)bindingInfo
-{
+- (id<SDMaskProtocol>)bindEventForControls:(NSArray<UIView *> *)bindingInfo {
     IMP imp = class_getMethodImplementation(SDMaskController.class, @selector(bindEventForControls:));
     return ((id(*)(id,SEL,id))imp)(self, @selector(bindEventForControls:), bindingInfo);
 }
 
-- (id<SDMaskProtocol>)bindEventForCancelControl:(id)control
-{
+- (id<SDMaskProtocol>)bindEventForCancelControl:(id)control {
     IMP imp = class_getMethodImplementation(SDMaskController.class, @selector(bindEventForCancelControl:));
     return ((id(*)(id,SEL,id))imp)(self, @selector(bindEventForCancelControl:), control);
 }
 
-- (id<SDMaskProtocol>)bindingEventFor:(id)indexer usingBlock:(SDMaskUserBindingEventBlock)block
-{
+- (id<SDMaskProtocol>)bindingEventFor:(id)indexer usingBlock:(SDMaskUserBindingEventBlock)block {
     IMP imp = class_getMethodImplementation(SDMaskController.class, @selector(bindingEventFor:usingBlock:));
     return ((id(*)(id,SEL,id,id))imp)(self, @selector(bindingEventFor:usingBlock:), indexer, block);
 }
 
-- (id<SDMaskProtocol>)bindingEventsUsingBlock:(SDMaskUserBindingEventBlock)block
-{
+- (id<SDMaskProtocol>)bindingEventsUsingBlock:(SDMaskUserBindingEventBlock)block {
     IMP imp = class_getMethodImplementation(SDMaskController.class, @selector(bindingEventsUsingBlock:));
     return ((id(*)(id,SEL,id))imp)(self, @selector(bindingEventsUsingBlock:), block);
 }
 
 #pragma mark - Setter & Getter
-- (UIView *)userView
-{
+- (UIView *)userView {
     return _userView;
 }
 
-- (SDMaskModel *)model
-{
+- (SDMaskModel *)model {
     return _model;
 }
 
-- (id<SDMaskProtocol>)userViewDidLoad:(SDMaskUserBlock)block
-{
+- (id<SDMaskProtocol>)userViewDidLoad:(SDMaskUserBlock)block {
     _userViewDidLoadBlock = [block copy];
     return self;
 }
 
-- (id<SDMaskProtocol>)userViewPresentationWillAnimate:(SDMaskUserBlock)block
-{
+- (id<SDMaskProtocol>)userViewPresentationWillAnimate:(SDMaskUserBlock)block {
     _userViewPresentationWillAnimateBlock = [block copy];
     return self;
 }
 
-- (id<SDMaskProtocol>)userViewPresentationDoAnimations:(SDMaskUserBlock)block
-{
+- (id<SDMaskProtocol>)userViewPresentationDoAnimations:(SDMaskUserBlock)block {
     _userViewPresentationDoAnimationsBlock = [block copy];
     return self;
 }
 
-- (id<SDMaskProtocol>)userViewPresentationCompleted:(SDMaskUserBlock)block
-{
+- (id<SDMaskProtocol>)userViewPresentationCompleted:(SDMaskUserBlock)block {
     _userViewPresentationCompletedBlock = [block copy];
     return self;
 }
 
-- (id<SDMaskProtocol>)userViewDismissionWillAnimate:(SDMaskUserBlock)block
-{
+- (id<SDMaskProtocol>)userViewDismissionWillAnimate:(SDMaskUserBlock)block {
     _userViewDismissionWillAnimateBlock = [block copy];
     return self;
 }
 
-- (id<SDMaskProtocol>)userViewDismissionDoAnimations:(SDMaskUserBlock)block
-{
+- (id<SDMaskProtocol>)userViewDismissionDoAnimations:(SDMaskUserBlock)block {
     _userViewDismissionDoAnimationsBlock = [block copy];
     return self;
 }
 
-- (id<SDMaskProtocol>)userViewDismissionCompleted:(SDMaskUserBlock)block
-{
+- (id<SDMaskProtocol>)userViewDismissionCompleted:(SDMaskUserBlock)block {
     _userViewDismissionCompletedBlock = [block copy];
     return self;
 }
 
-- (id<SDMaskProtocol>)usingAutoDismiss
-{
+- (id<SDMaskProtocol>)usingAutoDismiss {
     _model.autoDismiss = YES;
     return self;
 }
 
-- (id<SDMaskProtocol>)disableSystemAnimation
-{
+- (id<SDMaskProtocol>)disableSystemAnimation {
     _model.usingSystemAnimation = NO;
     return self;
 }

@@ -13,8 +13,7 @@
 #import <objc/runtime.h>
 #import "SDMaskModel.h"
 
-@implementation SDMaskModel
-{
+@implementation SDMaskModel {
     __weak UIViewController *   _currentController;
     SDMaskBindingEvent *        _cancelEvent;
     NSArray *                   _bindingEvents;
@@ -25,8 +24,7 @@
     NSNumber *                  _isUsingAutolayout;
 }
 
-- (instancetype)init
-{
+- (instancetype)init {
     self = [super init];
     if (self) {
         _dismissTime            = 0.25;
@@ -39,8 +37,7 @@
     return self;
 }
 
-- (instancetype)initWithUserView:(UIView *)view forMask:(nonnull SDMask*)mask
-{
+- (instancetype)initWithUserView:(UIView *)view forMask:(nonnull SDMask*)mask {
     self = [self init];
     if (self) {
         _userView   = view;
@@ -51,8 +48,7 @@
 
 #pragma mark - Getter & setter
 
-- (SDMaskModel * _Nonnull (^)(NSValue * _Nonnull, NSString * _Nonnull))setAutolayoutValueForKey
-{
+- (SDMaskModel * _Nonnull (^)(NSValue * _Nonnull, NSString * _Nonnull))setAutolayoutValueForKey {
     if(!_autolayoutKeyValues){
         _autolayoutKeyValues = [NSMutableDictionary dictionary];
     }
@@ -63,8 +59,7 @@
     };
 }
 
-- (BOOL)isUsingAutolayout
-{
+- (BOOL)isUsingAutolayout {
     if(_isUsingAutolayout){
         return [_isUsingAutolayout boolValue];
     }
@@ -73,18 +68,15 @@
     return NO;
 }
 
-- (void)setIsUsingAutolayout:(BOOL)isUsingAutolayout
-{
+- (void)setIsUsingAutolayout:(BOOL)isUsingAutolayout {
     _isUsingAutolayout = [NSNumber numberWithBool:isUsingAutolayout];
 }
 
-- (id)superview
-{
+- (id)superview {
     return [self.userView superview];
 }
 
-- (void)setAnimte:(SDMaskAnimationStyle)animte
-{
+- (void)setAnimte:(SDMaskAnimationStyle)animte {
     _animte = animte;
     if(animte == SDMaskAnimationHUD && _dismissDelayTime == 0.0){
         _dismissDelayTime = 1.2;
@@ -94,8 +86,7 @@
 #pragma mark - Autolayout
 #define SDMaskAnimationKey @"SDMaskAnimation"
 /// private method : Use performSelctor: better.
-- (void)updateConstraints
-{
+- (void)updateConstraints {
     do {
         /// SDAutolayout
         if([_autolayoutKeyValues count] > 0) break;
@@ -202,8 +193,7 @@
     }
 }
 
-- (NSLayoutConstraint*)makeConstraint:(NSLayoutAttribute)attr value:(CGFloat)value
-{
+- (NSLayoutConstraint*)makeConstraint:(NSLayoutAttribute)attr value:(CGFloat)value {
     NSLayoutConstraint *cst = nil;
     id firstItem, secondItem;
     NSLayoutAttribute firstAttr     = attr;
@@ -239,8 +229,7 @@
 }
 
 /// Translate original constraints to SDMask infomation.
-- (void)registerCustomConstraints
-{
+- (void)registerCustomConstraints {
     [self.userView setTranslatesAutoresizingMaskIntoConstraints:NO];
     NSArray<NSLayoutConstraint*>* cstForUserView = [self.userView constraints];
     NSArray<NSLayoutConstraint*>* cstForSuperview= [self.superview constraints];
@@ -338,8 +327,7 @@
 }
 
 #pragma mark - Notification
-- (void)whatNotification:(NSNotification*)notify
-{
+- (void)whatNotification:(NSNotification*)notify {
     if(notify.object && notify.object != self.thisMask && notify.object != self.userView) return;
     
     if([notify.name isEqualToString:SDMaskNotificationName.needDismiss]){
@@ -349,9 +337,8 @@
 
 #pragma mark - Config
 
-+ (UIColor *)defaultBackgroundColor
-{
-    static UIColor *_defaultBackgroundColor;
+static UIColor *_defaultBackgroundColor;
++ (UIColor *)defaultBackgroundColor {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         _defaultBackgroundColor = [UIColor colorWithRed:0.1459 green:0.1459 blue:0.1459 alpha:0.618];
@@ -359,8 +346,11 @@
     return _defaultBackgroundColor;
 }
 
-+ (CGFloat)screenWidth
-{
++ (void)setDefaultBackgroundColor:(UIColor *)defaultBackgroundColor {
+    _defaultBackgroundColor = defaultBackgroundColor;
+}
+
++ (CGFloat)screenWidth {
     static CGFloat _screenWidth;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -369,8 +359,7 @@
     return _screenWidth;
 }
 
-+ (CGFloat)screenHeight
-{
++ (CGFloat)screenHeight {
     static CGFloat _screenHeight;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -379,8 +368,7 @@
     return _screenHeight;
 }
 
-- (UIViewController *)currentController
-{
+- (UIViewController *)currentController {
     if(_currentController){
         return _currentController;
     }
@@ -390,8 +378,7 @@
     return [self.class findTopAlertableController:(id)[NSNull null]];
 }
 
-+ (UIViewController*)findTopAlertableController:(UIViewController*)vc
-{
++ (UIViewController*)findTopAlertableController:(UIViewController*)vc {
     if(!vc) return nil;
     if(vc == ((id)[NSNull null])) vc = [self keyWindow].rootViewController;
     if (vc.presentedViewController) {
@@ -428,8 +415,7 @@
 }
 
 /// From IQUIView+Hierarchy.h
-+ (UIViewController *)topMostControllerForView:(UIView*)view;
-{
++ (UIViewController *)topMostControllerForView:(UIView*)view {
     NSMutableArray<UIViewController*> *controllersHierarchy = [[NSMutableArray alloc] init];
     UIViewController *topController = view.window.rootViewController;
     if (topController) {
@@ -449,8 +435,7 @@
 }
 
 /// From IQUIView+Hierarchy.h
-+ (UIViewController*)viewContainingControllerForView:(UIView*)view
-{
++ (UIViewController*)viewContainingControllerForView:(UIView*)view {
     UIResponder *nextResponder =  view;
     do {
         nextResponder = [nextResponder nextResponder];
@@ -462,16 +447,14 @@
     return nil;
 }
 
-+ (BOOL)screenIsShaped
-{
++ (BOOL)screenIsShaped {
     if (@available(iOS 11.0, *)) {
         return self.keyWindow.safeAreaInsets.bottom > 0.0;
     }
     return NO;
 }
 
-+ (UIWindow*)keyWindow
-{
++ (UIWindow*)keyWindow {
     UIWindow        *foundWindow = nil;
     NSArray         *windows = [[UIApplication sharedApplication] windows];
     for (UIWindow   *window in windows) {

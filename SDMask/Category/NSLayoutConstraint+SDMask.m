@@ -13,8 +13,7 @@ static dispatch_semaphore_t _constraintSnapshot_map_lock;
 
 @implementation NSLayoutConstraint (SDMask)
 
-- (CGFloat)constantSnapshot
-{
+- (CGFloat)constantSnapshot {
     if(!_constraintSnapshot_map) return CGFLOAT_MAX;
     NSNumber *nconstant = [_constraintSnapshot_map objectForKey:self];
     if(!nconstant) return CGFLOAT_MAX;
@@ -25,8 +24,7 @@ static dispatch_semaphore_t _constraintSnapshot_map_lock;
 #endif
 }
 
-- (void)takeConstantSnapshot
-{
+- (void)takeConstantSnapshot {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         _constraintSnapshot_map = [NSMapTable mapTableWithKeyOptions: NSPointerFunctionsWeakMemory | NSPointerFunctionsOpaquePersonality valueOptions: NSPointerFunctionsStrongMemory | NSPointerFunctionsObjectPersonality];

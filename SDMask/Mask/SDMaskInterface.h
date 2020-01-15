@@ -14,12 +14,10 @@
 /**
  * Begin with userView and wrap it with generics.
  */
-#define SDMaskUserView(userView) ((SDMaskUserContent<typeof(userView)>*)userView)
-
-
-#define SDMaskUserBlock_T(T) void(^_Nonnull)(SDMaskModel<T> *_Nonnull model)
-#define SDMaskUserBindingEventBlock_T(T) void(^_Nonnull)(SDMaskBindingEvent<T>* _Nonnull event)
-#define SDMaskSettingBlock_T(T) void(NS_NOESCAPE ^ _Nonnull)(SDMask<T>* _Nonnull mask)
+#define SDMaskUserView(userView) ((SDMaskUserContent<typeof(userView)> *)userView)
+#define SDMaskUserBlock_T(T) void(^ _Nullable)(SDMaskModel<T> *_Nonnull model)
+#define SDMaskUserBindingEventBlock_T(T) void(^ _Nullable)(SDMaskBindingEvent<T> *_Nonnull event)
+#define SDMaskSettingBlock_T(T) void(NS_NOESCAPE ^ _Nullable)(SDMask<T> *_Nonnull mask)
 /**
  * Methods in  'SDMaskProtocol.h'
  * Note : SDMask is a Interface as a protocol to implement generics.

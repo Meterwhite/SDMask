@@ -88,7 +88,7 @@ typedef enum : NSUInteger {
 @property (nonnull,nonatomic,copy,readonly) SDMaskModel*_Nonnull (^setAutolayoutValueForKey)(NSValue *_Nonnull value, NSString*_Nonnull key);
 
 #pragma mark - System
-@property (nonnull,nonatomic,readonly,class) UIColor *defaultBackgroundColor;
+@property (nonnull,nonatomic, class) UIColor *defaultBackgroundColor;
 @property (nonatomic,readonly,class) CGFloat screenWidth;
 @property (nonatomic,readonly,class) CGFloat screenHeight;
 - (nonnull UIViewController*)currentController;
