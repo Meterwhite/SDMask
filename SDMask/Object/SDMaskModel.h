@@ -91,7 +91,8 @@ typedef enum : NSUInteger {
 @property (nonnull,nonatomic, class) UIColor *defaultBackgroundColor;
 @property (nonatomic,readonly,class) CGFloat screenWidth;
 @property (nonatomic,readonly,class) CGFloat screenHeight;
-- (nonnull UIViewController*)currentController;
+#pragma mark - Associated
+@property (nullable,nonatomic,strong) UIWindow *associatedWindow;
 
 #pragma mark - Screen adapt
 @property (nonatomic,readonly,class) BOOL screenIsShaped;

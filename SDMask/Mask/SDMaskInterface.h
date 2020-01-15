@@ -41,8 +41,6 @@
 /// Set something befor view animation.
 - (nonnull SDMask<TUserView>*)userViewPresentationDoAnimations:(SDMaskUserBlock_T(TUserView))block;
 - (nonnull SDMask<TUserView>*)userViewPresentationCompleted:(SDMaskUserBlock_T(TUserView))block;
-/// - (nonnull SDMask*)userViewDidLoad:(nonnull SDMaskUserBlock)block;
-- (nonnull SDMask<TUserView>*)userViewDismissionWillAnimate:(SDMaskUserBlock_T(TUserView))block;
 - (nonnull SDMask<TUserView>*)userViewDismissionDoAnimations:(SDMaskUserBlock_T(TUserView))block;
 - (nonnull SDMask<TUserView>*)userViewDismissionCompleted:(SDMaskUserBlock_T(TUserView))block;
 #pragma mark - Events

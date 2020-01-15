@@ -31,12 +31,10 @@
 @synthesize model    = _model;
 
 #pragma mark - Core
+static UIWindow *_win_referencer;
 - (void)show {
-    if(!self.model.maskOwner) {
-        self.model.maskOwner = self.model.currentController;
-    }
-    if(!self.model.maskOwner) return;
-    [self.model.maskOwner presentViewController:self animated:YES completion:nil];
+    UIViewController *presenter = self.model.maskOwner ?: self.model.associatedWindow.rootViewController;
+    [presenter presentViewController:self animated:YES completion:nil];
 }
 
 - (void)dismiss:(id)obj {
@@ -51,7 +49,8 @@
 }
 
 - (void)dismiss {
-    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+    UIViewController *presenter = self.model.maskOwner ?: self.model.associatedWindow.rootViewController;
+    [presenter dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - Controller

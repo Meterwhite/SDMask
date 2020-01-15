@@ -368,52 +368,6 @@ static UIColor *_defaultBackgroundColor;
     return _screenHeight;
 }
 
-- (UIViewController *)currentController {
-    if(_currentController){
-        return _currentController;
-    }
-    if([object_getClass(self.thisMask) isSubclassOfClass:UIView.class]){
-        return [self.class topMostControllerForView:(id)self.thisMask];
-    }
-    return [self.class findTopAlertableController:(id)[NSNull null]];
-}
-
-+ (UIViewController*)findTopAlertableController:(UIViewController*)vc {
-    if(!vc) return nil;
-    if(vc == ((id)[NSNull null])) vc = [self keyWindow].rootViewController;
-    if (vc.presentedViewController) {
-        // Return presented view controller
-        return [self findTopAlertableController:vc.presentedViewController];
-    } else if ([vc isKindOfClass:[UISplitViewController class]]) {
-        // Return right hand side
-        UISplitViewController *svc = (UISplitViewController*) vc;
-        if (svc.viewControllers.count > 0)
-            return [self findTopAlertableController:svc.viewControllers.lastObject];
-        else
-            return vc;
-    } else if ([vc isKindOfClass:[UINavigationController class]]) {
-        // Return top view
-        UINavigationController *svc = (UINavigationController*) vc;
-        if (svc.viewControllers.count > 0)
-            return [self findTopAlertableController:svc.topViewController];
-        else
-            return vc;
-    } else if ([vc isKindOfClass:[UITabBarController class]]) {
-        // Return visible view
-        UITabBarController *svc = (UITabBarController*) vc;
-        if(svc.viewControllers.count > 5 && svc.selectedIndex >= 4)
-            return [self findTopAlertableController:svc.moreNavigationController];
-        else if (svc.viewControllers.count > 0)
-            return [self findTopAlertableController:svc.selectedViewController];
-    }
-    /// Parent controller of child controller to present view may be more appropriate.
-    //else if(vc.childViewControllers.count > 0){
-    //    // Unknown view controller type, return first child view controller
-    //    return vc.childViewControllers.firstObject;
-    //}
-    return vc;
-}
-
 /// From IQUIView+Hierarchy.h
 + (UIViewController *)topMostControllerForView:(UIView*)view {
     NSMutableArray<UIViewController*> *controllersHierarchy = [[NSMutableArray alloc] init];
@@ -464,5 +418,14 @@ static UIColor *_defaultBackgroundColor;
         }
     }
     return foundWindow;
+}
+
+- (UIWindow *)associatedWindow {
+    if(!_associatedWindow) {
+        _associatedWindow = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
+        _associatedWindow.rootViewController = [[UIViewController alloc] init];
+        _associatedWindow.windowLevel = UIWindowLevelAlert + 1;
+    }
+    return _associatedWindow;
 }
 @end
