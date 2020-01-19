@@ -6,6 +6,7 @@
 //  Copyright © 2016年 MeterWhite. All rights reserved.
 //
 
+#import "GuidViewController.h"
 #import "TUserActionSheet.h"
 #import "TUserAlertView.h"
 #import "ViewController.h"
@@ -117,9 +118,23 @@
     /// Reason: mask -> block(userViewDidLoad) -> mask
 }
 
+- (void)demoGuid {
+    [[[[GuidViewController new] userViewDidLoad:^(SDMaskModel * _Nonnull model) {
+        NSLog(@"userViewDidLoad:");
+        /// Set the same color as user view to background.
+        [model setBackgroundColor:[UIColor colorWithWhite:0 alpha:0.6]];
+    }] pageDidLoad:^(SDMaskModel * _Nonnull model) {
+        NSLog(@"pageDidLoad:%lu", (unsigned long)model.guidPage);
+    }] show];
+}
 
 #pragma mark - Test code
 #pragma mark - Frame layout
+
+- (IBAction)actionGuid:(id)sender {
+    [self demoGuid];
+}
+
 - (IBAction)actionAlert:(id)sender {
     UIView *userView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 280, 200)];
     [userView setBackgroundColor:UIColor.whiteColor];

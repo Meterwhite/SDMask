@@ -10,7 +10,7 @@
 #import "SDMaskProtocol.h"
 
 #pragma mark - Class : SDMaskView
-/// Documentation in 'SDMaskProtocol.h'
+/// Display SDMask in a view.Documentation in 'SDMaskProtocol.h' 
 @interface SDMaskView : UIButton
 <
     SDMaskProtocol

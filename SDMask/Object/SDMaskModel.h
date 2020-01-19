@@ -33,6 +33,10 @@ typedef enum : NSUInteger {
      * Delay fade in and out from the center.(SDMaskModel.dismissDelayTime)
      */
     SDMaskAnimationHUD          =   4,
+    /**
+     * <#...#>
+     */
+    SDMaskAnimationGuid         =   5,
     SDMaskAnimationCustom       =   8964
 } SDMaskAnimationStyle;
 
@@ -40,7 +44,10 @@ typedef enum : NSUInteger {
  *  This object contains animations, layouts, and features for configuring the UI.
  */
 @interface SDMaskModel<__covariant TUserView> : NSObject
-- (nonnull instancetype)initWithUserView:(nonnull TUserView)view forMask:(nonnull SDMask*)mask;
+- (nonnull instancetype)initWithUserView:(nonnull TUserView)uView forMask:(nonnull SDMask*)mask;
+#pragma mark - Guid
+/// In guid controller it is start with 1, otherwise always is 0;
+@property (nonatomic) NSUInteger guidPage;
 #pragma mark - View
 /// Need!
 @property (nullable,nonatomic,weak) TUserView userView;
@@ -79,13 +86,14 @@ typedef enum : NSUInteger {
 @property (assign,readonly) BOOL isUsingAutolayout;
 /**
  *
- *  model.setAutolayoutValueForKey(@(0), @"bottom").setAutolayoutValueForKey(... ...
+ *  model.setAutolayoutValueForKey(@(0), @"bottom").setAutolayoutValueForKey(...
+ *  SDMaskGuidController is not be supported.
  *  Key guide
  *  :
  *  key <- {top, left, right, bottom, centerX, centerY, width, height} <- NSNumber
  *  key <- {size, insets} <- NSValue
  */
-@property (nonnull,nonatomic,copy,readonly) SDMaskModel*_Nonnull (^setAutolayoutValueForKey)(NSValue *_Nonnull value, NSString*_Nonnull key);
+@property (nonnull,nonatomic,copy,readonly) SDMaskModel*_Nonnull (^setAutolayoutValueForKey)(NSValue *_Nonnull value, NSString *_Nonnull key);
 
 #pragma mark - System
 @property (nonnull,nonatomic, class) UIColor *defaultBackgroundColor;

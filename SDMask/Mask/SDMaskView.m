@@ -20,6 +20,7 @@
 @implementation SDMaskView
 {
     SDMaskUserBlock _userViewDidLoadBlock;
+    SDMaskUserBlock _userViewDidDisappear;
     SDMaskUserBlock _userViewPresentationWillAnimateBlock;
     SDMaskUserBlock _userViewPresentationDoAnimationsBlock;
     SDMaskUserBlock _userViewPresentationCompletedBlock;
@@ -74,6 +75,7 @@
     SDMaskUserBlock willAnimate      = _userViewDismissionWillAnimateBlock;
     SDMaskUserBlock willDoneAnimate  = _userViewDismissionDoAnimationsBlock;
     SDMaskUserBlock completeAnimate  = _userViewDismissionCompletedBlock;
+    SDMaskUserBlock didDisappear     = _userViewDidDisappear;
     if(!self.model.usingSystemAnimation && willDoneAnimate == nil) return;
     /// Animation for content
     if(self.model.usingSystemAnimation) [self systemAnimate:self.model.animte presentElseDismiss:false willElseDo:true];
@@ -90,21 +92,22 @@
         self.alpha = 0.0;
     } completion:^(BOOL finished) {
         [self removeFromSuperview];
+        if(didDisappear) didDisappear(self.model);
     }];
 }
 
 #pragma mark - View
-- (instancetype)initWithUserView:(UIView *)view {
+- (instancetype)initWithUserView:(UIView *)uView {
     if(self = [super init]) {
-        _userView = view;
-        _model = [[SDMaskModel alloc] initWithUserView:view forMask:(id)self];
+        _userView = uView;
+        _model = [[SDMaskModel alloc] initWithUserView:uView forMask:(id)self];
         if(self.model.backgroundColor){
             [self setBackgroundColor:self.model.backgroundColor];
         }else{
             [self setBackgroundColor:SDMaskModel.defaultBackgroundColor];
         }
         [self addTarget:self action:@selector(dismiss:) forControlEvents:UIControlEventTouchUpInside];
-        [view setAutoresizingMask:UIViewAutoresizingNone];
+        [uView setAutoresizingMask:UIViewAutoresizingNone];
         [self setAutoresizingMask:UIViewAutoresizingNone];
     }
     return self;
@@ -253,6 +256,11 @@
 
 - (id<SDMaskProtocol>)userViewDidLoad:(SDMaskUserBlock)block {
     _userViewDidLoadBlock = [block copy];
+    return self;
+}
+
+- (id<SDMaskProtocol>)userViewDidDisappear:(SDMaskUserBlock)block {
+    _userViewDidDisappear = [block copy];
     return self;
 }
 

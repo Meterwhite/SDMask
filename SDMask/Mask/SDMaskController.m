@@ -1,6 +1,6 @@
 //
 //  SDMaskView.h
-//  MeterWhite
+//  SDMask
 //
 //  Created by MeterWhite on 16/1/6.
 //  Copyright © 2016年 MeterWhite. All rights reserved.
@@ -20,6 +20,7 @@
 @implementation SDMaskController
 {
     SDMaskUserBlock _userViewDidLoadBlock;
+    SDMaskUserBlock _userViewDidDisappear;
     SDMaskUserBlock _userViewPresentationWillAnimateBlock;
     SDMaskUserBlock _userViewPresentationDoAnimationsBlock;
     SDMaskUserBlock _userViewPresentationCompletedBlock;
@@ -31,9 +32,9 @@
 @synthesize model    = _model;
 
 #pragma mark - Core
-static UIWindow *_win_referencer;
 - (void)show {
     UIViewController *presenter = self.model.maskOwner ?: self.model.associatedWindow.rootViewController;
+    [self.model.associatedWindow makeKeyAndVisible];
     [presenter presentViewController:self animated:YES completion:nil];
 }
 
@@ -65,23 +66,30 @@ static UIWindow *_win_referencer;
 }
 
 - (void)loadView {
-    UIButton *newView = [UIButton buttonWithType:UIButtonTypeCustom];
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     if(self.model.backgroundColor){
-        [newView setBackgroundColor:self.model.backgroundColor];
+        [button setBackgroundColor:self.model.backgroundColor];
     }else{
-        [newView setBackgroundColor:SDMaskModel.defaultBackgroundColor];
+        [button setBackgroundColor:SDMaskModel.defaultBackgroundColor];
     }
-    [newView addTarget:self action:@selector(dismiss:) forControlEvents:UIControlEventTouchUpInside];
-    self.view = newView;
+    [button addTarget:self action:@selector(dismiss:) forControlEvents:UIControlEventTouchUpInside];
+    self.view = button;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.userView.autoresizingMask  = UIViewAutoresizingNone;
-    self.view.autoresizingMask      = UIViewAutoresizingNone;
+    [self.userView setAutoresizingMask:UIViewAutoresizingNone];
+    [self.view setAutoresizingMask:UIViewAutoresizingNone];
     [self.view addSubview:self.userView];
     if(_userViewDidLoadBlock) _userViewDidLoadBlock(self.model);
     if(self.model.isUsingAutolayout) [self.model performSelector:@selector(updateConstraints)];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    if(self->_userViewDidDisappear){
+        self->_userViewDidDisappear(self.model);
+    }
 }
 
 - (void)beginAppearanceTransition:(BOOL)isAppearing animated:(BOOL)animated {
@@ -112,10 +120,10 @@ static UIWindow *_win_referencer;
 }
 
 #pragma mark - View
-- (instancetype)initWithUserView:(UIView *)view {
+- (instancetype)initWithUserView:(UIView *)uView {
     if(self = [self init]) {
-        _userView = view;
-        _model = [[SDMaskModel alloc] initWithUserView:view forMask:(id)self];
+        _userView = uView;
+        _model = [[SDMaskModel alloc] initWithUserView:uView forMask:(id)self];
     }
     return self;
 }
@@ -296,6 +304,11 @@ static UIWindow *_win_referencer;
 
 - (id<SDMaskProtocol>)userViewDidLoad:(SDMaskUserBlock)block {
     _userViewDidLoadBlock = [block copy];
+    return self;
+}
+
+- (id<SDMaskProtocol>)userViewDidDisappear:(SDMaskUserBlock)block {
+    _userViewDidDisappear = [block copy];
     return self;
 }
 

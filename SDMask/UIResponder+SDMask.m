@@ -6,6 +6,7 @@
 //  Copyright © 2019 MeterWhite. All rights reserved.
 //
 
+#import "SDMaskGuidController.h"
 #import "UIResponder+SDMask.h"
 #import "SDMaskController.h"
 #import "SDMaskInterface.h"
@@ -121,8 +122,8 @@ static char keyForBindingKey = '\0';
 
 @implementation UIResponder(SDMaskExtension)
 
-- (SDMask * _Nonnull (^)(UIView * _Nonnull))sdm_maskWith {
-    return ^ id (UIView *userView){
+- (SDMask * _Nonnull (^)(id _Nonnull))sdm_maskWith {
+    return ^ id (id userView){
         Class cls = nil;
         do {
             if([self.class isSubclassOfClass:UIViewController.class]){
@@ -134,7 +135,15 @@ static char keyForBindingKey = '\0';
                 break;
             }
         } while (0);
-        UIResponder<SDMaskProtocol>* mask = [[cls alloc] initWithUserView:userView];
+        UIResponder<SDMaskBase>* mask = [[cls alloc] initWithUserView:userView];
+        [mask.model setMaskOwner:self];
+        return mask;
+    };
+}
+
+- (SDMaskGuidController * _Nonnull (^)(NSArray<UIView *> * _Nonnull))sdm_guidMaskWith {
+    return ^ id (NSArray<UIView *> * userView) {
+        SDMaskGuidController *mask = [[SDMaskGuidController alloc] initWithUserView:userView];
         [mask.model setMaskOwner:self];
         return mask;
     };

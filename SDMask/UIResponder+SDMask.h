@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "SDMaskProtocol.h"
 
+@class SDMaskGuidController;
+
 typedef void(^SDMaskSettingBlock)(SDMask *_Nonnull mask);
 /**
  * Begin with view's owner and wrap it with generics.
@@ -89,7 +91,12 @@ typedef void(^SDMaskSettingBlock)(SDMask *_Nonnull mask);
  *  Get default SDMask object from its presenter.
  */
 @property (nonnull,nonatomic,copy,readonly) SDMask *_Nonnull
-(^sdm_maskWith)(UIView *_Nonnull userView);
+(^sdm_maskWith)(id _Nonnull userView);
+/**
+ * <#...#>
+ */
+@property (nonnull,nonatomic,copy,readonly) SDMaskGuidController *_Nonnull
+(^sdm_guidMaskWith)(NSArray<UIView *> * _Nonnull userView);
 /**
  *  Get alert style SDMask object from its presenter.
  */

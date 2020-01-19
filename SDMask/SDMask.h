@@ -6,6 +6,7 @@
 #import "SDMaskModel.h"
 #import "UIResponder+SDMask.h"
 #import "SDMaskNotificationName.h"
+#import "SDMaskGuidController.h"
 
 #pragma mark - Notification name for user
 /**

@@ -32,15 +32,16 @@
         _dismissDelayTime       = 0.0;
         _usingSystemAnimation   = YES;
         _autoDismiss            = NO;
+        _guidPage               = 0;
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(whatNotification:) name:SDMaskNotificationName.needDismiss object:nil];
     }
     return self;
 }
 
-- (instancetype)initWithUserView:(UIView *)view forMask:(nonnull SDMask*)mask {
+- (instancetype)initWithUserView:(UIView *)uView forMask:(nonnull SDMask*)mask {
     self = [self init];
     if (self) {
-        _userView   = view;
+        _userView   = uView;
         _thisMask   = mask;
     }
     return self;
@@ -73,7 +74,11 @@
 }
 
 - (id)superview {
-    return [self.userView superview];
+    if(!_userView) return nil;
+    if([_userView isKindOfClass:[NSArray class]]) {
+        return [[_userView firstObject] superview];
+    }
+    return [_userView superview];
 }
 
 - (void)setAnimte:(SDMaskAnimationStyle)animte {
@@ -368,39 +373,6 @@ static UIColor *_defaultBackgroundColor;
     return _screenHeight;
 }
 
-/// From IQUIView+Hierarchy.h
-+ (UIViewController *)topMostControllerForView:(UIView*)view {
-    NSMutableArray<UIViewController*> *controllersHierarchy = [[NSMutableArray alloc] init];
-    UIViewController *topController = view.window.rootViewController;
-    if (topController) {
-        [controllersHierarchy addObject:topController];
-    }
-    while ([topController presentedViewController]) {
-        topController = [topController presentedViewController];
-        [controllersHierarchy addObject:topController];
-    }
-    UIViewController *matchController = [SDMaskModel viewContainingControllerForView:view];
-    while (matchController && [controllersHierarchy containsObject:matchController] == NO) {
-        do {
-            matchController = (UIViewController*)[matchController nextResponder];
-        } while (matchController && [matchController isKindOfClass:[UIViewController class]] == NO);
-    }
-    return matchController;
-}
-
-/// From IQUIView+Hierarchy.h
-+ (UIViewController*)viewContainingControllerForView:(UIView*)view {
-    UIResponder *nextResponder =  view;
-    do {
-        nextResponder = [nextResponder nextResponder];
-        if ([nextResponder isKindOfClass:[UIViewController class]])
-            return (UIViewController*)nextResponder;
-
-    } while (nextResponder);
-
-    return nil;
-}
-
 + (BOOL)screenIsShaped {
     if (@available(iOS 11.0, *)) {
         return self.keyWindow.safeAreaInsets.bottom > 0.0;
@@ -429,3 +401,39 @@ static UIColor *_defaultBackgroundColor;
     return _associatedWindow;
 }
 @end
+
+/**
+
+ /// From IQUIView+Hierarchy.h
+ + (UIViewController *)topMostControllerForView:(UIView*)view {
+     NSMutableArray<UIViewController*> *controllersHierarchy = [[NSMutableArray alloc] init];
+     UIViewController *topController = view.window.rootViewController;
+     if (topController) {
+         [controllersHierarchy addObject:topController];
+     }
+     while ([topController presentedViewController]) {
+         topController = [topController presentedViewController];
+         [controllersHierarchy addObject:topController];
+     }
+     UIViewController *matchController = [SDMaskModel viewContainingControllerForView:view];
+     while (matchController && [controllersHierarchy containsObject:matchController] == NO) {
+         do {
+             matchController = (UIViewController*)[matchController nextResponder];
+         } while (matchController && [matchController isKindOfClass:[UIViewController class]] == NO);
+     }
+     return matchController;
+ }
+
+ /// From IQUIView+Hierarchy.h
+ + (UIViewController*)viewContainingControllerForView:(UIView*)view {
+     UIResponder *nextResponder =  view;
+     do {
+         nextResponder = [nextResponder nextResponder];
+         if ([nextResponder isKindOfClass:[UIViewController class]])
+             return (UIViewController*)nextResponder;
+
+     } while (nextResponder);
+
+     return nil;
+ }
+ */

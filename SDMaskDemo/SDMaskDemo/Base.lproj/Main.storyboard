@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina6_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -84,6 +84,17 @@
                                     <action selector="userAutolayoutSheet:" destination="BYZ-38-t0r" eventType="touchUpInside" id="XMz-oF-WN3"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VzG-ZW-gup">
+                                <rect key="frame" x="0.0" y="606" width="414" height="64"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="64" id="Lfz-16-mSJ"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <state key="normal" title="GuidController"/>
+                                <connections>
+                                    <action selector="actionGuid:" destination="BYZ-38-t0r" eventType="touchUpInside" id="HnS-MA-cj9"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -91,9 +102,12 @@
                             <constraint firstItem="FPx-5a-cfU" firstAttribute="top" secondItem="Wga-xh-2CM" secondAttribute="bottom" id="22m-KG-KBh"/>
                             <constraint firstItem="cUP-hb-cbZ" firstAttribute="top" secondItem="AEs-iK-AiM" secondAttribute="bottom" id="7pg-mC-o73"/>
                             <constraint firstItem="Pvl-3R-m9D" firstAttribute="width" secondItem="FPx-5a-cfU" secondAttribute="width" id="CXV-YN-kBz"/>
+                            <constraint firstAttribute="trailing" secondItem="VzG-ZW-gup" secondAttribute="trailing" id="Dwz-Rm-NOn"/>
                             <constraint firstItem="AEs-iK-AiM" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="IDh-LC-b37"/>
                             <constraint firstAttribute="right" secondItem="tqk-kl-BQ6" secondAttribute="right" id="JKe-UJ-YTu"/>
                             <constraint firstItem="cUP-hb-cbZ" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="V92-2X-WS7"/>
+                            <constraint firstItem="VzG-ZW-gup" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="X46-4h-ryp"/>
+                            <constraint firstItem="AEs-iK-AiM" firstAttribute="top" secondItem="VzG-ZW-gup" secondAttribute="bottom" id="ZTm-SD-hDO"/>
                             <constraint firstAttribute="trailing" secondItem="Wga-xh-2CM" secondAttribute="trailing" id="aGY-ZF-PTs"/>
                             <constraint firstItem="FPx-5a-cfU" firstAttribute="top" secondItem="cUP-hb-cbZ" secondAttribute="bottom" id="iwm-xI-csL"/>
                             <constraint firstItem="Wga-xh-2CM" firstAttribute="left" secondItem="cUP-hb-cbZ" secondAttribute="right" id="k7W-7i-skb"/>

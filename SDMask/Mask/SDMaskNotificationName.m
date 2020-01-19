@@ -1,6 +1,6 @@
 //
 //  SDMaskNotificationName.m
-//  SDMaskDemo
+//  SDMask
 //
 //  Created by MeterWhite on 2019/11/25.
 //  Copyright © 2019 Meterwhite. All rights reserved.
@@ -18,13 +18,11 @@ static NSString *_needDismiss   = @"SDMask/Notification/dismiss/need";
 //static NSString *_didPresent    = @"SDMask/Notification/present/did";
 static NSString *_userInteraction   = @"SDMask/Notification/interaction";
 
-+ (NSString *)needDismiss
-{
++ (NSString *)needDismiss {
     return _needDismiss;
 }
 
-+ (NSString *)userInteraction
-{
++ (NSString *)userInteraction {
     return _userInteraction;
 }
 @end
