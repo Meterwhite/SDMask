@@ -16,8 +16,8 @@
 ```
 pod 'SDMask'
 ```
-## New! SDMaskGuidController
-### Set multiple guid pages in one controller XIB file ! By changing the constraints in XIB to adapt the device, this solution can address 90% of the design needs.
+## New! 引导控制器 SDMaskGuidController
+### 在一个XIB文件中设置多个页面的约束进行适配，可以适应90%的设计需求。Set multiple guid pages in one controller XIB file ! By changing the constraints in XIB to adapt the device, this solution can address 90% of the design needs.
 ```objc
 [[[MySDMaskGuidController new] userViewDidLoad:^(SDMaskModel * _Nonnull model) {
     /// Set the same color as user view to background.

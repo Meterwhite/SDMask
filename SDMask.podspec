@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
   s.name         = "SDMask"
-  s.version      = "1.0.6"
-  s.summary      = 'A perfect iOS mask view that help you to present custom view.User dont need to care about animations and events.'
+  s.version      = "1.1.0"
+  s.summary      = 'A perfect iOS mask view that help you to present custom view and guid page.User dont need to care about animations and events.'
   s.homepage     = 'https://github.com/Meterwhite/SDMask'
   s.license      = 'MIT'
   s.author       = { "Meterwhite" => "meterwhite@outlook.com" }
