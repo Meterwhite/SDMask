@@ -1,8 +1,9 @@
 # SDMask
 ![SDMask icon](https://raw.githubusercontent.com/Meterwhite/SDMask/master/Cover.png)
+![SDMaskGuidController icon](https://raw.githubusercontent.com/Meterwhite/SDMask/master/Cover2.png)
 ## 介绍 Introduce
 * A perfect iOS mask view that help you to present custom view.User dont need to care about animations and events.
-* Skir的（SD）iOS蒙版.帮助弹出自定义视图，用户不再关心动画和点击事件。
+* Skir的（SD）iOS蒙版蒙层遮罩.弹出自定义视图，用户不再关心动画和点击事件。
 * 点赞富一生.
 * Good luck for one start .
 
@@ -15,6 +16,15 @@
 ```
 pod 'SDMask'
 ```
+## New! SDMaskGuidController
+### Set multiple guid pages in one controller XIB file ! By changing the constraints in XIB to adapt the device, this solution can address 90% of the design needs.
+```objc
+[[[MySDMaskGuidController new] userViewDidLoad:^(SDMaskModel * _Nonnull model) {
+    /// Set the same color as user view to background.
+    [model setBackgroundColor:[UIColor colorWithWhite:0 alpha:0.6]];
+}] show];
+```
+
 ## 处理简单业务 Handling simple business in a block.
 ```objc
 [SDMaskUserView(customAlertView) sdm_showAlertUsingBlock:^(SDMask<UserView*>*  _Nonnull mask) {

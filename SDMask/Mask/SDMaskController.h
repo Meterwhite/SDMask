@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "SDMaskProtocol.h"
 
-/// Display SDMask by a view controller.Documentation in 'SDMaskProtocol.h'. 
+/// Display SDMask by a view controller.Documentation in 'SDMaskInterface.h'. 
 @interface SDMaskController: UIViewController
 <
     SDMaskProtocol

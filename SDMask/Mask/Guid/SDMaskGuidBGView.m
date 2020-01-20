@@ -121,7 +121,7 @@ static NSMapTable<SDMaskGuidBGView *,id<SDMaskGuidBGViewDelegate>> *_delegate_ma
 - (void)showPage {
     NSInteger curTag = [self currentTag];
     NSInteger nxtTag = (curTag == NSNotFound) ? -1 : (curTag - 1);
-    if(self.page >= self.totalPage)return;
+    if(self.page >= self.totalPage) return;
     /// Hide last page.
     if(curTag != NSNotFound) {
         [[self subviewsForTag:curTag] setValue:@YES forKeyPath:@"hidden"];
@@ -170,13 +170,13 @@ static NSMapTable<SDMaskGuidBGView *,id<SDMaskGuidBGViewDelegate>> *_delegate_ma
 - (void)backgroundDidTap:(UITapGestureRecognizer *)tap {
     NSInteger tag = [self currentTag];
     NSInteger page = self.page;
+    if([self.delegate respondsToSelector:@selector(didTapedBackgroud:page:)]) {
+        [self.delegate didTapedBackgroud:[self subviewsForTag:tag] page:page];
+    }
     if(page >= self.totalPage) {
         if([self.delegate respondsToSelector:@selector(pagesShowCompleted)]) {
             [self.delegate pagesShowCompleted];
         }
-    }
-    if([self.delegate respondsToSelector:@selector(didTapedBackgroud:page:)]) {
-        [self.delegate didTapedBackgroud:[self subviewsForTag:tag] page:page];
     }
 }
 

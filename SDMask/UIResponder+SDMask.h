@@ -93,7 +93,7 @@ typedef void(^SDMaskSettingBlock)(SDMask *_Nonnull mask);
 @property (nonnull,nonatomic,copy,readonly) SDMask *_Nonnull
 (^sdm_maskWith)(id _Nonnull userView);
 /**
- * <#...#>
+ * Get SDMaskGuidController from its presenter.
  */
 @property (nonnull,nonatomic,copy,readonly) SDMaskGuidController *_Nonnull
 (^sdm_guidMaskWith)(NSArray<UIView *> * _Nonnull userView);
