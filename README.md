@@ -1,5 +1,5 @@
-> [扩展XIB,Storyboard的编辑功能，强力推荐！](https://github.com/Meterwhite/XICommand)
->> [Expand XIB, Storyboard editing functions, highly recommended!](https://github.com/Meterwhite/XICommand)
+> [XIB执行命令行！](https://github.com/Meterwhite/XICommand)
+>> [Let XIB execute the command line!](https://github.com/Meterwhite/XICommand)
 # SDMask
 ![SDMask icon](https://raw.githubusercontent.com/Meterwhite/SDMask/master/Cover.png)
 ![SDMaskGuidController icon](https://raw.githubusercontent.com/Meterwhite/SDMask/master/Cover2.png)
