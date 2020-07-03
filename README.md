@@ -18,21 +18,13 @@
 ```
 pod 'SDMask'
 ```
-## New! 引导控制器 SDMaskGuidController
-### 在一个XIB文件中设置多个页面的约束进行适配，可以适应90%的设计需求。Set multiple guid pages in one controller XIB file ! By changing the constraints in XIB to adapt the device, this solution can address 90% of the design needs.
-```objc
-[[[MySDMaskGuidController new] userViewDidLoad:^(SDMaskModel * _Nonnull model) {
-    /// Set the same color as user view to background.
-    [model setBackgroundColor:[UIColor colorWithWhite:0 alpha:0.6]];
-}] show];
-```
 
 ## 处理简单业务 Handling simple business in a block.
 ```objc
 [SDMaskUserView(customAlertView) sdm_showAlertUsingBlock:^(SDMask<UserView*>*  _Nonnull mask) {
     /// You can bind control events to SDMask
-    [mask bindEventForControls:@[okButton]] 
-    [mask bindEventForCancelControl:cancelButton];
+    [mask bindEventForControls:@[mask.userView.OKButton]] 
+    [mask bindEventForCancelControl:mask.userView.CancelButton];
     [mask bindingEventsUsingBlock:^(SDMaskBindingEvent * event) {
         if(event.index == 0){
             /// okButton...
@@ -46,20 +38,28 @@ pod 'SDMask'
 SDMask<UserView*>* mask = SDAlertMaskWith(currentController, userView);
 [mask userViewDidLoad:^(SDMaskModel<UserView*> * model) {
     model.
-    setAutolayoutValueForKey(@(0), @"bottom").
-    setAutolayoutValueForKey(@(15), @"left").
-    setAutolayoutValueForKey(@(15), @"right").
+    setAutolayoutValueForKey(@(0),   @"bottom").
+    setAutolayoutValueForKey(@(15),  @"left").
+    setAutolayoutValueForKey(@(15),  @"right").
     setAutolayoutValueForKey(@(350), @"height");
 }];
-[mask bindEventForControls:@[okButton, helpButton, [deleteButton sdm_withBindingKey:@"del"], ...]];
-[mask bindEventForCancelControl:cancelButton];
-[mask bindingEventFor:okButton usingBlock:^(SDMaskBindingEvent<UserView*> * event) {
+[mask bindEventForControls:@[Button1, Button2, [Button3 sdm_withBindingKey:@"MyKey"], ...]];
+[mask bindEventForCancelControl:CancelButton];
+[mask bindingEventFor:Button1 usingBlock:^(SDMaskBindingEvent<UserView*> * event) {
     /// ...
 }];
-[mask bindingEventFor:@"del" usingBlock:^(SDMaskBindingEvent<UserView*> * event) {
+[mask bindingEventFor:@"MyKey" usingBlock:^(SDMaskBindingEvent<UserView*> * event) {
     /// ...
 }];
 [mask show];
+```
+## 引导控制器 SDMaskGuidController
+### 在一个XIB文件中设置多个页面的约束进行适配，可以适应90%的设计需求。Set multiple guid pages in one controller XIB file ! By changing the constraints in XIB to adapt the device, this solution can address 90% of the design needs.
+```objc
+[[[MySDMaskGuidController new] userViewDidLoad:^(SDMaskModel * _Nonnull model) {
+    /// Set the same color as user view to background.
+    [model setBackgroundColor:[UIColor colorWithWhite:0 alpha:0.6]];
+}] show];
 ```
 ## 链式编程 Chain programming
 -  链式编程涵盖了大多数方法 Chained programming covers most methods
@@ -121,8 +121,8 @@ SDMask<UserView*>* mask = SDAlertMaskWith(currentController, userView);
     [self.view layoutIfNeeded];
 }] disableSystemAnimation];
 ```
-## block对泛型的支持 Block support for generics
-* Avoid type declarations and weak declarations.
+## 使用泛型 Use generics
+* 泛型宏定义的使用可以避免在外部声明弱引用 The use of macro definitions for generic functions can avoid declaring weak references externally  
 
 ## Email
 - meterwhite@outlook.com

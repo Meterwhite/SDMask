@@ -284,12 +284,12 @@
 }
 
 - (id<SDMaskProtocol>)bindingEventFor:(id)indexer usingBlock:(SDMaskUserBindingEventBlock)block {
-    NSMutableDictionary *dic = [self.model valueForKey:@"_blockForBindingEventForUsingBlock"];
-    if(!dic){
-        dic = [NSMutableDictionary dictionary];
-        [self.model setValue:dic forKey:@"_blockForBindingEventForUsingBlock"];
+    NSMapTable *map = [self.model valueForKey:@"_blockForBindingEventForUsingBlock"];
+    if(!map){
+        map = [NSMapTable weakToStrongObjectsMapTable];
+        [self.model setValue:map forKey:@"_blockForBindingEventForUsingBlock"];
     }
-    dic[indexer] = block;
+    [map setObject:block forKey:indexer];
     return self;
 }
 

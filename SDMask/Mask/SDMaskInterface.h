@@ -12,7 +12,7 @@
 #import "SDMaskBindingEvent.h"
 #import "SDMaskModel.h"
 /**
- * Begin with userView and wrap it with generics.
+ * Begin with userView and wrap it with generics.The use of macro definitions for generic functions can avoid declaring weak references externally.泛型宏定义的使用可以避免在外部声明弱引用
  */
 #define SDMaskUserView(userView) ((SDMaskUserContent<typeof(userView)> *)userView)
 #define SDMaskUserBlock_T(T) void(^ _Nullable)(SDMaskModel<T> *_Nonnull model)
