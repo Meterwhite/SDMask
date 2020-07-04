@@ -33,8 +33,11 @@
 
 #pragma mark - Core
 - (void)show {
-    UIViewController *presenter = self.model.maskOwner ?: self.model.associatedWindow.rootViewController;
-    [self.model.associatedWindow makeKeyAndVisible];
+    UIViewController *presenter = nil;
+    if(nil == (presenter = self.model.maskOwner)) {
+        presenter = self.model.associatedWindow.rootViewController;
+        [self.model.associatedWindow makeKeyAndVisible];
+    }
     [presenter presentViewController:self animated:YES completion:nil];
 }
 
@@ -264,15 +267,6 @@
 
 - (id<SDMaskProtocol>)bindEventForCancelControl:(id)control {
      SDMaskBindingEvent *event = [[SDMaskBindingEvent alloc] initWithSender:control model:self.model atIndex:-1];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wundeclared-selector"
-    if([control respondsToSelector:@selector(addTarget:action:forControlEvents:)]){
-        [control addTarget:event action:@selector(actionTap:) forControlEvents:UIControlEventTouchUpInside];
-    } else {
-        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:event action:@selector(actionTap:)];
-        [control addGestureRecognizer:tap];
-    }
-#pragma clang diagnostic pop
     if(![control isUserInteractionEnabled]) [control setUserInteractionEnabled:YES];
     [self.model setValue:event forKey:@"_cancelEvent"];
     return self;

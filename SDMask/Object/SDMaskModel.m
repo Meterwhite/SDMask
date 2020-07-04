@@ -18,7 +18,7 @@
     SDMaskBindingEvent *        _cancelEvent;
     NSArray *                   _bindingEvents;
     SDMaskUserBindingEventBlock _blockForBindingEventsUsingBlock;
-    NSMutableDictionary<id,SDMaskUserBindingEventBlock>* _blockForBindingEventForUsingBlock;
+    NSMapTable<id,SDMaskUserBindingEventBlock>* _blockForBindingEventForUsingBlock;
     NSMutableDictionary *       _autolayoutKeyValues;
     NSMutableDictionary *       _autolayoutKeyConstraints;
     NSNumber *                  _isUsingAutolayout;
@@ -54,7 +54,7 @@
         _autolayoutKeyValues = [NSMutableDictionary dictionary];
     }
     return ^id (NSValue *value, NSString *key){
-        NSAssert(key != nil && value != nil, @"key or value must not be nil!");
+        NSAssert(key != nil && value != nil, @"'key' or 'Value' must not be nil!");
         self->_autolayoutKeyValues[key] = value;
         return self;
     };
@@ -401,39 +401,3 @@ static UIColor *_defaultBackgroundColor;
     return _associatedWindow;
 }
 @end
-
-/**
-
- /// From IQUIView+Hierarchy.h
- + (UIViewController *)topMostControllerForView:(UIView*)view {
-     NSMutableArray<UIViewController*> *controllersHierarchy = [[NSMutableArray alloc] init];
-     UIViewController *topController = view.window.rootViewController;
-     if (topController) {
-         [controllersHierarchy addObject:topController];
-     }
-     while ([topController presentedViewController]) {
-         topController = [topController presentedViewController];
-         [controllersHierarchy addObject:topController];
-     }
-     UIViewController *matchController = [SDMaskModel viewContainingControllerForView:view];
-     while (matchController && [controllersHierarchy containsObject:matchController] == NO) {
-         do {
-             matchController = (UIViewController*)[matchController nextResponder];
-         } while (matchController && [matchController isKindOfClass:[UIViewController class]] == NO);
-     }
-     return matchController;
- }
-
- /// From IQUIView+Hierarchy.h
- + (UIViewController*)viewContainingControllerForView:(UIView*)view {
-     UIResponder *nextResponder =  view;
-     do {
-         nextResponder = [nextResponder nextResponder];
-         if ([nextResponder isKindOfClass:[UIViewController class]])
-             return (UIViewController*)nextResponder;
-
-     } while (nextResponder);
-
-     return nil;
- }
- */

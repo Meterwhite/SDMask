@@ -17,8 +17,7 @@
 @property UIView *sender;
 @end
 
-@implementation SDMaskBindingEvent
-{
+@implementation SDMaskBindingEvent {
     BOOL _needKeepMask;
 }
 
@@ -50,10 +49,10 @@
 }
 
 /// First action.
-/// @param object object could from UIButton or UIGesture.
+/// @param object object could from UIButton or Gesture.
 - (void)actionTap:(id)object {
     SDMaskUserBindingEventBlock eventCenterBlock = [self.model valueForKey:@"_blockForBindingEventsUsingBlock"];
-    NSMutableDictionary *       eventMap         = [self.model valueForKey:@"_blockForBindingEventForUsingBlock"];
+    NSMapTable *                eventMap         = [self.model valueForKey:@"_blockForBindingEventForUsingBlock"];
     SDMaskUserBindingEventBlock eventBlock = nil;
     UIView *                    control    = nil;
     /// Event center first.
@@ -66,12 +65,12 @@
     } while (0);
     do {
         /// Order : Control -> @index -> key
-        if((eventBlock = eventMap[control])) break;
-        if ((eventBlock = eventMap[@(self.index)])) break;
-        if (self.key && (eventBlock = eventMap[self.key])) break;
+        if((eventBlock = [eventMap objectForKey:control])) break;
+        if ((eventBlock = [eventMap objectForKey:@(self.index)])) break;
+        if (self.key && (eventBlock = [eventMap objectForKey:self.key])) break;
     } while (0);
-    [[NSNotificationCenter defaultCenter] postNotificationName:SDMaskNotificationName.userInteraction object:control userInfo:@{@"event":self}];
     if(eventBlock) eventBlock(self);
+    [[NSNotificationCenter defaultCenter] postNotificationName:SDMaskNotificationName.userInteraction object:control userInfo:@{@"event":self}];
     /// Handling default behavior.
     if(self.index == -1 || _needKeepMask == NO) [self.model.thisMask dismiss];
 }

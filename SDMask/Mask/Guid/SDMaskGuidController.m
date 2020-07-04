@@ -111,8 +111,11 @@
 @synthesize model    = _model;
 
 - (void)show {
-    UIViewController *presenter = self.model.maskOwner ?: self.model.associatedWindow.rootViewController;
-    [self.model.associatedWindow makeKeyAndVisible];
+    UIViewController *presenter = nil;
+    if(nil == (presenter = self.model.maskOwner)) {
+        presenter = self.model.associatedWindow.rootViewController;
+        [self.model.associatedWindow makeKeyAndVisible];
+    }
     [presenter presentViewController:self animated:YES completion:nil];
 }
 

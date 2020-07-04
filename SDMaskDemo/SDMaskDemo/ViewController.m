@@ -167,7 +167,7 @@
     UIView *userView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 280, 180)];
     [userView setBackgroundColor:UIColor.whiteColor];
 #ifdef DEBUG
-    [userView sdm_showActionSheetUsingBlock:nil];
+    [[userView sdm_showActionSheetUsingBlock:nil] usingAutoDismiss];
 #else
     [[userView sdm_showActionSheetIn:self.view usingBlock:nil] usingAutoDismiss];
 #endif
@@ -201,6 +201,26 @@
 #pragma mark - SDAutolayout
 - (IBAction)sdAutolayoutAlert:(id)sender {
     TUserAlertView *userView = [[NSBundle mainBundle] loadNibNamed:@"TUserAlertView" owner:nil options:nil].firstObject;
+//    {
+//        [SDMaskUserView(userView) sdm_showActionSheetUsingBlock:^(SDMask<TUserAlertView *> * _Nonnull mask) {
+//            [mask bindEventForCancelControl:mask.userView.action0];
+//            [mask usingAutoDismiss];
+//            [mask userViewDidLoad:^(SDMaskModel<TUserAlertView*> *model) {
+//                model.animte = SDMaskAnimationAlert;
+//                model.
+//                setAutolayoutValueForKey(@(0), @"centerX").
+//                setAutolayoutValueForKey(@(0), @"centerY").
+//                setAutolayoutValueForKey(@(50), @"left").
+//                setAutolayoutValueForKey(@(50), @"right");
+//            }];
+//            [mask bindEventForControls:@[mask.userView.cancelButton_1]];
+//            [mask bindingEventFor:mask.userView.cancelButton_1 usingBlock:^(SDMaskBindingEvent<TUserAlertView *> * _Nonnull event) {
+//                [self description];
+//            }];
+//
+//        }];
+//        return;
+//    }
 #ifdef DEBUG
     SDMask<TUserAlertView*>* mask = SDMaskWith(self.view, userView);
 #else
@@ -228,6 +248,10 @@
             }
                 break;
         }
+    }];
+    [mask bindEventForControls:@[userView.cancelButton_1]];
+    [mask bindingEventFor:userView.cancelButton_1 usingBlock:^(SDMaskBindingEvent<TUserAlertView *> * _Nonnull event) {
+        NSLog(@"bindingEventFor: OK!");
     }];
     [mask usingAutoDismiss];
     [mask show];
@@ -293,9 +317,9 @@
     TUserActionSheet *userView = [[NSBundle mainBundle] loadNibNamed:@"TUserActionSheet" owner:nil options:nil].firstObject;
 #ifdef DEBUG
     SDMask<TUserActionSheet*>* mask = self.view.sdm_maskWith(userView);
-    mask.model.container = self.view;
+    mask.model.maskOwner = self.view;
     [mask userViewDidLoad:^(SDMaskModel *model) {
-        model.animte = SDMaskAnimationActionSheet;
+        model.animte = SDMaskAnimationSheet;
     }];
 #else
     SDMask * mask = self.sdm_maskWith(userView);
