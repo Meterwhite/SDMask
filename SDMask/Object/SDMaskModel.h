@@ -1,6 +1,7 @@
 //
 //  SDMaskModel.h
 //  SDMask
+//  https://github.com/Meterwhite/SDMask
 //
 //  Created by MeterWhite on 2019/11/8.
 //  Copyright © 2019 MeterWhite. All rights reserved.

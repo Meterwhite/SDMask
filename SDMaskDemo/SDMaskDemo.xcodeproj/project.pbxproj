@@ -137,9 +137,7 @@
 				1839723C237E7FA200CA5AA7 /* Mask */,
 				1839723D237E7FED00CA5AA7 /* Object */,
 				18397229237E752C00CA5AA7 /* SDMask.h */,
-				1839723B237E7A2400CA5AA7 /* SDMaskProtocol.h */,
-				18397231237E752C00CA5AA7 /* UIResponder+SDMask.h */,
-				1839722C237E752C00CA5AA7 /* UIResponder+SDMask.m */,
+				187AA497238438060025D4B7 /* SDMaskInterface.h */,
 			);
 			name = SDMask;
 			path = ../../SDMask;
@@ -151,9 +149,9 @@
 				180DD63D23D008D1003C2F18 /* Guid */,
 				1839722E237E752C00CA5AA7 /* SDMaskController.h */,
 				18397227237E752C00CA5AA7 /* SDMaskController.m */,
-				187AA497238438060025D4B7 /* SDMaskInterface.h */,
 				18AFACFF238C27E000946A62 /* SDMaskNotificationName.h */,
 				18AFAD00238C27E000946A62 /* SDMaskNotificationName.m */,
+				1839723B237E7A2400CA5AA7 /* SDMaskProtocol.h */,
 				1839722A237E752C00CA5AA7 /* SDMaskView.h */,
 				1839722F237E752C00CA5AA7 /* SDMaskView.m */,
 			);
@@ -176,6 +174,8 @@
 			children = (
 				18AFACFC238C127D00946A62 /* NSLayoutConstraint+SDMask.h */,
 				18AFACFD238C127D00946A62 /* NSLayoutConstraint+SDMask.m */,
+				18397231237E752C00CA5AA7 /* UIResponder+SDMask.h */,
+				1839722C237E752C00CA5AA7 /* UIResponder+SDMask.m */,
 			);
 			path = Category;
 			sourceTree = "<group>";

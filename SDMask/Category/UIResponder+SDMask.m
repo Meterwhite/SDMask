@@ -1,6 +1,7 @@
 //
 //  UIView+SDMask.m
 //  SDMask
+//  https://github.com/Meterwhite/SDMask
 //
 //  Created by MeterWhite on 2019/11/8.
 //  Copyright © 2019 MeterWhite. All rights reserved.
@@ -115,7 +116,7 @@ static char keyForBindingKey = '\0';
 
 - (nonnull id)sdm_safeGuide {
     if (@available(iOS 11.0, *)) return self.safeAreaLayoutGuide;
-    return self;
+    return nil;
 }
 @end
 

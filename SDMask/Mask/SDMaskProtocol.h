@@ -1,6 +1,7 @@
 //
 //  SDMaskProtocol.h
 //  SDMask
+//  https://github.com/Meterwhite/SDMask
 //
 //  Created by MeterWhite on 2019/11/15.
 //  Copyright © 2019 Meterwhite. All rights reserved.
@@ -24,6 +25,15 @@ typedef void(^SDMaskUserBlock)(SDMaskModel *_Nonnull model);
  * Strongly referenced 'mask' object in block will cause circular references.Because mask retaind this block.
  */
 typedef void(^SDMaskUserBindingEventBlock)(SDMaskBindingEvent *_Nonnull event);
+
+/**
+* This protocol corresponds exactly to 'SDMaskInterface',
+* but it cannot achieve generic functions.You can usually ignore reading the file.
+* 该协议与SDMaskInterface完全对应，但不能实现泛型的功能。通常可以忽略阅读该文件。
+*/
+
+
+
 #pragma mark - Protocol for mask
 @protocol SDMaskBase <NSObject>
 @property (nullable,nonatomic,readonly) id userView;

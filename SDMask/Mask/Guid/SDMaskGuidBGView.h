@@ -1,6 +1,7 @@
 //
 //  SDMaskGuidBGView.h
 //  SDMask
+//  https://github.com/Meterwhite/SDMask
 //
 //  Created by MeterWhite on 2020/1/16.
 //  Copyright © 2020 Meterwhite. All rights reserved.

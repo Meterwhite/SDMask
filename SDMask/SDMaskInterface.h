@@ -1,6 +1,7 @@
 //
 //  SDMaskInterface.h
 //  SDMask
+//  https://github.com/Meterwhite/SDMask
 //
 //  Created by MeterWhite on 2019/11/19.
 //  Copyright © 2019 Meterwhite. All rights reserved.
@@ -11,22 +12,39 @@
 #import "SDMaskProtocol.h"
 #import "SDMaskBindingEvent.h"
 #import "SDMaskModel.h"
+
+#pragma mark - User
 /**
- * Begin with userView and wrap it with generics.The use of macro definitions for generic functions can avoid declaring weak references externally.泛型宏定义的使用可以避免在外部声明弱引用
+ * Get a user view with expanded capabilities.user can start working on the object(获得被能力扩展的户视图。用户可以该对象开始工作。)
+ * This method is recommended to wrap a user view.(推荐这种方式来包装一个用户视图。)
  */
 #define SDMaskUserView(userView) ((SDMaskUserContent<typeof(userView)> *)userView)
+/**
+ * Get the mask object , user can start working on the object .(获得蒙层对象，用户可以该对象开始工作。)
+ */
+#define SDMaskWith(owner, userView) \
+((SDMask<typeof(userView)>*)owner.sdm_maskWith(userView))
+/**
+ * Mask for alert
+ */
+#define SDAlertMaskWith(owner, userView) \
+((SDMask<typeof(userView)>*)owner.sdm_alertMaskWith(userView))
+/**
+ * Mask for action sheet.
+ */
+#define SDActionsheetMaskWith(owner, userView) \
+((SDMask<typeof(userView)>*)owner.sdm_actionSheetMaskWith(userView))
+
+
+#pragma mark - Subitem 次级宏定义
 #define SDMaskUserBlock_T(T) void(^ _Nullable)(SDMaskModel<T> *_Nonnull model)
 #define SDMaskUserBindingEventBlock_T(T) void(^ _Nullable)(SDMaskBindingEvent<T> *_Nonnull event)
 #define SDMaskSettingBlock_T(T) void(NS_NOESCAPE ^ _Nullable)(SDMask<T> *_Nonnull mask)
+
 /**
- * Methods in  'SDMaskProtocol.h'
- * Note : SDMask is a Interface as a protocol to implement generics.
- *
- *  You can use generics in blocks to get xcode code hints.
- *  :
- *  void(^SDMaskUserBlock)(SDMaskModel<TUserView>*  model);
- *  void(^SDMaskUserBindingEventBlock)(SDMaskBindingEvent<TUserView>* event);
- */
+* Associated with mask object
+* Abstractly defines the UserView interface to make up for the protocol inability to use generics.(抽象的定义了UserView的接口，以弥补协议无法使用泛型的能力。)
+*/
 @interface SDMask<__covariant TUserView> : NSProxy <SDMaskProtocol>
 @property (nullable,nonatomic,readonly) TUserView userView;
 #pragma mark - Properties
@@ -62,7 +80,10 @@
 - (nonnull SDMask<TUserView>*)disableSystemAnimation;
 @end
 
-
+/**
+ * Associated with UserView
+ * Abstractly defines the UserView interface to make up for the protocol inability to use generics.(抽象的定义了UserView的接口，以弥补协议无法使用泛型的能力。)
+ */
 @interface SDMaskUserContent<__covariant TUserView> : NSProxy
 #pragma mark - UIView (SDMaskExtension)
 - (nonnull SDMask<TUserView>*)sdm_showAlertUsingBlock:(SDMaskSettingBlock_T(TUserView))block;

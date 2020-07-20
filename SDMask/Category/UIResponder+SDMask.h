@@ -1,6 +1,7 @@
 //
 //  UIView+SDMask.h
 //  SDMask
+//  https://github.com/Meterwhite/SDMask
 //
 //  Created by MeterWhite on 2019/11/8.
 //  Copyright © 2019 MeterWhite. All rights reserved.
@@ -12,30 +13,13 @@
 @class SDMaskGuidController;
 
 typedef void(^SDMaskSettingBlock)(SDMask *_Nonnull mask);
-/**
- * Begin with view's owner and wrap it with generics.
- * owner : Object whitch present mask view.
- */
-#define SDMaskWith(owner, userView) \
-((SDMask<typeof(userView)>*)owner.sdm_maskWith(userView))
-/**
- * Begin with view's owner and wrap it with generics.
- */
-#define SDAlertMaskWith(owner, userView) \
-((SDMask<typeof(userView)>*)owner.sdm_alertMaskWith(userView))
-/**
- * Begin with view's owner and wrap it with generics.
- */
-#define SDActionsheetMaskWith(owner, userView) \
-((SDMask<typeof(userView)>*)owner.sdm_actionSheetMaskWith(userView))
-
 
 /**
  * Extension for mask content view.
  * [userView sdm_showAlertUsingBlock:^(Mask *mask){
  *      [mask ...^(SDMaskModel *model){
- * Wrong:    [mask ...];//caused circular references.
- * Right:    [model.thisMask ...];
+ * Error:    [mask ...]; ///caused circular references!!!
+ * Right:    [model.thisMask ...];/// OK!
  *      }];
  * }];
  */
