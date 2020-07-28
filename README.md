@@ -125,4 +125,4 @@ SDMask<UserView*>* mask = SDAlertMaskWith(currentController, userView);
 * 泛型宏定义的使用可以避免在外部声明弱引用 The use of macro definitions for generic functions can avoid declaring weak references externally  
 
 ## Email
-- meterwhite@outlook.com
+- 成都求职：meterwhite@outlook.com
