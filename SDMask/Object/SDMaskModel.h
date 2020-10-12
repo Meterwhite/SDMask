@@ -101,6 +101,7 @@ typedef enum : NSUInteger {
 @property (nonatomic,readonly,class) CGFloat screenWidth;
 @property (nonatomic,readonly,class) CGFloat screenHeight;
 #pragma mark - Associated
+/// Dark mode can be adapted here.
 @property (nullable,nonatomic,strong) UIWindow *associatedWindow;
 
 #pragma mark - Screen adapt

@@ -399,6 +399,9 @@ static UIColor *_defaultBackgroundColor;
         _associatedWindow.rootViewController = [[UIViewController alloc] init];
         _associatedWindow.windowLevel = UIWindowLevelAlert + 1;
     }
+    if (@available(iOS 13.0, *)) {
+        [_associatedWindow setOverrideUserInterfaceStyle:SDMaskModel.keyWindow.overrideUserInterfaceStyle];
+    }
     return _associatedWindow;
 }
 @end
