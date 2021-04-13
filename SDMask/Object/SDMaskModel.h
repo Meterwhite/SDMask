@@ -35,7 +35,7 @@ typedef enum : NSUInteger {
      */
     SDMaskAnimationHUD          =   4,
     /**
-     * <#...#>
+     * User Guided Mode
      */
     SDMaskAnimationGuid         =   5,
     SDMaskAnimationCustom       =   8964

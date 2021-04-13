@@ -10,14 +10,14 @@
 
 #pragma mark - Notification name for user
 /**
- * Dismiss specified or all mask view.(发送此通知以消失蒙层)
- * object = nil : dismiss all mask view.
- * object = Specified mask view or user view.
+ * Dismiss specified or all mask view.(发送此通知以使蒙层消失)
+ * object = nil : Dismiss all mask view.
+ * object = userView : Specified mask object or user's view.
 */
 #define SDMaskDismissNotification \
 SDMaskNotificationName.needDismiss
 /**
- * Get event object using nofication.(外部可以监听SDMask的事件)
+ * Get event object using nofication.(此通知可以监听SDMask的事件)
  * userInfo[@"event"] = SDMaskBindingEvent
 */
 #define SDMaskUserInteractionNotification \

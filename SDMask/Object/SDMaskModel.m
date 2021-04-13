@@ -333,10 +333,10 @@
 }
 
 #pragma mark - Notification
-- (void)whatNotification:(NSNotification*)notify {
-    if(notify.object && notify.object != self.thisMask && notify.object != self.userView) return;
+- (void)whatNotification:(NSNotification*)ntf {
+    if(ntf.object && ntf.object != self.thisMask && ntf.object != self.userView) return;
     
-    if([notify.name isEqualToString:SDMaskNotificationName.needDismiss]){
+    if([ntf.name isEqualToString:SDMaskNotificationName.needDismiss]){
         [(id<SDMaskProtocol>)self.thisMask dismiss];
     }
 }

@@ -66,7 +66,6 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self.myView showPage];
     self.model.guidPage = self.myView.page;
     if(_pageDidLoad) _pageDidLoad(self.model);
 }
@@ -76,6 +75,11 @@
     if(self->_userViewDidDisappear){
         self->_userViewDidDisappear(self.model);
     }
+}
+
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    [self.myView showPage];
 }
 
 #pragma mark - Self

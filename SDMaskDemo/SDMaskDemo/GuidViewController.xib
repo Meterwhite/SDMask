@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina5_9" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -19,7 +19,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" tag="-2" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="swipe_prompt_2" translatesAutoresizingMaskIntoConstraints="NO" id="hUt-YD-c81">
-                    <rect key="frame" x="122" y="578" width="193" height="200"/>
+                    <rect key="frame" x="122" y="612" width="193" height="200"/>
                 </imageView>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" tag="-3" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="swipe_prompt_3" translatesAutoresizingMaskIntoConstraints="NO" id="IDr-4F-X7U">
                     <rect key="frame" x="0.0" y="302.66666666666669" width="375" height="207"/>
@@ -33,7 +33,7 @@
                 <constraint firstItem="IDr-4F-X7U" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="7PZ-MG-02W"/>
                 <constraint firstItem="aXo-zQ-BQb" firstAttribute="top" secondItem="Q5M-cg-NOt" secondAttribute="top" id="SgI-Qu-qlZ"/>
                 <constraint firstItem="aXo-zQ-BQb" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" constant="10" id="fjy-qh-7R5"/>
-                <constraint firstItem="Q5M-cg-NOt" firstAttribute="bottom" secondItem="hUt-YD-c81" secondAttribute="bottom" id="gxc-Tq-ab6"/>
+                <constraint firstAttribute="bottom" secondItem="hUt-YD-c81" secondAttribute="bottom" id="gxc-Tq-ab6"/>
                 <constraint firstItem="Q5M-cg-NOt" firstAttribute="trailing" secondItem="hUt-YD-c81" secondAttribute="trailing" constant="60" id="jeP-nY-OBM"/>
                 <constraint firstItem="IDr-4F-X7U" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="zRw-hD-eEK"/>
             </constraints>
