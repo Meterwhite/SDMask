@@ -17,7 +17,7 @@
 pod 'SDMask'
 ```
 
-## 处理简单业务 Handling simple business in a block.
+## 常用形式 High frequency code.(推荐 recommended)
 ```objc
 [SDMaskUserView(customAlertView) sdm_showAlertUsingBlock:^(SDMask<UserView*>*  _Nonnull mask) {
     /// You can bind control events to SDMask
@@ -27,6 +27,12 @@ pod 'SDMask'
         if(event.index == 0){
             /// okButton...
         }
+    }];
+    [mask userViewDidLoad:^(SDMaskModel<UserView*> * model) {
+        model.setAutolayoutValueForKey(@(0), @"bottom").
+            setAutolayoutValueForKey(@(15), @"left").
+            setAutolayoutValueForKey(@(15), @"right").
+            setAutolayoutValueForKey(@(350), @"height");
     }];
     ... ...
 }];
