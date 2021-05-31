@@ -8,6 +8,16 @@
 #import "SDMaskNotificationName.h"
 #import "SDMaskGuidController.h"
 
+/**
+ Guid of class  类关系
+  
+ SDMask(View or Controller)
+ ↓      ↓
+ Model  Userview
+ ↓
+ Event
+ */
+
 #pragma mark - Notification name for user
 /**
  * Dismiss specified or all mask view.(发送此通知以使蒙层消失)
@@ -22,4 +32,8 @@ SDMaskNotificationName.needDismiss
 */
 #define SDMaskUserInteractionNotification \
 SDMaskNotificationName.userInteraction
+
+
+
+
 

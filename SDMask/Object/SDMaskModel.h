@@ -43,6 +43,7 @@ typedef enum : NSUInteger {
 
 /**
  *  This object contains animations, layouts, and features for configuring the UI.
+ *  该对象负责动画，布局是用户的核心对象。
  */
 @interface SDMaskModel<__covariant TUserView> : NSObject
 - (nonnull instancetype)initWithUserView:(nonnull TUserView)uView forMask:(nonnull SDMask*)mask;
@@ -51,18 +52,22 @@ typedef enum : NSUInteger {
 @property (nonatomic) NSUInteger guidPage;
 #pragma mark - View
 /// Need!
+/// 必选
 @property (nullable,nonatomic,weak) TUserView userView;
 /// Need! The owner present current mask view.It may be view or controller.For controller sometimes this peoperty may not instead of weak self,if controller not be specified.
+/// 是哪一个控制器或试图负责弹出蒙板
 @property (nullable,nonatomic,weak) __kindof UIResponder *maskOwner;
 /// Super view for user view.
 @property (nullable,nonatomic,readonly) UIView *superview;
 /// This mask object.
+/// 当前模型所属的Mask对象
 @property (nullable,nonatomic,weak) SDMask *thisMask;
 /// Default nil.
 @property (nullable,nonatomic,strong) UIColor *backgroundColor;
 
 #pragma mark - Animation
-/// Default 'YES'. 'NO' means user makes animation himself, otherwise there will be no animation.
+/// Default 'YES'. 'NO' means user makes animation yourself, otherwise there will be no animation.
+/// 自定义动画请设置为NO
 @property (nonatomic) BOOL usingSystemAnimation;
 @property (nonatomic) SDMaskAnimationStyle animte;
 /// Default 0.2 sec.
@@ -72,6 +77,7 @@ typedef enum : NSUInteger {
 /// Default 0.0 sec.
 @property (nonatomic) NSTimeInterval dismissDelayTime;
 ///  Default NO.
+/// 是否触摸蒙板后即收起
 @property (nonatomic) BOOL autoDismiss;
 
 #pragma mark - Bind events

@@ -15,16 +15,19 @@
  *  This object is from user`s interaction.
  */
 @interface SDMaskBindingEvent<__covariant TUserView> : NSObject
-/// Kind of UIView.
+/// UIView.
 @property (nullable,nonatomic,weak,readonly) id sender;
-/// -1 for cancel control.
+/// 绑定的事件的索引
+/// -1 : cancel control.
 @property (nonatomic,readonly) NSInteger index;
+/// 模型
 @property (nullable,nonatomic,weak,readonly) SDMaskModel<TUserView> *model;
-/// This key is from 'sdm_withBindingKey:'
+/// This key is from 'sdm_withBindingKey:'；指定的key可以代替index使用
 @property (nullable,nonatomic,copy,readonly) id key;
 
 - (nonnull instancetype)initWithSender:(nonnull UIView*)sender model:(nonnull SDMaskModel*)model atIndex:(NSInteger)index;
-/// The default behavior that the bind event will trigger dismiss.This method counld keeps the mask on the screen.
+/// Change the default folding behavior after the mask is touched.
+/// 改变蒙板触摸后默认的收起行为.
 - (void)setNeedKeepMask;
 @end
 

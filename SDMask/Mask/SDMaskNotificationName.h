@@ -11,7 +11,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SDMaskNotificationName : NSString
+@interface SDMaskNotificationName : NSObject
 #pragma mark - User post notification
 /**
  * Dismiss specified or all mask view.

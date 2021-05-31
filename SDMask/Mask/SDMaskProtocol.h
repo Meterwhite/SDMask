@@ -35,6 +35,7 @@ typedef void(^SDMaskUserBindingEventBlock)(SDMaskBindingEvent *_Nonnull event);
 
 
 #pragma mark - Protocol for mask
+/// 蒙版协议
 @protocol SDMaskBase <NSObject>
 @property (nullable,nonatomic,readonly) id userView;
 @property (nullable,nonatomic,readonly) SDMaskModel *model;
@@ -43,12 +44,14 @@ typedef void(^SDMaskUserBindingEventBlock)(SDMaskBindingEvent *_Nonnull event);
 - (void)dismiss;
 @end
 
+/// 用户视图生命周期协议
 @protocol SDMaskLifeCycle <NSObject>
 /// View did add to container.Config something here.
 - (nonnull SDMask*)userViewDidLoad:(nonnull SDMaskUserBlock)block;
 - (nonnull SDMask*)userViewDidDisappear:(nonnull SDMaskUserBlock)block;
 @end
 
+/// 用户视图动画协议
 @protocol SDMaskAnimationControl <NSObject>
 /// Note : Default NO.
 - (nonnull SDMask*)usingAutoDismiss;
@@ -63,6 +66,7 @@ typedef void(^SDMaskUserBindingEventBlock)(SDMaskBindingEvent *_Nonnull event);
 - (nonnull SDMask*)userViewDismissionCompleted:(nonnull SDMaskUserBlock)block;
 @end
 
+/// 用户事件控制协议
 @protocol SDMaskUserEvents <NSObject>
 /**
  * [mask bindEventForControls:@[control0, [control1 sdm_withBindingKey:@"OK"], ...]];
@@ -76,6 +80,7 @@ typedef void(^SDMaskUserBindingEventBlock)(SDMaskBindingEvent *_Nonnull event);
 - (nonnull SDMask*)bindingEventFor:(nonnull id)indexer usingBlock:(nonnull SDMaskUserBindingEventBlock)block;
 @end
 
+/// SDMask协议
 @protocol SDMaskProtocol
 <
     NSObject,
@@ -86,6 +91,7 @@ typedef void(^SDMaskUserBindingEventBlock)(SDMaskBindingEvent *_Nonnull event);
 >
 @end
 
+/// SDMask引导功能协议
 @protocol SDMaskGuidProtocol
 <
     NSObject,
