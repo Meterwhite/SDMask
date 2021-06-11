@@ -26,14 +26,12 @@ typedef void(^SDMaskUserBlock)(SDMaskModel *_Nonnull model);
  */
 typedef void(^SDMaskUserBindingEventBlock)(SDMaskBindingEvent *_Nonnull event);
 
+
 /**
 * This protocol corresponds exactly to 'SDMaskInterface',
 * but it cannot achieve generic functions.You can usually ignore reading the file.
 * 该协议与SDMaskInterface完全对应，但不能实现泛型的功能。通常可以忽略阅读该文件。
 */
-
-
-
 #pragma mark - Protocol for mask
 /// 蒙版协议
 @protocol SDMaskBase <NSObject>
@@ -78,6 +76,8 @@ typedef void(^SDMaskUserBindingEventBlock)(SDMaskBindingEvent *_Nonnull event);
 /// One control to one event.
 /// @param indexer index, key, or control
 - (nonnull SDMask*)bindingEventFor:(nonnull id)indexer usingBlock:(nonnull SDMaskUserBindingEventBlock)block;
+/// Handel cancel event.
+- (nonnull SDMask*)bindingCancelEventUsingBlock:(nonnull SDMaskUserBindingEventBlock)block;
 @end
 
 /// SDMask协议

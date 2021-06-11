@@ -75,6 +75,8 @@
 /// One control to one event.指定地控制已经绑定好的事件
 /// @param indexer index, key, or control
 - (nonnull SDMask<TUserView>*)bindingEventFor:(nonnull id)indexer usingBlock:(SDMaskUserBindingEventBlock_T(TUserView))block;
+/// 取消事件
+- (nonnull SDMask<TUserView>*)bindingCancelEventUsingBlock:(SDMaskUserBindingEventBlock_T(TUserView))block;
 #pragma mark - Display
 - (void)show;
 /// 还可以使用通知的形式来全局

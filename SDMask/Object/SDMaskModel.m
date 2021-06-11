@@ -19,6 +19,7 @@
     SDMaskBindingEvent *        _cancelEvent;
     NSArray *                   _bindingEvents;
     SDMaskUserBindingEventBlock _blockForBindingEventsUsingBlock;
+    SDMaskUserBindingEventBlock _blockForBindingCancelEventUsingBlock;
     NSMapTable<id,SDMaskUserBindingEventBlock>* _blockForBindingEventForUsingBlock;
     NSMutableDictionary *       _autolayoutKeyValues;
     NSMutableDictionary *       _autolayoutKeyConstraints;

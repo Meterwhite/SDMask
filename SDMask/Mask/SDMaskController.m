@@ -278,6 +278,11 @@
     return self;
 }
 
+- (id<SDMaskProtocol>)bindingCancelEventUsingBlock:(SDMaskUserBindingEventBlock)block {
+    [self.model setValue:block forKey:@"_blockForBindingCancelEventUsingBlock"];
+    return self;
+}
+
 - (id<SDMaskProtocol>)bindingEventFor:(id)indexer usingBlock:(SDMaskUserBindingEventBlock)block {
     NSMapTable *map = [self.model valueForKey:@"_blockForBindingEventForUsingBlock"];
     if(!map){

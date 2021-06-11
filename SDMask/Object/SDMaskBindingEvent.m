@@ -53,6 +53,7 @@
 /// @param object object could from UIButton or Gesture.
 - (void)actionTap:(id)object {
     SDMaskUserBindingEventBlock eventCenterBlock = [self.model valueForKey:@"_blockForBindingEventsUsingBlock"];
+    SDMaskUserBindingEventBlock eventCancelBlock = [self.model valueForKey:@"_blockForBindingCancelEventUsingBlock"];
     NSMapTable *                eventMap         = [self.model valueForKey:@"_blockForBindingEventForUsingBlock"];
     SDMaskUserBindingEventBlock eventBlock = nil;
     UIView *                    control    = nil;
@@ -73,7 +74,10 @@
     if(eventBlock) eventBlock(self);
     [[NSNotificationCenter defaultCenter] postNotificationName:SDMaskNotificationName.userInteraction object:control userInfo:@{@"event":self}];
     /// Handling default behavior.
-    if(self.index == -1 || _needKeepMask == NO) [self.model.thisMask dismiss];
+    if(self.index == -1 || _needKeepMask == NO) {
+        if(eventCancelBlock) eventCancelBlock(self);
+        [self.model.thisMask dismiss];
+    }
 }
 
 - (NSString *)key {

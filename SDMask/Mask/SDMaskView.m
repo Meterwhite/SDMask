@@ -246,6 +246,11 @@
     return ((id(*)(id,SEL,id))imp)(self, @selector(bindingEventsUsingBlock:), block);
 }
 
+- (id<SDMaskProtocol>)bindingCancelEventUsingBlock:(SDMaskUserBindingEventBlock)block {
+    IMP imp = class_getMethodImplementation(SDMaskController.class, @selector(bindingCancelEventUsingBlock:));
+    return ((id(*)(id,SEL,id))imp)(self, @selector(bindingCancelEventUsingBlock:), block);
+}
+
 #pragma mark - Setter & Getter
 - (UIView *)userView {
     return _userView;
