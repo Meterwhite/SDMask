@@ -1,5 +1,5 @@
 # SDMask 
-![SDMask icon](https://raw.githubusercontent.com/Meterwhite/SDMask/master/Cover.png)
+![SDMask icon](https://raw.githubusercontent.com/Meterwhite/SDMask/master/Cover.png) 
 ![SDMaskGuidController icon](https://raw.githubusercontent.com/Meterwhite/SDMask/master/Cover2.png)
 ## 介绍 Introduce
 * A perfect iOS mask view that help you to present custom view.User dont need to care about animations and events.
