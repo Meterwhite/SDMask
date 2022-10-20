@@ -44,7 +44,7 @@
     SDMaskUserBlock willDoneAnimate  = _userViewPresentationDoAnimationsBlock;
     SDMaskUserBlock completeAnimate  = _userViewPresentationCompletedBlock;
     if(!self.model.usingSystemAnimation && willDoneAnimate == nil) return;
-    /// Animation for content
+    /// Animation of content
     if(self.model.usingSystemAnimation) [self systemAnimate:self.model.animte presentElseDismiss:true willElseDo:true];
     if(willAnimate) willAnimate(self.model);
     [UIView animateWithDuration:self.model.presentTime animations:^{
@@ -54,7 +54,7 @@
         if(completeAnimate) completeAnimate(self.model);
         if(self.model.dismissDelayTime > 0) [self dismiss:nil];
     }];
-    /// Animation for mask
+    /// Animation of mask
     self.alpha = 0.0;
     [UIView animateWithDuration:0.4 animations:^{
         self.alpha = 1.0;
@@ -62,12 +62,17 @@
 }
 
 - (void)dismiss:(id)obj {
-    if(obj == self && !self.model.autoDismiss) return;
+    if (self.model.keyboardDismissWhenMaskTaped) {
+        [self endEditing:YES];
+    }
+    if(obj == self && !self.model.autoDismiss) {
+        return;
+    }
     if(self.model.dismissDelayTime > 0){
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(self.model.dismissDelayTime * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [self dismiss];
         });
-    }else{
+    } else {
         [self dismiss];
     }
 }

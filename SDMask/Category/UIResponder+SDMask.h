@@ -17,9 +17,9 @@ typedef void(^SDMaskSettingBlock)(SDMask *_Nonnull mask);
 /**
  * Extension for mask content view.
  * [userView sdm_showAlertUsingBlock:^(Mask *mask){
- *      [mask ...^(SDMaskModel *model){
- * Error:    [mask ...]; ///caused circular references!!!
- * Right:    [model.thisMask ...];/// OK!
+ *      [mask  userViewDidLoad: ^(SDMaskModel *model) {
+ *          [mask  something];  // ❌caused circular references!!!
+ *          [model.thisMask something]; // ✅
  *      }];
  * }];
  */

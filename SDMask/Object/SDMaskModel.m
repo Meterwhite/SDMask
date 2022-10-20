@@ -34,6 +34,7 @@
         _dismissDelayTime       = 0.0;
         _usingSystemAnimation   = YES;
         _autoDismiss            = NO;
+        _keyboardDismissWhenMaskTaped = NO;
         _guidPage               = 0;
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(whatNotification:) name:SDMaskNotificationName.needDismiss object:nil];
     }
@@ -394,11 +395,25 @@ static UIColor *_defaultBackgroundColor;
     return foundWindow;
 }
 
+static UIWindowLevel _maskLevel;
+
+static dispatch_once_t onceToken_maskLevel;
++ (UIWindowLevel)maskLevel {
+    dispatch_once(&onceToken_maskLevel, ^{
+        _maskLevel = UIWindowLevelAlert + 1;
+    });
+    return _maskLevel;
+}
+
++ (void)setMaskLevel:(UIWindowLevel)maskLevel {
+    _maskLevel = maskLevel;
+}
+
 - (UIWindow *)associatedWindow {
     if(!_associatedWindow) {
         _associatedWindow = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
         _associatedWindow.rootViewController = [[UIViewController alloc] init];
-        _associatedWindow.windowLevel = UIWindowLevelAlert + 1;
+        _associatedWindow.windowLevel = SDMaskModel.maskLevel;
     }
     if (@available(iOS 13.0, *)) {
         [_associatedWindow setOverrideUserInterfaceStyle:SDMaskModel.keyWindow.overrideUserInterfaceStyle];

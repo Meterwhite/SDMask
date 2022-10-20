@@ -79,6 +79,8 @@ typedef enum : NSUInteger {
 ///  Default NO.
 /// 是否触摸蒙板后即收起
 @property (nonatomic) BOOL autoDismiss;
+/// Default NO
+@property (nonatomic) BOOL keyboardDismissWhenMaskTaped;
 
 #pragma mark - Bind events
 /**
@@ -103,6 +105,9 @@ typedef enum : NSUInteger {
 @property (nonnull,nonatomic,copy,readonly) SDMaskModel*_Nonnull (^setAutolayoutValueForKey)(NSValue *_Nonnull value, NSString *_Nonnull key);
 
 #pragma mark - System
+/// Default value: UIWindowLevelAlert + 1
+/// SDMask.maskLevel = ...;
+@property (nonatomic, class) UIWindowLevel maskLevel;
 @property (nonnull,nonatomic, class) UIColor *defaultBackgroundColor;
 @property (nonatomic,readonly,class) CGFloat screenWidth;
 @property (nonatomic,readonly,class) CGFloat screenHeight;

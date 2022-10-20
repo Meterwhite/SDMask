@@ -43,7 +43,12 @@
 }
 
 - (void)dismiss:(id)obj {
-    if(obj == self.view && !self.model.autoDismiss) return;
+    if (self.model.keyboardDismissWhenMaskTaped) {
+        [self.view endEditing:YES];
+    }
+    if(obj == self.view && !self.model.autoDismiss) {
+        return;
+    }
     if(self.model.dismissDelayTime > 0){
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(self.model.dismissDelayTime * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [self dismiss];
