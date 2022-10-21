@@ -1,4 +1,7 @@
 # SDMask
+> [修改Cocoapods源代码!](https://github.com/Meterwhite/ObjcHook4pod)
+> 
+> [新的ObjC语言效率工具！](https://github.com/Meterwhite/Objc2020)
 ![SDMask icon](https://raw.githubusercontent.com/Meterwhite/SDMask/master/Cover.png) 
 ![SDMaskGuidController icon](https://raw.githubusercontent.com/Meterwhite/SDMask/master/Cover2.png)
 ## 介绍 Introduce
@@ -129,4 +132,4 @@ SDMask<UserView*>* mask = SDAlertMaskWith(currentController, userView);
 * 泛型宏定义的使用可以避免在外部声明弱引用 The use of macro definitions for generic functions can avoid declaring weak references externally  
 
 ## Email
-- 干大事：meterwhite@outlook.com
+- 项目合作：meterwhite@outlook.com
