@@ -2,6 +2,8 @@
 > [修改Cocoapods源代码!](https://github.com/Meterwhite/ObjcHook4pod)
 > 
 > [新的ObjC语言效率工具！](https://github.com/Meterwhite/Objc2020)
+>
+> [本地化解决方案](https://github.com/Meterwhite/SDLocalize)
 ![SDMask icon](https://raw.githubusercontent.com/Meterwhite/SDMask/master/Cover.png) 
 ![SDMaskGuidController icon](https://raw.githubusercontent.com/Meterwhite/SDMask/master/Cover2.png)
 ## 介绍 Introduce
